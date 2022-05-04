@@ -34,9 +34,7 @@ class UsersActivity : AppCompatActivity() {
         gv = application as GlobalVar
 
         usersList = arrayListOf()
-        myRecyclerView.adapter = UsersAdapter(usersList) {
-            _,_ -> ""
-        }
+        myRecyclerView.adapter = UsersAdapter(usersList, { _,_ -> "" },{ _,_ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -46,10 +44,9 @@ class UsersActivity : AppCompatActivity() {
         }
 
         getMyData()
-
     }
 
-    //Recolher informação da API
+    //Get users from API
     private fun getMyData() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
         val usersCall = serviceGenerator.getUsers()
@@ -62,9 +59,11 @@ class UsersActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     usersList.clear()
                     usersList.addAll(response.body()!!.toMutableList())
-                    mAdapter = UsersAdapter(usersList) { _, email ->
-                        executeOtherActivity(ChangeUserDataActivity::class.java, email)
-                    }
+                    mAdapter = UsersAdapter(usersList, {_, id ->
+                        executeOtherActivity(ChangeUserDataActivity::class.java, id)
+                    }, {_, id ->
+                        executeOtherActivity(UserProfileActivity::class.java, id)
+                    })
                     mAdapter.notifyDataSetChanged()
                     myRecyclerView.apply {
                         layoutManager = LinearLayoutManager(this@UsersActivity)
@@ -86,8 +85,8 @@ class UsersActivity : AppCompatActivity() {
 
     //Save user email in global var to set it in the update page
     private fun executeOtherActivity(otherActivity: Class<*>,
-                                     email: String) {
-        gv.email = email
+                                     id: Long) {
+        gv.userId = id
         val x = Intent(this@UsersActivity, otherActivity)
         startActivity(x)
     }

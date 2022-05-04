@@ -3,5 +3,6 @@ package com.internship.retailmanagement.common
 import android.app.Application
 
 class GlobalVar : Application() {
-    var email: String = ""
+    var userId: Long? = null
+    var storeId: Long? = null
 }

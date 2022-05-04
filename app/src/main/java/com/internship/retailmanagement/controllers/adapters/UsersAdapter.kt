@@ -13,7 +13,7 @@ import com.internship.retailmanagement.R
 import com.internship.retailmanagement.dataclasses.UserItem
 import kotlinx.android.synthetic.main.user_card.view.*
 
-class UsersAdapter(private var usersList: MutableList<UserItem>, private val clickListener: (UserItem, String) -> Unit) :
+class UsersAdapter(private var usersList: MutableList<UserItem>, private val editListener: (UserItem, Long) -> Unit, private val infoListener: (UserItem, Long) -> Unit) :
     RecyclerView.Adapter<UsersAdapter.UserCardViewHolder>(), Filterable {
 
     val usersListClone: List<UserItem>
@@ -30,7 +30,7 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val cli
                 private val statusUncheckView: ImageView = itemView.statusUncheckCard
                 private val editView: ImageView = itemView.updateCard
 
-                fun bindView(userItem: UserItem, clickListener: (UserItem, String) -> Unit) {
+                fun bindView(userItem: UserItem, editListener: (UserItem, Long) -> Unit, infoListener: (UserItem, Long) -> Unit) {
                     statusCheckView.visibility = View.INVISIBLE
                     statusUncheckView.visibility = View.INVISIBLE
 
@@ -44,8 +44,13 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val cli
                     {
                         statusCheckView.visibility = View.VISIBLE
                     }
+
                     editView.setOnClickListener{
-                        clickListener(userItem, userItem.email!!) //Go to changing content activity of this specific user
+                        editListener(userItem, userItem.id!!) //Go to changing content activity of this specific user
+                    }
+
+                    itemView.setOnClickListener{
+                        infoListener(userItem, userItem.id!!)
                     }
                 }
             }
@@ -61,7 +66,7 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val cli
     override fun getItemCount() = usersList.size
 
     override fun onBindViewHolder(holder: UserCardViewHolder, position: Int) {
-        return holder.bindView(usersList[position], clickListener)
+        return holder.bindView(usersList[position], editListener, infoListener)
     }
 
     override fun getFilter(): Filter = UserFilter()
