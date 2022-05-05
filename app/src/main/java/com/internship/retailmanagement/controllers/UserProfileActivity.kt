@@ -16,6 +16,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.IllegalStateException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.NoSuchElementException
 
 class UserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserProfileBinding
@@ -38,7 +41,6 @@ class UserProfileActivity : AppCompatActivity() {
         this.binding = ActivityUserProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         gv = application as GlobalVar
         email = binding.emailProfile
         number = binding.numberProfile
@@ -70,7 +72,6 @@ class UserProfileActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()!!
                         gv.storeId = responseBody.store!!.id
-
                         email.text = responseBody.email
                         number.text = responseBody.id.toString()
                         name.text = responseBody.name
@@ -78,7 +79,7 @@ class UserProfileActivity : AppCompatActivity() {
                         address.text = responseBody.address
                         council.text = responseBody.council
                         zipCode.text = responseBody.zipCode
-                        birthDate.text = responseBody.birthDate
+                        birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
                         phoneNumber.text = responseBody.phone
                         category.text = responseBody.category
                         store.text = responseBody.store.id.toString()
@@ -88,7 +89,6 @@ class UserProfileActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<UserItem>, t: Throwable) {
-                    t.printStackTrace()
                     Log.e("UserProfileActivity", "Error:" + t.message.toString())
                 }
             })
@@ -125,5 +125,30 @@ class UserProfileActivity : AppCompatActivity() {
             R.id.signOutMenu -> null
         }
         return true
+    }
+
+    /**
+     * Method to parse a string that represents UTC date ("yyyy-MM-dd'T'HH:mm:ss'Z'") to Date type
+     * @param dateFormat    string UTC date
+     * @param timeZone      timeZone UTC
+     * @return Date
+     */
+    fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+        parser.timeZone = timeZone
+        return parser.parse(this)!!
+    }
+
+
+    /**
+    * Method to parse a Date with a pre-established format to a String with the intended format
+    * @param dateFormat    string representing intended date format (Ex: "yyyy-MM-dd")
+    * @param timeZone      default timeZone
+    * @return String representing the date with intended format.
+    */
+    fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
+        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+        formatter.timeZone = timeZone
+        return formatter.format(this)
     }
 }

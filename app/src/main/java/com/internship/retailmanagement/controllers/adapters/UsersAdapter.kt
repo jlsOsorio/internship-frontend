@@ -38,11 +38,11 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val edi
                     nifView.text = userItem.nif.toString()
                     if (userItem.status == "ACTIVE")
                     {
-                        statusUncheckView.visibility = View.VISIBLE
+                        statusCheckView.visibility = View.VISIBLE
                     }
                     else
                     {
-                        statusCheckView.visibility = View.VISIBLE
+                        statusUncheckView.visibility = View.VISIBLE
                     }
 
                     editView.setOnClickListener{

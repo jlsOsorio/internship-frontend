@@ -11,39 +11,13 @@
         android:layout_margin="4dp"
         android:padding="8dp">
 
-
-
-        <TextView
-            android:id="@+id/emailCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email_placeholder"
-            android:textColor="@color/first_red"
-            android:fontFamily="@font/montserrat_bold"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:ignore="RelativeOverlap" />
-
-        <TextView
-            android:id="@+id/nifCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/emailCard"
-            android:hint="@string/nif_placeholder"
-            android:fontFamily="@font/montserrat_regular"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textSize="18sp" />
-
         <ImageView
             android:id="@+id/statusCheckCard"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
-            android:layout_centerInParent="true"
-            android:layout_toStartOf="@id/updateCard"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_centerVertical="true"
             android:contentDescription="@string/status_description"
             android:src="@drawable/check_icon"
             android:visibility="invisible"/>
@@ -52,12 +26,38 @@
             android:id="@+id/statusUncheckCard"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
-            android:layout_centerInParent="true"
-            android:layout_toStartOf="@id/updateCard"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true"
             android:contentDescription="@string/status_description"
             android:src="@drawable/remove_icon"
             android:visibility="invisible"/>
+
+
+        <TextView
+            android:id="@+id/emailCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/statusCheckCard"
+            android:text="@string/email_placeholder"
+            android:textColor="@color/first_red"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/nifCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailCard"
+            android:layout_toEndOf="@id/statusCheckCard"
+            android:hint="@string/nif_placeholder"
+            android:fontFamily="@font/montserrat_regular"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/updateCard"

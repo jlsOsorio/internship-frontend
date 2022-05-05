@@ -50,4 +50,7 @@
     <string name="store_label">Store:</string>
     <string name="status_label">Status:</string>
     <string name="add_float_button">Add content</string>
+    <string name="email_label">Email:</string>
+    <string name="password_label">Password:</string>
+    <string name="employee">Employee</string>
 </resources>

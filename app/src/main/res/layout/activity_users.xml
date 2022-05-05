@@ -40,5 +40,4 @@
         android:contentDescription="@string/add_float_button"
         android:src="@drawable/add_icon"
         app:tint="@color/white"/>
-
     </RelativeLayout>
