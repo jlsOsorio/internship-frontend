@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,8 +20,6 @@ import kotlinx.android.synthetic.main.activity_users.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.util.*
 
 class UsersActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUsersBinding
@@ -45,18 +42,17 @@ class UsersActivity : AppCompatActivity() {
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
          */
-        myRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        myRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy<0 && !fab.isShown) {
+                if (dy < 0 && !fab.isShown) {
                     fab.show()
-                }
-                else if (dy>0 && fab.isShown) {
+                } else if (dy > 0 && fab.isShown) {
                     fab.hide()
                 }
             }
         })
 
-        myRecyclerView.adapter = UsersAdapter(usersList, { _,_ -> "" },{ _,_ -> "" })
+        myRecyclerView.adapter = UsersAdapter(usersList, { _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -72,63 +68,37 @@ class UsersActivity : AppCompatActivity() {
     @Synchronized
     private fun getMyData() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+
         val usersCall = serviceGenerator.getUsers()
 
-        usersCall.enqueue(object : Callback<MutableList<UserItem>> {
-            override fun onResponse(
-                call: Call<MutableList<UserItem>>,
-                response: Response<MutableList<UserItem>>
-            ) {
-                if (response.isSuccessful) {
-                    usersList.clear()
-                    usersList.addAll(response.body()!!.toMutableList())
-                    mAdapter = UsersAdapter(usersList, {_, id ->
-                        val userCall = serviceGenerator.getUser(id)
-                        userCall.enqueue(object: Callback<UserItem> {
-                            override fun onResponse(
-                                call: Call<UserItem>,
-                                response: Response<UserItem>
-                            ) {
-                                val user = response.body()!!
-                                gv.userEmail = user.email
-                                gv.userId = id
-                                gv.userName = user.name
-                                gv.userNif = user.nif
-                                gv.userAddress = user.address
-                                gv.userCouncil = user.council
-                                gv.userZipCode = user.zipCode
-                                gv.userBirthDate = user.birthDate!!.toDate()
-                                gv.userPhone = user.phone
-                                gv.userStatus = user.status
-                                gv.userCategory = user.category
-                                gv.storeId = user.store!!.id
-                            }
-
-                            override fun onFailure(call: Call<UserItem>, t: Throwable) {
-                                Log.e("UsersActivity", "Error:" + t.message.toString())
-                            }
-
+        usersCall.enqueue(
+            object : Callback<MutableList<UserItem>> {
+                override fun onResponse(
+                    call: Call<MutableList<UserItem>>,
+                    response: Response<MutableList<UserItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        usersList.clear()
+                        usersList.addAll(response.body()!!.toMutableList())
+                        mAdapter = UsersAdapter(usersList, { _, id ->
+                            executeOtherActivity(ChangeUserDataActivity::class.java, id)
+                        }, { _, id ->
+                            executeOtherActivity(UserProfileActivity::class.java, id)
                         })
-                        executeOtherActivity(ChangeUserDataActivity::class.java, id)
-                    }, {_, id ->
-                        executeOtherActivity(UserProfileActivity::class.java, id)
-                    })
-                    mAdapter.notifyDataSetChanged()
-                    myRecyclerView.apply {
-                        layoutManager = LinearLayoutManager(this@UsersActivity)
-                        setHasFixedSize(true)
-                        adapter = mAdapter
+                        mAdapter.notifyDataSetChanged()
+                        myRecyclerView.apply {
+                            layoutManager = LinearLayoutManager(this@UsersActivity)
+                            setHasFixedSize(true)
+                            adapter = mAdapter
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<MutableList<UserItem>>, t: Throwable) {
-                t.printStackTrace()
-                Log.e("UsersActivity", "Error:" + t.message.toString())
-            }
-        })
-
-
+                override fun onFailure(call: Call<MutableList<UserItem>>, t: Throwable) {
+                    t.printStackTrace()
+                    Log.e("UsersActivity", "Error:" + t.message.toString())
+                }
+            })
         swipeRefreshUsers.isRefreshing = false
     }
 
@@ -162,17 +132,5 @@ class UsersActivity : AppCompatActivity() {
             R.id.signOutMenu -> null
         }
         return true
-    }
-
-    /**
-     * Method to parse a string that represents UTC date ("yyyy-MM-dd'T'HH:mm:ss'Z'") to Date type
-     * @param dateFormat    string UTC date
-     * @param timeZone      timeZone UTC
-     * @return Date
-     */
-    fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
-        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
-        parser.timeZone = timeZone
-        return parser.parse(this)!!
     }
 }

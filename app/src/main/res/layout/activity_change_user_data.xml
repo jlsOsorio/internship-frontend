@@ -84,6 +84,7 @@
 
             <EditText
                 android:id="@+id/nameProfile"
+                android:autofillHints="Joao"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -117,6 +118,7 @@
 
             <EditText
                 android:id="@+id/nifProfile"
+                android:autofillHints="123456789"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -150,6 +152,7 @@
 
             <EditText
                 android:id="@+id/addressProfile"
+                android:autofillHints="Rua de Cima"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -183,6 +186,7 @@
 
             <EditText
                 android:id="@+id/councilProfile"
+                android:autofillHints="Vila Nova de Gaia"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -216,6 +220,7 @@
 
             <EditText
                 android:id="@+id/zipCodeProfile"
+                android:autofillHints="1234-123"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -249,6 +254,7 @@
 
             <EditText
                 android:id="@+id/birthDateProfile"
+                android:autofillHints="02/07/1994"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -286,13 +292,14 @@
 
             <EditText
                 android:id="@+id/phoneNumberProfile"
+                android:autofillHints="911231212"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="end"
-                android:inputType="text"
+                android:inputType="phone"
                 android:hint="@string/no_content"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -319,6 +326,7 @@
 
             <EditText
                 android:id="@+id/categoryProfile"
+                android:autofillHints="SUPERVISOR"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
@@ -350,16 +358,14 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/storeProfile"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
+                android:background="@drawable/button_shape_light"
                 android:gravity="end"
-                android:inputType="number"
-                android:hint="@string/no_content"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
@@ -385,6 +391,7 @@
 
             <EditText
                 android:id="@+id/statusProfile"
+                android:autofillHints="ACTIVE"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"

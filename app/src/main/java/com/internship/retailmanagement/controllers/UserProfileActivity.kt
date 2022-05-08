@@ -71,7 +71,7 @@ class UserProfileActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()!!
-                        gv.storeId = responseBody.store!!.id
+                        gv.storeId = responseBody.storeId
                         email.text = responseBody.email
                         number.text = responseBody.id.toString()
                         name.text = responseBody.name
@@ -82,7 +82,7 @@ class UserProfileActivity : AppCompatActivity() {
                         birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
                         phoneNumber.text = responseBody.phone
                         category.text = responseBody.category
-                        store.text = responseBody.store.id.toString()
+                        store.text = responseBody.storeId.toString()
                         status.text = responseBody.status
 
                     }

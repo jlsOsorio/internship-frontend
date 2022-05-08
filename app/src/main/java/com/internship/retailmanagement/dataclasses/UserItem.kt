@@ -12,5 +12,5 @@ data class UserItem(
     val address: String? = null,
     val council: String? = null,
     val zipCode: String? = null,
-    val store: StoreUserItem? = null
+    val storeId: Long? = null
 )

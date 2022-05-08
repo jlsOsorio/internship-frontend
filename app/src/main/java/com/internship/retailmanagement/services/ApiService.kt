@@ -1,6 +1,7 @@
 package com.internship.retailmanagement.services
 
 import com.internship.retailmanagement.controllers.ChangeUserDataActivity
+import com.internship.retailmanagement.dataclasses.StoreItem
 import com.internship.retailmanagement.dataclasses.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -24,5 +25,15 @@ interface ApiService {
 
     //Update user
     @PUT("/users/{id}")
-    fun updateUser(@Path("id") id: Long?, @Body user: ChangeUserDataActivity?): Call<ResponseBody?>?
+    fun updateUser(@Path("id") id: Long?, @Body user: UserItem?): Call<ResponseBody?>
+
+
+    //////////////// STORES ////////////////
+    //All stores
+    @GET("/stores")
+    fun getStores(): Call<MutableList<StoreItem>>
+
+    //Specific store
+    @GET("/stores/{id}")
+    fun getStore(@Path(value = "id", encoded = false) id: Long): Call<StoreItem>
 }

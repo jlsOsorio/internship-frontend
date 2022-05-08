@@ -53,4 +53,7 @@
     <string name="email_label">Email:</string>
     <string name="password_label">Password:</string>
     <string name="employee">Employee</string>
+    <string name="id_store">ID:</string>
+    <string name="zip_code_store">Zip Code</string>
+    <string name="address_store">Address</string>
 </resources>
