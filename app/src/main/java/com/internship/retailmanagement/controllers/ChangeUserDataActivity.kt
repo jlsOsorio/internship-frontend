@@ -24,6 +24,7 @@ import retrofit2.Response
 import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ChangeUserDataActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
     private lateinit var zipCode: EditText
     private lateinit var birthDate: EditText
     private lateinit var phoneNumber: EditText
-    private lateinit var category: EditText
+    private lateinit var category: Spinner
     private lateinit var status: EditText
     private lateinit var confirm: Button
     private lateinit var stores: Spinner
@@ -90,6 +91,37 @@ class ChangeUserDataActivity : AppCompatActivity() {
         getStores()
         getUser()
 
+        val categories : ArrayList<String> = arrayListOf("SUPERVISOR", "EMPLOYEE")
+
+       /* for (cat in categories)
+        {
+            if (gv.userCategory!! == cat)
+            {
+                categories.remove(cat)
+            }
+        }*/
+
+
+        val categoriesAdapter = ArrayAdapter(this@ChangeUserDataActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories)
+        category.adapter = categoriesAdapter
+
+        category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                gv.userCategory = categories[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
         confirm.setOnClickListener {
             putMethod()
         }
@@ -124,7 +156,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         zipCode.setText(responseBody.zipCode)
                         birthDate.setText(responseBody.birthDate!!.toDate("yyyy-MM-dd'T'HH:mm:ss'Z'").formatTo("dd-MM-yyyy"))
                         phoneNumber.setText(responseBody.phone)
-                        category.setText(responseBody.category)
+                        gv.userCategory = responseBody.category
                         status.setText(responseBody.status)
                     }
                 }
@@ -151,7 +183,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
         val phoneStr = phoneNumber.text.toString()
         val birthDateStr = birthDate.text.toString()
         val nifLong = Integer.parseInt(nif.text.toString()).toLong()
-        val categoryStr = category.text.toString()
+        //val categoryStr = category.text.toString()
         val statusStr = status.text.toString()
         val addressStr = address.text.toString()
         val councilStr = council.text.toString()
@@ -165,7 +197,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
             phoneStr,
             birthDateStr.toDate("dd-MM-yyyy").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
             nifLong,
-            categoryStr,
+            gv.userCategory,
             statusStr,
             addressStr,
             councilStr,

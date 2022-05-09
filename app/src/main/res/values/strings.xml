@@ -56,4 +56,7 @@
     <string name="id_store">ID:</string>
     <string name="zip_code_store">Zip Code</string>
     <string name="address_store">Address</string>
+    <string name="product_name">Name here</string>
+    <string name="stock_placeholder">Stock</string>
+    <string name="gross_price_placeholder">Gross Price</string>
 </resources>
