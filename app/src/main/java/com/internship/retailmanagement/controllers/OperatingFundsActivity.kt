@@ -8,12 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.controllers.adapters.OpFundsAdapter
 import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
-import com.internship.retailmanagement.controllers.adapters.UsersAdapter
-import com.internship.retailmanagement.databinding.ActivityProductsBinding
+import com.internship.retailmanagement.databinding.ActivityOperatingFundsBinding
+import com.internship.retailmanagement.dataclasses.OpFundItem
 import com.internship.retailmanagement.dataclasses.ProductItem
-import com.internship.retailmanagement.dataclasses.StockMovItem
-import com.internship.retailmanagement.dataclasses.UserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
@@ -21,20 +20,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProductsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityProductsBinding
-    private lateinit var mAdapter: ProductsAdapter
-    private lateinit var productsList: MutableList<ProductItem>
+class OperatingFundsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityOperatingFundsBinding
+    private lateinit var opFundsList: MutableList<OpFundItem>
+    private lateinit var mAdapter: OpFundsAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var gv: GlobalVar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = ActivityProductsBinding.inflate(layoutInflater)
+        this.binding = ActivityOperatingFundsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        productsList = arrayListOf()
+        gv = application as GlobalVar
+
+        opFundsList = arrayListOf()
         fab = binding.fab
         gv = application as GlobalVar
 
@@ -51,7 +52,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = OpFundsAdapter(opFundsList, { _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -68,36 +69,34 @@ class ProductsActivity : AppCompatActivity() {
     private fun getMyData() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val productsCall = serviceGenerator.getProducts()
+        val opFundsCall = serviceGenerator.getOpFunds(gv.userId!!)
 
-        productsCall.enqueue(
-            object : Callback<MutableList<ProductItem>> {
+        opFundsCall.enqueue(
+            object : Callback<MutableList<OpFundItem>> {
                 override fun onResponse(
-                    call: Call<MutableList<ProductItem>>,
-                    response: Response<MutableList<ProductItem>>
+                    call: Call<MutableList<OpFundItem>>,
+                    response: Response<MutableList<OpFundItem>>
                 ) {
                     if (response.isSuccessful) {
-                        productsList.clear()
-                        productsList.addAll(response.body()!!.toMutableList())
-                        mAdapter = ProductsAdapter(productsList, { _, id ->""
+                        opFundsList.clear()
+                        opFundsList.addAll(response.body()!!.toMutableList())
+                        mAdapter = OpFundsAdapter(opFundsList, { _, id ->""
                             //executeOtherActivity(StockMovement::class.java, id)
                         }, { _,id->""
                             //executeOtherActivity(ChangeProductDataActivity::class.java, id)
-                        }, { _,id ->
-                            "" //deleteProduct)
                         })
                         mAdapter.notifyDataSetChanged()
                         myRecyclerView.apply {
-                            layoutManager = LinearLayoutManager(this@ProductsActivity)
+                            layoutManager = LinearLayoutManager(this@OperatingFundsActivity)
                             setHasFixedSize(true)
                             adapter = mAdapter
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<MutableList<ProductItem>>, t: Throwable) {
+                override fun onFailure(call: Call<MutableList<OpFundItem>>, t: Throwable) {
                     t.printStackTrace()
-                    Log.e("ProductsActivity", "Error:" + t.message.toString())
+                    Log.e("OperatingFundsActivity", "Error:" + t.message.toString())
                 }
             })
 
@@ -105,10 +104,8 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     //Save user email in global var to set it in the update page
-    private fun executeOtherActivity(otherActivity: Class<*>,
-                                     id: Long) {
-        gv.productId = id
-        val x = Intent(this@ProductsActivity, otherActivity)
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@OperatingFundsActivity, otherActivity)
         startActivity(x)
     }
 }

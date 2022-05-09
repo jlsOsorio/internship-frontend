@@ -17,14 +17,17 @@
         android:theme="@style/Theme.RetailManagement"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".controllers.ProductsActivity"
+            android:name=".controllers.OperatingFundsActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-    
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".controllers.ProductsActivity"
+            android:exported="false" />
         <activity
             android:name=".controllers.UsersActivity"
             android:exported="false" />
@@ -33,7 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".controllers.ChangeUserDataActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".controllers.ChangePasswordActivity"
             android:exported="false" />

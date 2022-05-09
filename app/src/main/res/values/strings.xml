@@ -59,4 +59,8 @@
     <string name="product_name">Name here</string>
     <string name="stock_placeholder">Stock</string>
     <string name="gross_price_placeholder">Gross Price</string>
+    <string name="entry_label">Entry qty:</string>
+    <string name="date_placeholder">dd-MM-yyyy</string>
+    <string name="exit_label">Exit qty:</string>
+    <string name="number">100</string>
 </resources>

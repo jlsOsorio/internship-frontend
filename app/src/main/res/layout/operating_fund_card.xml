@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape_light"
+        android:layout_margin="4dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/dateCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_placeholder"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/entryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entry_label"
+            android:textColor="@color/first_red"
+            android:layout_toEndOf="@id/dateCard"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:gravity="end"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/exitLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/entryLabel"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@id/dateCard"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="end"
+            android:paddingStart="17dp"
+            android:text="@string/exit_label"
+            android:textColor="@color/first_red"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/entryCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/number"
+            android:layout_toEndOf="@id/entryLabel"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/exitCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/number"
+            android:layout_toEndOf="@id/exitLabel"
+            android:layout_below="@id/entryCard"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+        <ImageView
+            android:id="@+id/updateCard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/removeCard"
+            android:contentDescription="@string/update_description"
+            android:src="@drawable/edit_icon" />
+
+        <ImageView
+            android:id="@+id/removeCard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/status_description"
+            android:src="@drawable/remove_icon" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
