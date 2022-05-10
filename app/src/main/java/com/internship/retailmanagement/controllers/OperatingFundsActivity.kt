@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.OpFundsAdapter
 import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
@@ -64,7 +67,7 @@ class OperatingFundsActivity : AppCompatActivity() {
         getMyData()
     }
 
-    //Get users from API
+    //Get operating funds from API
     @Synchronized
     private fun getMyData() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
@@ -107,5 +110,30 @@ class OperatingFundsActivity : AppCompatActivity() {
     private fun executeOtherActivity(otherActivity: Class<*>) {
         val x = Intent(this@OperatingFundsActivity, otherActivity)
         startActivity(x)
+    }
+
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profileMenu -> null
+            R.id.changePasswordMenu -> null
+            R.id.signOutMenu -> null
+        }
+        return true
     }
 }

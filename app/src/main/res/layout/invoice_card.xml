@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape_light"
+        android:layout_margin="4dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/invoiceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_label"
+            android:textColor="@color/first_red"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/invoiceCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/invoiceLabel"
+            android:hint="@string/bill_placeholder"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/updateCard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/billCard"
+            android:src="@drawable/edit_icon"
+            android:contentDescription="@string/update_description"/>
+
+        <ImageView
+            android:id="@+id/billCard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/bill_description"
+            android:src="@drawable/bill_icon" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -127,8 +127,8 @@ class UsersActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
+            R.id.profileMenu -> executeOtherActivity(UserProfileActivity::class.java, gv.userId!!)
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java, gv.userId!!)
             R.id.signOutMenu -> null
         }
         return true

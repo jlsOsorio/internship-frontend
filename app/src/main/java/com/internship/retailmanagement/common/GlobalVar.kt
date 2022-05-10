@@ -8,4 +8,6 @@ class GlobalVar : Application() {
     var userCategory: String? = null
     var storeId: Long? = null
     var productId: Long? = null
+    var isLoggedIn: Boolean = false
+    var userRole: String? = null
 }

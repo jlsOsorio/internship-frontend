@@ -51,4 +51,9 @@ interface ApiService {
     @GET("/stockmovements/{productId}")
     fun getStockMovements(@Path(value = "id", encoded = false) id: Long): Call<StockMovItem>
 
+
+    //////////////// INVOICES ////////////////
+    @GET("/invoices")
+    fun getInvoices(): Call<MutableList<InvoiceItem>>
+
 }

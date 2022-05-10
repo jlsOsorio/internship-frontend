@@ -11,12 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
-import com.internship.retailmanagement.controllers.adapters.UsersAdapter
-import com.internship.retailmanagement.databinding.ActivityProductsBinding
-import com.internship.retailmanagement.dataclasses.ProductItem
-import com.internship.retailmanagement.dataclasses.StockMovItem
-import com.internship.retailmanagement.dataclasses.UserItem
+import com.internship.retailmanagement.controllers.adapters.InvoicesAdapter
+import com.internship.retailmanagement.databinding.ActivityInvoicesBinding
+import com.internship.retailmanagement.dataclasses.InvoiceItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
@@ -24,20 +21,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProductsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityProductsBinding
-    private lateinit var mAdapter: ProductsAdapter
-    private lateinit var productsList: MutableList<ProductItem>
+class InvoicesActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityInvoicesBinding
+    private lateinit var invoicesList: MutableList<InvoiceItem>
+    private lateinit var mAdapter: InvoicesAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var gv: GlobalVar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.binding = ActivityProductsBinding.inflate(layoutInflater)
+        this.binding = ActivityInvoicesBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        productsList = arrayListOf()
+        invoicesList = arrayListOf()
         fab = binding.fab
         gv = application as GlobalVar
 
@@ -54,7 +51,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = InvoicesAdapter(invoicesList, { _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -66,56 +63,51 @@ class ProductsActivity : AppCompatActivity() {
         getMyData()
     }
 
-    //Get products from API
+    //Get invoices from API
     @Synchronized
     private fun getMyData() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val productsCall = serviceGenerator.getProducts()
+        val invoicesCall = serviceGenerator.getInvoices()
 
-        productsCall.enqueue(
-            object : Callback<MutableList<ProductItem>> {
+        invoicesCall.enqueue(
+            object : Callback<MutableList<InvoiceItem>> {
                 override fun onResponse(
-                    call: Call<MutableList<ProductItem>>,
-                    response: Response<MutableList<ProductItem>>
+                    call: Call<MutableList<InvoiceItem>>,
+                    response: Response<MutableList<InvoiceItem>>
                 ) {
                     if (response.isSuccessful) {
-                        productsList.clear()
-                        productsList.addAll(response.body()!!.toMutableList())
-                        mAdapter = ProductsAdapter(productsList, { _, id ->""
-                            //executeOtherActivity(StockMovement::class.java, id)
-                        }, { _,id->""
-                            //executeOtherActivity(ChangeProductDataActivity::class.java, id)
-                        }, { _,id ->
-                            "" //deleteProduct)
+                        invoicesList.clear()
+                        invoicesList.addAll(response.body()!!.toMutableList())
+                        mAdapter = InvoicesAdapter(invoicesList, { _, id ->""
+                            //executeOtherActivity(ChangeUserDataActivity::class.java, id)
+                        }, { _, id ->""
+                            //executeOtherActivity(UserProfileActivity::class.java, id)
                         })
                         mAdapter.notifyDataSetChanged()
                         myRecyclerView.apply {
-                            layoutManager = LinearLayoutManager(this@ProductsActivity)
+                            layoutManager = LinearLayoutManager(this@InvoicesActivity)
                             setHasFixedSize(true)
                             adapter = mAdapter
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<MutableList<ProductItem>>, t: Throwable) {
+                override fun onFailure(call: Call<MutableList<InvoiceItem>>, t: Throwable) {
                     t.printStackTrace()
-                    Log.e("ProductsActivity", "Error:" + t.message.toString())
+                    Log.e("UsersActivity", "Error:" + t.message.toString())
                 }
             })
-
         swipeRefreshUsers.isRefreshing = false
     }
 
     //Save user email in global var to set it in the update page
     private fun executeOtherActivity(otherActivity: Class<*>,
                                      id: Long) {
-        gv.productId = id
-        val x = Intent(this@ProductsActivity, otherActivity)
+        gv.userId = id
+        val x = Intent(this@InvoicesActivity, otherActivity)
         startActivity(x)
     }
-
-
     /**
      * Overwrite method to generate menu in action bar.
      * @param menu: menu Type.
