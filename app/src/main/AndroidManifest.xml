@@ -17,6 +17,21 @@
         android:theme="@style/Theme.RetailManagement"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".controllers.ProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.ChangeProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.CreateProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.register.FinalRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.register.FirstRegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".controllers.InvoicesActivity"
             android:exported="false" />
         <activity

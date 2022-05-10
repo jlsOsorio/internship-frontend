@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".controllers.ProductDetailsActivity"
+    android:background="@drawable/button_shape_light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TableRow
+            android:id="@+id/firstRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/titleProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:text="@string/product_details" />
+        </TableRow>
+
+    <TableLayout
+        android:stretchColumns="*"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:id="@+id/secondRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/number_label" />
+
+            <TextView
+                android:id="@+id/numberProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/thirdRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/labelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/name_label" />
+
+            <TextView
+                android:id="@+id/nameProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fourthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/labelStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/stock_label" />
+
+            <TextView
+                android:id="@+id/stockProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fifthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/labelIva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/iva_label" />
+
+            <TextView
+                android:id="@+id/ivaProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/sixthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/labelGrossPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/gross_price_label" />
+
+            <TextView
+                android:id="@+id/grossPriceProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/seventhRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/labelTaxedPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/taxed_price_label" />
+
+            <TextView
+                android:id="@+id/taxedPriceProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
+
+        </TableRow>
+    </TableLayout>
+</TableLayout>

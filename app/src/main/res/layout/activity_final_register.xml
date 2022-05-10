@@ -2,28 +2,27 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".controllers.UserProfileActivity"
+    tools:context=".controllers.register.FinalRegisterActivity"
     android:background="@drawable/button_shape_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-        <TableRow
-            android:id="@+id/firstRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center">
+    <TableRow
+        android:id="@+id/firstRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center">
 
-            <TextView
-                android:id="@+id/titleProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_black"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:text="@string/employee" />
-        </TableRow>
+        <TextView
+            android:id="@+id/titleProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="@string/personal_data" />
+    </TableRow>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -35,72 +34,6 @@
 
         <TableRow
             android:id="@+id/secondRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/email_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/emailProfile"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:autofillHints="login@email.com"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="textEmailAddress"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/thirdRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/name_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/nameProfile"
-                android:autofillHints="Joao"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fourthRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -134,7 +67,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/fifthRow"
+            android:id="@+id/thirdRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -168,7 +101,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/sixthRow"
+            android:id="@+id/fourthRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -202,7 +135,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/seventhRow"
+            android:id="@+id/fifthRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -236,7 +169,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/eighthRow"
+            android:id="@+id/sixthRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -274,7 +207,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/ninthRow"
+            android:id="@+id/seventhRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -308,7 +241,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tenthRow"
+            android:id="@+id/eighthRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -339,7 +272,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/eleventhRow"
+            android:id="@+id/ninthRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -368,49 +301,16 @@
                 android:textSize="12sp" />
 
         </TableRow>
-
-        <TableRow
-            android:id="@+id/twelfthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/status_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/statusProfile"
-                android:autofillHints="ACTIVE"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
     </TableLayout>
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonConfirm"
+        android:id="@+id/buttonCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/button_shape"
-        android:text="@string/confirm"
+        android:text="@string/create"
         android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/background_color" />
 
