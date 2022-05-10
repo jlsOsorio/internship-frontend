@@ -17,6 +17,12 @@
         android:theme="@style/Theme.RetailManagement"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".controllers.ChangeOperatingFundActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.CreateOperatingFundActivity"
+            android:exported="false" />
+        <activity
             android:name=".controllers.ProductDetailsActivity"
             android:exported="false" />
         <activity

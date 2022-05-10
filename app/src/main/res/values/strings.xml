@@ -84,4 +84,11 @@
     <string name="iva_label">IVA:</string>
     <string name="gross_price_label">Gross price:</string>
     <string name="taxed_price_label">Taxed price:</string>
+    <string name="new_op_fund">New operating fund</string>
+    <string name="entry_qty">Entry Quantity</string>
+    <string name="exit_qty">Exit Quantity</string>
+    <string name="date">Date</string>
+    <string name="change_op_fund">Change operating fund</string>
+    <string name="cash_register_label">Cash Register:</string>
+    <string name="date_label">Date:</string>
 </resources>

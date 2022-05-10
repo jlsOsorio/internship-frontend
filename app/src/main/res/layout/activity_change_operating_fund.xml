@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".controllers.ChangeOperatingFundActivity"
+    android:background="@drawable/button_shape_light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableRow
+        android:id="@+id/firstRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/titleProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="@string/change_op_fund" />
+    </TableRow>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:layout_marginBottom="50dp"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:id="@+id/secondRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelEntryQty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/entry_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/entryQtyOpFund"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:autofillHints="500.50"
+                android:background="@drawable/box_shape"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:hint="@string/no_content"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/thirdRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelExitQty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:text="@string/exit_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/exitQtyOpFund"
+                android:autofillHints="100.30"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/box_shape"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:hint="@string/no_content"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fourthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelCashReg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:text="@string/cash_register_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/cashRegisterOpFund"
+                android:autofillHints="1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/box_shape"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="end"
+                android:inputType="number"
+                android:hint="@string/no_content"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fifthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:text="@string/date_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/dateOpFund"
+                android:autofillHints="02/07/2022 10:00:00"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/box_shape"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="end"
+                android:inputType="datetime"
+                android:hint="@string/no_content"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </TableRow>
+
+
+    </TableLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/confirm"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/background_color" />
+
+</LinearLayout>
