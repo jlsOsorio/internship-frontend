@@ -17,6 +17,9 @@
         android:theme="@style/Theme.RetailManagement"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".controllers.InvoiceDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".controllers.ChangeOperatingFundActivity"
             android:exported="false" />
         <activity

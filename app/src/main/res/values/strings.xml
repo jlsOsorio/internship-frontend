@@ -91,4 +91,12 @@
     <string name="change_op_fund">Change operating fund</string>
     <string name="cash_register_label">Cash Register:</string>
     <string name="date_label">Date:</string>
+    <string name="invoice_details">Invoice details</string>
+    <string name="invoice_number">Invoice number:</string>
+    <string name="transaction_label">Transaction:</string>
+    <string name="user_label">Employee:</string>
+    <string name="products_label">Products:</string>
+    <string name="total_no_iva_label">Total (no IVA):</string>
+    <string name="total_iva_label">Total (IVA):</string>
+    <string name="check_products">CHECK ORDERED PRODUCTS</string>
 </resources>
