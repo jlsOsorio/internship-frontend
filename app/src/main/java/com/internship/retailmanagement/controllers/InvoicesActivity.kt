@@ -101,13 +101,18 @@ class InvoicesActivity : AppCompatActivity() {
         swipeRefreshUsers.isRefreshing = false
     }
 
-    //Save user email in global var to set it in the update page
+    /**
+     * Method to go to the next activity.
+     * @param otherActivity     next activity
+     * @param id    global id intended to pass to next activity
+     */
     private fun executeOtherActivity(otherActivity: Class<*>,
                                      id: Long) {
         gv.userId = id
         val x = Intent(this@InvoicesActivity, otherActivity)
         startActivity(x)
     }
+
     /**
      * Overwrite method to generate menu in action bar.
      * @param menu: menu Type.
