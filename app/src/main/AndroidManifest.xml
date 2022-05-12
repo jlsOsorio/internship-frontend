@@ -17,6 +17,24 @@
         android:theme="@style/Theme.RetailManagement"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".controllers.CreateStockMovementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.StockMovementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controllers.OrderProductsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".controllers.CreateInvoiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".controllers.InvoiceDetailsActivity"
             android:exported="false" />
         <activity
@@ -51,13 +69,7 @@
             android:exported="false" />
         <activity
             android:name=".controllers.UsersActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".controllers.UserProfileActivity"
             android:exported="false" />

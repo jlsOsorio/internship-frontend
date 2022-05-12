@@ -99,4 +99,13 @@
     <string name="total_no_iva_label">Total (no IVA):</string>
     <string name="total_iva_label">Total (IVA):</string>
     <string name="check_products">CHECK ORDERED PRODUCTS</string>
+    <string name="new_invoice">New invoice</string>
+    <string name="check_invoice">CHECK INVOICE</string>
+    <string name="order_products">Products to order</string>
+    <string name="order_product_name">Product name</string>
+    <string name="add_symbol">+</string>
+    <string name="cancel">CANCEL</string>
+    <string name="add">Add</string>
+    <string name="movement_in">IN</string>
+    <string name="new_stock_movement">New movement</string>
 </resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape_light"
+        android:layout_margin="4dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/dateCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/montserrat_bold"
+            android:hint="@string/date_placeholder"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movementCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/movement_in"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/first_red"
+            android:paddingEnd="5dp"
+            android:textSize="16sp"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/quantityCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/number"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/movementCard"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingEnd="5dp"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

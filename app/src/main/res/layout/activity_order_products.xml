@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controllers.CreateOperatingFundActivity">
+    tools:context=".controllers.OrderProductsActivity">
 
     <TextView
-        android:id="@+id/newOpFund"
+        android:id="@+id/orderProducts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_op_fund"
+        android:text="@string/order_products"
         android:fontFamily="@font/montserrat_black"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.19" />
 
     <EditText
-        android:id="@+id/entryQty"
+        android:id="@+id/productName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,7 +30,7 @@
         android:background="@drawable/box_shape"
         android:ems="10"
         android:fontFamily="@font/montserrat_regular"
-        android:hint="@string/entry_qty"
+        android:hint="@string/order_product_name"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -39,20 +39,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newOpFund"
-        app:layout_constraintVertical_bias="0.24000001" />
+        app:layout_constraintTop_toBottomOf="@+id/orderProducts"
+        app:layout_constraintVertical_bias="0.24000001"
+        android:enabled="false"/>
 
     <EditText
-        android:id="@+id/exitQty"
-        android:autofillHints="100.30"
+        android:id="@+id/productQuantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:autofillHints="400.50"
         android:background="@drawable/box_shape"
         android:ems="10"
+        android:enabled="false"
         android:fontFamily="@font/montserrat_regular"
-        android:hint="@string/exit_qty"
+        android:hint="@string/qty"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -61,53 +63,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entryQty"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintTop_toBottomOf="@+id/productName"
+        app:layout_constraintVertical_bias="0.110000014" />
 
-    <Spinner
-        android:id="@+id/cashRegisterOpFund"
-        android:autofillHints="1"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:gravity="end"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:background="@drawable/box_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/first_red"
+        android:contentDescription="@string/add_float_button"
+        android:src="@drawable/add_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exitQty"
-        app:layout_constraintVertical_bias="0.058"/>
+        app:layout_constraintTop_toBottomOf="@+id/productQuantity"
+        app:tint="@color/white" />
 
-
-    <EditText
-        android:id="@+id/dateOpFund"
-        android:autofillHints="02/07/2022 10:00:00"
-        android:layout_width="0dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/removeFab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="datetime"
-        android:minHeight="48dp"
-        android:padding="10dp"
-        android:hint="@string/date"
-        android:fontFamily="@font/montserrat_regular"
-        android:textSize="18sp"
-        android:background="@drawable/box_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cashRegisterOpFund"
-        app:layout_constraintVertical_bias="0.058" />
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/first_red"
+        android:contentDescription="@string/add_float_button"
+        android:src="@drawable/pull_icon"
+        app:layout_constraintEnd_toStartOf="@+id/addFab"
+        app:layout_constraintTop_toBottomOf="@+id/productQuantity"
+        app:tint="@color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonCreate"
+        android:id="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_shape_light"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/add"
+        android:textColor="@color/first_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productQuantity" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -115,11 +118,27 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/button_shape"
         android:fontFamily="@font/montserrat_bold"
-        android:text="@string/create"
+        android:text="@string/confirm"
         android:textColor="@color/background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateOpFund" />
+        app:layout_constraintTop_toBottomOf="@+id/addFab" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_shape_light"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/cancel"
+        android:textColor="@color/black_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonConfirm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
