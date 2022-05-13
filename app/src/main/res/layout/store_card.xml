@@ -37,13 +37,13 @@
             tools:ignore="RelativeOverlap" />
 
         <TextView
-            android:id="@+id/zipCodeStore"
+            android:id="@+id/zipCodeCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/addressCard"
             android:layout_toEndOf="@id/cityCard"
-            android:hint="@string/zip_code_store"
             android:fontFamily="@font/montserrat_regular"
+            android:hint="@string/zip_code_store"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textSize="12sp" />

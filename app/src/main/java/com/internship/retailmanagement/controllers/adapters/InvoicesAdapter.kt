@@ -44,16 +44,16 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
     }
 
     //Mandatory methods
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvoicesAdapter.InvoiceCardViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvoiceCardViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.invoice_card, parent, false
         )
-        return InvoicesAdapter.InvoiceCardViewHolder(itemView)
+        return InvoiceCardViewHolder(itemView)
     }
 
     override fun getItemCount() = invoicesList.size
 
-    override fun onBindViewHolder(holder: InvoicesAdapter.InvoiceCardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: InvoiceCardViewHolder, position: Int) {
         return holder.bindView(invoicesList[position], editListener, printListener)
     }
 

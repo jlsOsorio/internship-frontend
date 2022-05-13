@@ -39,7 +39,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
     private lateinit var birthDate: EditText
     private lateinit var phoneNumber: EditText
     private lateinit var category: Spinner
-    private lateinit var status: EditText
+    private lateinit var status: Spinner
     private lateinit var confirm: Button
     private lateinit var stores: Spinner
     private lateinit var storesList: MutableList<StoreItem>
@@ -123,7 +123,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
         }
 
         confirm.setOnClickListener {
-            putMethod()
+            //putMethod()
         }
 
     }
@@ -157,7 +157,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         birthDate.setText(responseBody.birthDate!!.toDate("yyyy-MM-dd'T'HH:mm:ss'Z'").formatTo("dd-MM-yyyy"))
                         phoneNumber.setText(responseBody.phone)
                         gv.userCategory = responseBody.category
-                        status.setText(responseBody.status)
+                        //status.setText(responseBody.status)
                     }
                 }
 
@@ -176,7 +176,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
         }
     }
 
-    @Synchronized
+    /*@Synchronized
     private fun putMethod() {
         val nameStr = name.text.toString()
         val emailStr = email.text.toString()
@@ -218,7 +218,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
             }
         }
             )
-    }
+    }*/
 
     /**
      * Overwrite method to generate menu in action bar.
