@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controllers.CreateProductActivity">
+    tools:context=".controllers.CreateStoreActivity">
 
     <TextView
-        android:id="@+id/newProduct"
+        android:id="@+id/newStore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_product"
+        android:text="@string/new_store"
         android:fontFamily="@font/montserrat_black"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.19" />
 
     <EditText
-        android:id="@+id/nameProduct"
+        android:id="@+id/addressStore"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,7 +30,7 @@
         android:background="@drawable/box_shape"
         android:ems="10"
         android:fontFamily="@font/montserrat_regular"
-        android:hint="@string/name"
+        android:hint="@string/address_store"
         android:inputType="text"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -39,11 +39,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newProduct"
-        app:layout_constraintVertical_bias="0.24000001" />
+        app:layout_constraintTop_toBottomOf="@+id/newStore"
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <EditText
-        android:id="@+id/qtyProduct"
+        android:id="@+id/councilStore"
         android:autofillHints="100"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -52,8 +52,8 @@
         android:background="@drawable/box_shape"
         android:ems="10"
         android:fontFamily="@font/montserrat_regular"
-        android:hint="@string/qty"
-        android:inputType="number"
+        android:hint="@string/council_store"
+        android:inputType="text"
         android:minHeight="48dp"
         android:padding="10dp"
         android:textSize="18sp"
@@ -61,11 +61,77 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameProduct"
+        app:layout_constraintTop_toBottomOf="@+id/addressStore"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/zipCodeStore"
+        android:autofillHints="12.50"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:hint="@string/zip_code_store"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/councilStore"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/contactStore"
+        android:autofillHints="12.50"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:hint="@string/contact_store"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zipCodeStore"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/cashRegisterStore"
+        android:autofillHints="12.50"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:hint="@string/number_cash_registers"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactStore"
         app:layout_constraintVertical_bias="0.058" />
 
     <Spinner
-        android:id="@+id/ivaProduct"
+        android:id="@+id/statusStore"
         android:autofillHints="23"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,31 +146,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qtyProduct"
+        app:layout_constraintTop_toBottomOf="@+id/cashRegisterStore"
         app:layout_constraintVertical_bias="0.058"/>
-
-
-    <EditText
-        android:id="@+id/grossPriceProduct"
-        android:autofillHints="12.50"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:padding="10dp"
-        android:hint="@string/gross_price_placeholder"
-        android:fontFamily="@font/montserrat_regular"
-        android:textSize="18sp"
-        android:background="@drawable/box_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivaProduct"
-        app:layout_constraintVertical_bias="0.058" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonNext"
@@ -120,6 +163,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grossPriceProduct" />
+        app:layout_constraintTop_toBottomOf="@+id/statusStore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

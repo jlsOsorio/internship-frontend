@@ -112,4 +112,10 @@
     <string name="store_details">Store details</string>
     <string name="store_number">Store number:</string>
     <string name="contact_label">Contact:</string>
+    <string name="new_store">New store</string>
+    <string name="council_store">Council</string>
+    <string name="contact_store">Contact</string>
+    <string name="number_cash_registers">Number of cash registers</string>
+    <string name="store">Store</string>
+    <string name="number_cash_register_label">Cash registers:</string>
 </resources>

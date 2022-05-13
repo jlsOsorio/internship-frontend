@@ -387,17 +387,14 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/statusProfile"
-                android:autofillHints="ACTIVE"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
+                android:background="@drawable/button_shape_light"
                 android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
