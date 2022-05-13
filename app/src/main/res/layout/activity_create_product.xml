@@ -92,7 +92,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:padding="10dp"
         android:hint="@string/gross_price_placeholder"

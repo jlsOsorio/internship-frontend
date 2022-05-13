@@ -88,7 +88,7 @@
     <string name="entry_qty">Entry Quantity</string>
     <string name="exit_qty">Exit Quantity</string>
     <string name="date">Date</string>
-    <string name="change_op_fund">Change operating fund</string>
+    <string name="change_op_fund">Edit operating fund</string>
     <string name="cash_register_label">Cash Register:</string>
     <string name="date_label">Date:</string>
     <string name="invoice_details">Invoice details</string>
@@ -118,4 +118,9 @@
     <string name="number_cash_registers">Number of cash registers</string>
     <string name="store">Store</string>
     <string name="number_cash_register_label">Cash registers:</string>
+    <string name="cash_register">Cash Register</string>
+    <string name="change_store">Edit store</string>
+    <string name="change_employee">Edit employee</string>
+    <string name="nif">NIF</string>
+    <string name="birth_date">Birth Date</string>
 </resources>

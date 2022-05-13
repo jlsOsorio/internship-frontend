@@ -1,103 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".controllers.ChangeProductActivity"
+    android:background="@drawable/button_shape_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controllers.ChangeProductActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/changeProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/change_product"
-        android:fontFamily="@font/montserrat_black"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19" />
-
-    <EditText
-        android:id="@+id/nameProduct"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:autofillHints="Pão"
-        android:background="@drawable/box_shape"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_regular"
-        android:hint="@string/name"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        android:padding="10dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeProduct"
-        app:layout_constraintVertical_bias="0.24000001" />
-
-    <Spinner
-        android:id="@+id/ivaProduct"
-        android:autofillHints="23"
+    <TableRow
+        android:id="@+id/firstRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:gravity="end"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:background="@drawable/box_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameProduct"
-        app:layout_constraintVertical_bias="0.080"/>
+        android:layout_marginTop="100dp"
+        android:gravity="center">
 
+        <TextView
+            android:id="@+id/titleProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="@string/change_product" />
+    </TableRow>
 
-    <EditText
-        android:id="@+id/grossPriceProduct"
-        android:autofillHints="12.50"
-        android:layout_width="0dp"
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:padding="10dp"
-        android:hint="@string/gross_price_placeholder"
-        android:fontFamily="@font/montserrat_regular"
-        android:textSize="18sp"
-        android:background="@drawable/box_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivaProduct"
-        app:layout_constraintVertical_bias="0.080" />
+        android:gravity="center_vertical"
+        android:paddingTop="50dp"
+        android:layout_marginTop="100dp"
+        android:paddingBottom="50dp"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:id="@+id/secondRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/name_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/nameProduct"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:autofillHints="Pao"
+                android:background="@drawable/box_shape"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="end"
+                android:inputType="text"
+                android:hint="@string/no_content"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/thirdRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelIva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:text="@string/iva_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/ivaProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:background="@drawable/button_shape_light"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fourthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/labelGrossPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:text="@string/gross_price_label"
+                android:textColor="@color/first_red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/grossPriceProduct"
+                android:autofillHints="30.5"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/box_shape"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:hint="@string/no_content"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </TableRow>
+
+
+    </TableLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonNext"
+        android:id="@+id/buttonConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/button_shape"
+        android:text="@string/confirm"
         android:fontFamily="@font/montserrat_bold"
-        android:text="@string/create"
-        android:textColor="@color/background_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grossPriceProduct" />
+        android:textColor="@color/background_color" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

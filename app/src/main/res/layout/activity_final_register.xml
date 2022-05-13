@@ -1,317 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".controllers.register.FinalRegisterActivity"
-    android:background="@drawable/button_shape_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".controllers.register.FinalRegisterActivity">
 
-    <TableRow
-        android:id="@+id/firstRow"
+    <TextView
+        android:id="@+id/personalData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_black"
+        android:text="@string/personal_data"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13999999" />
+
+    <EditText
+        android:id="@+id/nifProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:autofillHints="123456789"
+        android:background="@drawable/box_shape"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_regular"
+        android:hint="@string/nif"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personalData"
+        app:layout_constraintVertical_bias="0.100000024" />
+
+    <EditText
+        android:id="@+id/addressProfile"
+        android:autofillHints="Rua de Cima"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/box_shape"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_regular"
+        android:hint="@string/address_store"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nifProfile"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/councilProfile"
+        android:autofillHints="Vila Nova de Gaia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/box_shape"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_regular"
+        android:hint="@string/council_store"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressProfile"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/zipCodeProfile"
+        android:autofillHints="1234-123"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:hint="@string/zip_code_store"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/councilProfile"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/birthDateProfile"
+        android:autofillHints="02/07/1994"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="date"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:hint="@string/birth_date"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zipCodeProfile"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <EditText
+        android:id="@+id/phoneNumberProfile"
+        android:autofillHints="911231212"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:hint="@string/contact_store"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthDateProfile"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <Spinner
+        android:id="@+id/statusStore"
+        android:autofillHints="23"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/titleProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:text="@string/personal_data" />
-    </TableRow>
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingTop="50dp"
-        android:paddingBottom="50dp"
-        android:stretchColumns="*">
-
-        <TableRow
-            android:id="@+id/secondRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelNif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/nif_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/nifProfile"
-                android:autofillHints="123456789"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="number"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/thirdRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/address_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/addressProfile"
-                android:autofillHints="Rua de Cima"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fourthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelCouncil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/council_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/councilProfile"
-                android:autofillHints="Vila Nova de Gaia"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fifthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelZipCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/zip_code_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/zipCodeProfile"
-                android:autofillHints="1234-123"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/sixthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelBirthDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/birth_date_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/birthDateProfile"
-                android:autofillHints="02/07/1994"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="date"
-                android:hint="@string/no_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/seventhRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/phone_number_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/phoneNumberProfile"
-                android:autofillHints="911231212"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="phone"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/eighthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/category_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/categoryProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:background="@drawable/button_shape_light"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/ninthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelStore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/store_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/storeProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:background="@drawable/button_shape_light"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-    </TableLayout>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="end"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberProfile"
+        app:layout_constraintVertical_bias="0.058"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonCreate"
+        android:id="@+id/buttonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/button_shape"
-        android:text="@string/create"
         android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/background_color" />
+        android:text="@string/create"
+        android:textColor="@color/background_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusStore" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

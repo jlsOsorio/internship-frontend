@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:autofillHints="Pão"
+        android:autofillHints="Rua de Cima"
         android:background="@drawable/box_shape"
         android:ems="10"
         android:fontFamily="@font/montserrat_regular"
@@ -44,7 +44,7 @@
 
     <EditText
         android:id="@+id/councilStore"
-        android:autofillHints="100"
+        android:autofillHints="Vila Nova de Gaia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -66,7 +66,7 @@
 
     <EditText
         android:id="@+id/zipCodeStore"
-        android:autofillHints="12.50"
+        android:autofillHints="1234-123"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -88,13 +88,13 @@
 
     <EditText
         android:id="@+id/contactStore"
-        android:autofillHints="12.50"
+        android:autofillHints="911231212"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="phone"
         android:minHeight="48dp"
         android:padding="10dp"
         android:hint="@string/contact_store"
@@ -110,7 +110,7 @@
 
     <EditText
         android:id="@+id/cashRegisterStore"
-        android:autofillHints="12.50"
+        android:autofillHints="5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

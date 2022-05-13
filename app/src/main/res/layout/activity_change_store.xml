@@ -22,7 +22,7 @@
             android:fontFamily="@font/montserrat_black"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:text="@string/store" />
+            android:text="@string/change_store" />
     </TableRow>
 
     <TableLayout
@@ -153,14 +153,14 @@
 
             <EditText
                 android:id="@+id/contactStore"
-                android:autofillHints="+351 911231212"
+                android:autofillHints="911231212"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="end"
-                android:inputType="text"
+                android:inputType="phone"
                 android:hint="@string/no_content"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
