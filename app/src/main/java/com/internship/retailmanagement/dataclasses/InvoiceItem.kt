@@ -1,5 +1,7 @@
 package com.internship.retailmanagement.dataclasses
 
+import com.internship.retailmanagement.dataclasses.users.UserItem
+
 data class InvoiceItem(
     val invoiceNumber: Long? = null,
     val transaction: String? = null,

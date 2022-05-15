@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityUserProfileBinding
-import com.internship.retailmanagement.dataclasses.UserItem
+import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import retrofit2.Call
@@ -33,8 +33,11 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var birthDate: TextView
     private lateinit var phoneNumber: TextView
     private lateinit var category: TextView
-    private lateinit var store: TextView
+    private lateinit var storeId: TextView
+    private lateinit var storeAddress: TextView
+    private lateinit var storeZipCode: TextView
     private lateinit var status: TextView
+    private lateinit var userItem: UserItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,13 +55,18 @@ class UserProfileActivity : AppCompatActivity() {
         birthDate = binding.birthDateProfile
         phoneNumber = binding.phoneNumberProfile
         category = binding.categoryProfile
-        store = binding.storeProfile
+        //store = binding.storeProfile
         status = binding.statusProfile
+        storeId = binding.idStore
+        storeAddress = binding.addressStore
+        storeZipCode = binding.zipCodeStore
+        userItem = UserItem(null, "","","","",0,"","","","","",null)
 
         getUser()
     }
 
     //Get user from API
+    @Synchronized
     private fun getUser() {
         try {
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
@@ -71,7 +79,6 @@ class UserProfileActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()!!
-                        gv.storeId = responseBody.storeId
                         email.text = responseBody.email
                         number.text = responseBody.id.toString()
                         name.text = responseBody.name
@@ -82,10 +89,13 @@ class UserProfileActivity : AppCompatActivity() {
                         birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
                         phoneNumber.text = responseBody.phone
                         category.text = responseBody.category
-                        store.text = responseBody.storeId.toString()
+                        storeId.text = responseBody.store!!.id.toString()
+                        storeAddress.text = responseBody.store.address
+                        storeZipCode.text = responseBody.store.zipCode
                         status.text = responseBody.status
-
                     }
+
+
                 }
 
                 override fun onFailure(call: Call<UserItem>, t: Throwable) {
@@ -95,10 +105,12 @@ class UserProfileActivity : AppCompatActivity() {
         }
         catch(e: IllegalStateException)
         {
+            e.printStackTrace()
             e.message.toString()
         }
         catch(e: NoSuchElementException)
         {
+            e.printStackTrace()
             e.message.toString()
         }
     }
@@ -151,4 +163,56 @@ class UserProfileActivity : AppCompatActivity() {
         formatter.timeZone = timeZone
         return formatter.format(this)
     }
+
+    /*//Get store from API
+    @Synchronized
+    private fun getStore() {
+        try {
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val storeCall = serviceGenerator.getStore(gv.storeId!!)
+
+            storeCall.enqueue(object : Callback<StoreItem> {
+                override fun onResponse(
+                    call: Call<StoreItem>,
+                    response: Response<StoreItem>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()!!
+
+                        storeId.text = responseBody.id.toString()
+                        storeAddress.text = responseBody.address
+                        storeZipCode.text = responseBody.zipCode
+
+                        /*gv.storeId = responseBody.storeId
+                        email.text = responseBody.email
+                        number.text = responseBody.id.toString()
+                        name.text = responseBody.name
+                        nif.text = responseBody.nif.toString()
+                        address.text = responseBody.address
+                        council.text = responseBody.council
+                        zipCode.text = responseBody.zipCode
+                        birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
+                        phoneNumber.text = responseBody.phone
+                        category.text = responseBody.category
+                        store.text = responseBody.storeId.toString()
+                        status.text = responseBody.status*/
+
+                    }
+                }
+
+                override fun onFailure(call: Call<StoreItem>, t: Throwable) {
+                    Log.e("UserProfileActivity", "Error:" + t.message.toString())
+                }
+            })
+        }
+        catch(e: IllegalStateException)
+        {
+            e.message.toString()
+        }
+        catch(e: NoSuchElementException)
+        {
+            e.message.toString()
+        }
+    }*/
+
 }

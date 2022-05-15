@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.UserItem
+import com.internship.retailmanagement.dataclasses.users.UserItem
 import kotlinx.android.synthetic.main.user_card.view.*
 
-class UsersAdapter(private var usersList: MutableList<UserItem>, private val editListener: (UserItem, Long) -> Unit, private val infoListener: (UserItem, Long) -> Unit) :
+class UsersAdapter(private var usersList: MutableList<UserItem>, private val editListener: (UserItem, Long, Long, String, String) -> Unit, private val infoListener: (UserItem, Long) -> Unit) :
     RecyclerView.Adapter<UsersAdapter.UserCardViewHolder>(), Filterable {
 
     val usersListClone: List<UserItem>
@@ -30,7 +30,7 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val edi
                 private val statusUncheckView: ImageView = itemView.statusUncheckCard
                 private val editView: ImageView = itemView.updateCard
 
-                fun bindView(userItem: UserItem, editListener: (UserItem, Long) -> Unit, infoListener: (UserItem, Long) -> Unit) {
+                fun bindView(userItem: UserItem, editListener: (UserItem, Long, Long, String, String) -> Unit, infoListener: (UserItem, Long) -> Unit) {
                     statusCheckView.visibility = View.INVISIBLE
                     statusUncheckView.visibility = View.INVISIBLE
 
@@ -46,7 +46,7 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val edi
                     }
 
                     editView.setOnClickListener{
-                        editListener(userItem, userItem.id!!) //Go to changing content activity of this specific user
+                        editListener(userItem, userItem.id!!, userItem.store!!.id, userItem.status!!, userItem.category!!) //Go to changing content activity of this specific user
                     }
 
                     itemView.setOnClickListener{

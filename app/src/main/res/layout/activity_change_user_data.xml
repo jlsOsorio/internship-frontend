@@ -1,414 +1,420 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".controllers.ChangeUserDataActivity"
-    android:background="@drawable/button_shape_light"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".controllers.ChangeUserDataActivity">
 
-        <TableRow
-            android:id="@+id/firstRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/titleProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_black"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:text="@string/change_employee" />
-        </TableRow>
-
-    <TableLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/button_shape_light"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingTop="50dp"
-        android:paddingBottom="50dp"
-        android:stretchColumns="*">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TableRow
-            android:id="@+id/secondRow"
+            <TableRow
+                android:id="@+id/firstRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/titleProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:text="@string/change_employee" />
+            </TableRow>
+
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start">
+            android:gravity="center_vertical"
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp"
+            android:stretchColumns="*">
 
-            <TextView
-                android:id="@+id/labelEmail"
+            <TableRow
+                android:id="@+id/secondRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/email_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp" />
+                android:gravity="start">
 
-            <EditText
-                android:id="@+id/emailProfile"
+                <TextView
+                    android:id="@+id/labelEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="@string/email_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/emailProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:autofillHints="login@email.com"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/thirdRow"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:autofillHints="login@email.com"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="textEmailAddress"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
-        </TableRow>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
 
-        <TableRow
-            android:id="@+id/thirdRow"
+                <TextView
+                    android:id="@+id/labelName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/name_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/nameProfile"
+                    android:autofillHints="Joao"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="text"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/fourthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelNif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/nif_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/nifProfile"
+                    android:autofillHints="123456789"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="number"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/fifthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/address_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/addressProfile"
+                    android:autofillHints="Rua de Cima"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="text"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/sixthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelCouncil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/council_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/councilProfile"
+                    android:autofillHints="Vila Nova de Gaia"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="text"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/seventhRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelZipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/zip_code_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/zipCodeProfile"
+                    android:autofillHints="1234-123"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="text"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/eighthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelBirthDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/birth_date_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/birthDateProfile"
+                    android:autofillHints="02/07/1994"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="date"
+                    android:hint="@string/no_content"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/ninthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/phone_number_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/phoneNumberProfile"
+                    android:autofillHints="911231212"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/box_shape"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:inputType="phone"
+                    android:hint="@string/no_content"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tenthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/category_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/categoryProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:background="@drawable/button_shape_light"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/eleventhRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelStore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/store_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/storeProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:background="@drawable/button_shape_light"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/twelfthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/labelStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/status_label"
+                    android:textColor="@color/first_red"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/statusProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:background="@drawable/button_shape_light"
+                    android:gravity="end"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </TableRow>
+        </TableLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/button_shape"
+            android:text="@string/confirm"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/background_color" />
 
-            <TextView
-                android:id="@+id/labelName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/name_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/nameProfile"
-                android:autofillHints="Joao"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fourthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelNif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/nif_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/nifProfile"
-                android:autofillHints="123456789"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="number"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/fifthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/address_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/addressProfile"
-                android:autofillHints="Rua de Cima"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/sixthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelCouncil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/council_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/councilProfile"
-                android:autofillHints="Vila Nova de Gaia"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/seventhRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelZipCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/zip_code_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/zipCodeProfile"
-                android:autofillHints="1234-123"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="text"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/eighthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelBirthDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/birth_date_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/birthDateProfile"
-                android:autofillHints="02/07/1994"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="date"
-                android:hint="@string/no_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/ninthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/phone_number_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/phoneNumberProfile"
-                android:autofillHints="911231212"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
-                android:fontFamily="@font/montserrat_regular"
-                android:gravity="end"
-                android:inputType="phone"
-                android:hint="@string/no_content"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tenthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/category_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/categoryProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:background="@drawable/button_shape_light"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/eleventhRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelStore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/store_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/storeProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:background="@drawable/button_shape_light"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/twelfthRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start">
-
-            <TextView
-                android:id="@+id/labelStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginStart="5dp"
-                android:text="@string/status_label"
-                android:textColor="@color/first_red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/statusProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:background="@drawable/button_shape_light"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </TableRow>
-    </TableLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/button_shape"
-        android:text="@string/confirm"
-        android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/background_color" />
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

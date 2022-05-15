@@ -84,7 +84,7 @@ class OperatingFundsActivity : AppCompatActivity() {
                         opFundsList.clear()
                         opFundsList.addAll(response.body()!!.toMutableList())
                         mAdapter = OpFundsAdapter(opFundsList, { _, id ->""
-                            //executeOtherActivity(StockMovement::class.java, id)
+                            executeOtherActivity(ChangeOperatingFundActivity::class.java, id)
                         }, { _,id->""
                             //executeOtherActivity(ChangeProductDataActivity::class.java, id)
                         })
@@ -107,7 +107,8 @@ class OperatingFundsActivity : AppCompatActivity() {
     }
 
     //Save user email in global var to set it in the update page
-    private fun executeOtherActivity(otherActivity: Class<*>) {
+    private fun executeOtherActivity(otherActivity: Class<*>, id: Long) {
+        gv.opFundId = id
         val x = Intent(this@OperatingFundsActivity, otherActivity)
         startActivity(x)
     }

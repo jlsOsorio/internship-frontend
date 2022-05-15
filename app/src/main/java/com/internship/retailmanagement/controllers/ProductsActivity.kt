@@ -12,11 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
-import com.internship.retailmanagement.controllers.adapters.UsersAdapter
 import com.internship.retailmanagement.databinding.ActivityProductsBinding
 import com.internship.retailmanagement.dataclasses.ProductItem
-import com.internship.retailmanagement.dataclasses.StockMovItem
-import com.internship.retailmanagement.dataclasses.UserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*

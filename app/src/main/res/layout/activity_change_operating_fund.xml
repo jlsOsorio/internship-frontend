@@ -64,7 +64,7 @@
                 android:inputType="numberDecimal"
                 android:hint="@string/no_content"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
         </TableRow>
 
         <TableRow

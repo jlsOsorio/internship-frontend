@@ -28,7 +28,7 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
         private val dateView: TextView = itemView.dateCard
         private val entryView: TextView = itemView.entryCard
         private val exitView: TextView = itemView.exitCard
-        private val editView: ImageView = itemView.updateCard
+        private val editView: ImageView = itemView.updateCardOpFund
         private val removeView: ImageView = itemView.removeCard
 
         fun bindView(opFundItem: OpFundItem, editListener: (OpFundItem, Long) -> Unit, removeListener: (OpFundItem, Long) -> Unit) {

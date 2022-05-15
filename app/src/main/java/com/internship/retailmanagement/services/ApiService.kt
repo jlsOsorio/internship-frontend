@@ -1,9 +1,11 @@
 package com.internship.retailmanagement.services
 
-import com.internship.retailmanagement.controllers.ChangeUserDataActivity
 import com.internship.retailmanagement.dataclasses.*
+import com.internship.retailmanagement.dataclasses.users.InsertUserItem
+import com.internship.retailmanagement.dataclasses.users.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -18,13 +20,17 @@ interface ApiService {
     @GET("/users")
     fun getUsers(): Call<MutableList<UserItem>>
 
+    //All users
+    @GET("/users")
+    suspend fun getUsersProfile(): Response<MutableList<UserItem>>
+
     //Specific user
     @GET("/users/{id}")
     fun getUser(@Path(value = "id", encoded = false) id: Long): Call<UserItem>
 
     //Update user
     @PUT("/users/{id}")
-    fun updateUser(@Path("id") id: Long?, @Body user: UserItem?): Call<ResponseBody?>
+    fun updateUser(@Path("id") id: Long?, @Body user: InsertUserItem?): Call<ResponseBody?>
 
     //////////////// OPERATING FUNDS ////////////////
     //By user

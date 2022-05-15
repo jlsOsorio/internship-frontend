@@ -16,7 +16,7 @@
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_password.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_product.xml" value="0.2" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_store.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_user_data.xml" value="0.152" />
+        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_user_data.xml" value="0.2" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_invoice.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_operating_fund.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_product.xml" value="0.176" />
@@ -37,7 +37,7 @@
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_stock_movement.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_store_details.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_stores.xml" value="0.24010416666666667" />
-        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_user_profile.xml" value="0.2" />
+        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_user_profile.xml" value="0.264" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_users.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/invoice_card.xml" value="0.2" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/operating_fund_card.xml" value="0.264" />

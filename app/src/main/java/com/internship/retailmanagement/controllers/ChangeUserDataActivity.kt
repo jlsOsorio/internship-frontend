@@ -14,7 +14,8 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.StoreSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeUserDataBinding
 import com.internship.retailmanagement.dataclasses.StoreItem
-import com.internship.retailmanagement.dataclasses.UserItem
+import com.internship.retailmanagement.dataclasses.users.InsertUserItem
+import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
@@ -88,22 +89,25 @@ class ChangeUserDataActivity : AppCompatActivity() {
             ).show()
         }
 
-        getStores()
         getUser()
+        getStores()
 
         val categories : ArrayList<String> = arrayListOf("SUPERVISOR", "EMPLOYEE")
-
-       /* for (cat in categories)
-        {
-            if (gv.userCategory!! == cat)
-            {
-                categories.remove(cat)
-            }
-        }*/
-
+        val statusArr : ArrayList<String> = arrayListOf("ACTIVE", "INACTIVE")
 
         val categoriesAdapter = ArrayAdapter(this@ChangeUserDataActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories)
         category.adapter = categoriesAdapter
+        val catPos = categories.indexOfFirst {
+            it == gv.userCategory
+        }
+        category.setSelection(catPos)
+
+        val statusAdapter = ArrayAdapter(this@ChangeUserDataActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, statusArr)
+        status.adapter = statusAdapter
+        val statPos = statusArr.indexOfFirst {
+            it == gv.userStatus
+        }
+        status.setSelection(statPos)
 
         category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -122,16 +126,40 @@ class ChangeUserDataActivity : AppCompatActivity() {
 
         }
 
+        status.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                gv.userStatus = statusArr[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
         confirm.setOnClickListener {
-            //putMethod()
+            putMethod()
+            finish()
         }
 
     }
 
     private fun setupCustomSpinner() {
+        val storePos = storesList.indexOfFirst {
+            it.id == gv.storeId
+        }
 
+        Log.e("ASDASDASD", gv.storeId.toString())
         val adapter = StoreSpinnerAdapter(this@ChangeUserDataActivity, storesList)
         stores.adapter = adapter
+
+        stores.setSelection(storePos)
     }
 
     //Get user from API
@@ -157,7 +185,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         birthDate.setText(responseBody.birthDate!!.toDate("yyyy-MM-dd'T'HH:mm:ss'Z'").formatTo("dd-MM-yyyy"))
                         phoneNumber.setText(responseBody.phone)
                         gv.userCategory = responseBody.category
-                        //status.setText(responseBody.status)
+                        gv.userStatus = responseBody.status
                     }
                 }
 
@@ -176,7 +204,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
         }
     }
 
-    /*@Synchronized
+    @Synchronized
     private fun putMethod() {
         val nameStr = name.text.toString()
         val emailStr = email.text.toString()
@@ -184,13 +212,11 @@ class ChangeUserDataActivity : AppCompatActivity() {
         val birthDateStr = birthDate.text.toString()
         val nifLong = Integer.parseInt(nif.text.toString()).toLong()
         //val categoryStr = category.text.toString()
-        val statusStr = status.text.toString()
         val addressStr = address.text.toString()
         val councilStr = council.text.toString()
         val zipCodeStr = zipCode.text.toString()
-        //val storeIdLong = Integer.parseInt(store.text.toString()).toLong()
 
-        val userUpdate = UserItem(
+        val userUpdate = InsertUserItem(
             gv.userId,
             nameStr,
             emailStr,
@@ -198,7 +224,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
             birthDateStr.toDate("dd-MM-yyyy").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
             nifLong,
             gv.userCategory,
-            statusStr,
+            gv.userStatus,
             addressStr,
             councilStr,
             zipCodeStr,
@@ -218,7 +244,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
             }
         }
             )
-    }*/
+    }
 
     /**
      * Overwrite method to generate menu in action bar.

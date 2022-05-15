@@ -336,7 +336,51 @@
                 android:textColor="@color/first_red"
                 android:text="@string/store_label" />
 
-            <TextView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:id="@+id/idStore"
+                    android:text="@string/id_store"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/first_red"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/id_store" />
+
+
+                <TextView
+                    android:id="@+id/addressStore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/idStore"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/address_store"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/zipCodeStore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addressStore"
+                    android:layout_toEndOf="@id/idStore"
+                    android:text="@string/zip_code_store"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+            <!--<TextView
                 android:id="@+id/storeProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -344,7 +388,7 @@
                 android:gravity="end"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:text="@string/no_content" />
+                android:text="@string/no_content" />-->
 
         </TableRow>
         <TableRow

@@ -74,7 +74,7 @@
             tools:ignore="RelativeOverlap" />
 
         <ImageView
-            android:id="@+id/updateCard"
+            android:id="@+id/updateCardOpFund"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"

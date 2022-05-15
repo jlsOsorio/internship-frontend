@@ -1,4 +1,4 @@
-package com.internship.retailmanagement.dataclasses
+package com.internship.retailmanagement.dataclasses.users
 
 data class StoreUserItem(
     val id: Long,
