@@ -123,4 +123,6 @@
     <string name="change_employee">Edit employee</string>
     <string name="nif">NIF</string>
     <string name="birth_date">Birth Date</string>
+    <string name="value_name_iva">Value Name</string>
+    <string name="value_iva">Value</string>
 </resources>

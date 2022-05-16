@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/idIva"
+        android:text="@string/id_store"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/first_red"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/id_store" />
+
+
+    <TextView
+        android:id="@+id/valueNameIva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/idIva"
+        android:text="@string/value_name_iva"
+        android:fontFamily="@font/montserrat_bold"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/valueIva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/valueNameIva"
+        android:layout_toEndOf="@id/idIva"
+        android:fontFamily="@font/montserrat_regular"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/value_iva"
+        android:textSize="12sp" />
+
+</RelativeLayout>

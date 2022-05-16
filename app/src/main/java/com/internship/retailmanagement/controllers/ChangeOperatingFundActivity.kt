@@ -66,22 +66,19 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
 
         entryQty.setText(gv.opFundEntryQty.toString())
         exitQty.setText(gv.opFundExitQty.toString())
-        moment.setText(gv.opFundMoment!!.toDate("yyyy-MM-dd'T'HH:mm:ss'Z'").formatTo("dd-MM-yyyy"))
+        moment.setText(gv.opFundMoment!!.toDate("yyyy-MM-dd'T'HH:mm:ss'Z'").formatTo("dd-MM-yyyy HH:mm:ss"))
 
         getCashRegisters()
 
         confirm.setOnClickListener {
-            putMethod()
+            putOpFund()
             finish()
         }
-
-        Log.e("asdadsadasdsada", gv.userId.toString())
-        Log.e("asdadsadasdsada", gv.opFundMoment.toString())
 
     }
 
     private fun updateLabel() {
-        val myFormat = "dd-MM-yyyy"
+        val myFormat = "dd-MM-yyyy HH:mm:ss"
         val dateFormat = SimpleDateFormat(myFormat, Locale.US)
         moment.setText(dateFormat.format(myCalendar.time))
     }
@@ -138,13 +135,13 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<MutableList<CashRegisterItem>>, t: Throwable) {
                     t.printStackTrace()
-                    Log.e("UsersActivity", "Error:" + t.message.toString())
+                    Log.e("ChangeOpFundActivity", "Error:" + t.message.toString())
                 }
             })
     }
 
     @Synchronized
-    private fun putMethod() {
+    private fun putOpFund() {
         val entryStr = entryQty.text.toString()
         val exitStr = exitQty.text.toString()
         val momentStr = moment.text.toString()
@@ -152,7 +149,7 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
         val opFundUpdate = InsertOpFundItem(
             entryStr.toDouble(),
             exitStr.toDouble(),
-            momentStr.toDate("dd-MM-yyyy").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            momentStr.toDate("dd-MM-yyyy HH:mm:ss").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
             gv.opFundCashRegister
         )
 

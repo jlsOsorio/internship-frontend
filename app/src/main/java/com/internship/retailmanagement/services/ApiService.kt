@@ -3,6 +3,8 @@ package com.internship.retailmanagement.services
 import com.internship.retailmanagement.dataclasses.*
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
+import com.internship.retailmanagement.dataclasses.products.ProductItem
+import com.internship.retailmanagement.dataclasses.products.UpdateProductItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import okhttp3.ResponseBody
@@ -58,11 +60,17 @@ interface ApiService {
     @GET("/products")
     fun getProducts(): Call<MutableList<ProductItem>>
 
+    @PUT("/products/{id}")
+    fun updateProduct(@Path("id") id: Long?, @Body product: UpdateProductItem?): Call<ResponseBody?>
+
     //////////////// STOCK MOVEMENTS ////////////////
     //By product
     @GET("/stockmovements/{productId}")
     fun getStockMovements(@Path(value = "id", encoded = false) id: Long): Call<StockMovItem>
 
+    //////////////// IVA ////////////////
+    @GET("/iva")
+    fun getIvaValues(): Call<MutableList<IvaItem>>
 
     //////////////// INVOICES ////////////////
     @GET("/invoices")

@@ -33,7 +33,7 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
 
         fun bindView(opFundItem: OpFundItem, editListener: (OpFundItem, Long, Double, Double, Long, String) -> Unit, removeListener: (OpFundItem, Long) -> Unit) {
 
-            dateView.text = opFundItem.moment!!.toDate().formatTo("dd-MM-yyyy")
+            dateView.text = opFundItem.moment!!.toDate().formatTo("dd-MM-yyyy HH:mm:ss")
             entryView.text = opFundItem.entryQty.toString()
             exitView.text = opFundItem.exitQty.toString()
 

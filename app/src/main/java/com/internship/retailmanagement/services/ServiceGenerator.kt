@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 //base url
-const val BASE_URL = "http://192.168.1.102:8080"
+const val BASE_URL = "http://localhost:8080"
 
 /**
  * Service that provides the JSON result from the base URL, based on Retrofit.

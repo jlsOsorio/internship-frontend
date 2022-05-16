@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.ProductItem
+import com.internship.retailmanagement.dataclasses.products.ProductItem
 import kotlinx.android.synthetic.main.product_card.view.*
 
-class ProductsAdapter(private var productsList: MutableList<ProductItem>, private val stockMovListener: (ProductItem, Long) -> Unit, private val editListener: (ProductItem, Long) -> Unit, private val removeListener: (ProductItem, Long) -> Unit) :
+class ProductsAdapter(private var productsList: MutableList<ProductItem>, private val stockMovListener: (ProductItem, Long) -> Unit, private val editListener: (ProductItem, Long, String, Int, Double) -> Unit, private val removeListener: (ProductItem, Long) -> Unit) :
     RecyclerView.Adapter<ProductsAdapter.ProductCardViewHolder>(), Filterable {
 
     val productsListClone: List<ProductItem>
@@ -31,14 +31,14 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
         private val editView: ImageView = itemView.updateCard
         private val removeView: ImageView = itemView.removeCard
 
-        fun bindView(productItem: ProductItem, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
+        fun bindView(productItem: ProductItem, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long, String, Int, Double) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
 
             nameView.text = productItem.name
             stockView.text = productItem.stock.toString()
             grossPriceView.text = productItem.grossPrice.toString()
 
             editView.setOnClickListener{
-                editListener(productItem, productItem.id!!) //Go to changing content activity of this specific user
+                editListener(productItem, productItem.id!!, productItem.name!!, productItem.ivaValue!!.toInt(), productItem.grossPrice!!) //Go to changing content activity of this specific user
             }
 
             stockMovView.setOnClickListener{

@@ -13,7 +13,7 @@ import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
 import com.internship.retailmanagement.databinding.ActivityProductsBinding
-import com.internship.retailmanagement.dataclasses.ProductItem
+import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
@@ -51,7 +51,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -81,8 +81,8 @@ class ProductsActivity : AppCompatActivity() {
                         productsList.addAll(response.body()!!.toMutableList())
                         mAdapter = ProductsAdapter(productsList, { _, id ->""
                             //executeOtherActivity(StockMovement::class.java, id)
-                        }, { _,id->""
-                            //executeOtherActivity(ChangeProductDataActivity::class.java, id)
+                        }, { _,id, name, ivaValue, grossPrice->
+                            executeOtherActivity(ChangeProductActivity::class.java, id, name, ivaValue, grossPrice)
                         }, { _,id ->
                             "" //deleteProduct)
                         })
@@ -106,8 +106,11 @@ class ProductsActivity : AppCompatActivity() {
 
     //Save user email in global var to set it in the update page
     private fun executeOtherActivity(otherActivity: Class<*>,
-                                     id: Long) {
+                                     id: Long, name: String, ivaValue: Int, grossPrice: Double ) {
         gv.productId = id
+        gv.productName = name
+        gv.productIva = ivaValue
+        gv.productGrossPrice = grossPrice
         val x = Intent(this@ProductsActivity, otherActivity)
         startActivity(x)
     }
@@ -135,5 +138,18 @@ class ProductsActivity : AppCompatActivity() {
             R.id.signOutMenu -> null
         }
         return true
+    }
+
+    /**
+     * When update or create a new product, this activity must "auto refresh" to show immediatly the changes. So the method "onRestart()",
+     * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
+     */
+    override fun onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+
     }
 }
