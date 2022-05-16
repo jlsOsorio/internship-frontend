@@ -16,6 +16,7 @@ class GlobalVar : Application() {
     var storeStatus: String? = null
     var productId: Long? = null
     var productName: String? = null
+    var productStock: Int? = null
     var productIva: Int? = null
     var productGrossPrice: Double? = null
     var opFundId: Long? = null

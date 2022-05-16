@@ -62,7 +62,7 @@ class ChangeProductActivity : AppCompatActivity() {
         ivaValue.setSelection(ivaPos)
     }
 
-    //Get cash registers from API
+    //Get iva taxes from API
     @Synchronized
     private fun getIvaValues() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
@@ -131,7 +131,7 @@ class ChangeProductActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("ChangeOpFundActivity", "Error:" + t.message.toString())
+                Log.e("ChangeProductActivity", "Error:" + t.message.toString())
             }
         }
         )

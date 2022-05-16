@@ -76,7 +76,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
         val defaultAdapter = ArrayAdapter(this@CreateOperatingFundActivity, R.layout.support_simple_spinner_dropdown_item, defaultValue)
         cashRegisters.adapter = defaultAdapter
 
-        cashRegisters.setOnTouchListener { v, event ->
+        cashRegisters.setOnTouchListener { _, _ ->
             getCashRegisters()
             false
         }
@@ -182,7 +182,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
      * @param timeZone      timeZone UTC
      * @return Date
      */
-    fun String.toDate(dateFormat: String, timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+    private fun String.toDate(dateFormat: String, timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
         val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
         parser.timeZone = timeZone
         return parser.parse(this)!!

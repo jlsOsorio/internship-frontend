@@ -3,6 +3,7 @@ package com.internship.retailmanagement.services
 import com.internship.retailmanagement.dataclasses.*
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
+import com.internship.retailmanagement.dataclasses.products.InsertProductItem
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.dataclasses.products.UpdateProductItem
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
@@ -40,6 +41,7 @@ interface ApiService {
     @GET("/operatingfunds/{userId}")
     fun getOpFunds(@Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>
 
+    //Post user operating fund
     @POST("/operatingfunds/{userId}")
     fun addOperatingFund(@Path("userId") id: Long?, @Body opFund: InsertOpFundItem): Call<ResponseBody>
 
@@ -64,6 +66,9 @@ interface ApiService {
     //All products
     @GET("/products")
     fun getProducts(): Call<MutableList<ProductItem>>
+
+    @POST("/products")
+    fun addProduct(@Body opFund: InsertProductItem): Call<ResponseBody>
 
     @PUT("/products/{id}")
     fun updateProduct(@Path("id") id: Long?, @Body product: UpdateProductItem?): Call<ResponseBody?>

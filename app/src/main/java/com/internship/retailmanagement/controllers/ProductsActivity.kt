@@ -61,6 +61,10 @@ class ProductsActivity : AppCompatActivity() {
         }
 
         getMyData()
+
+        fab.setOnClickListener{
+            executeOtherActivity(CreateProductActivity::class.java, 0, "", -1, 0.0)
+        }
     }
 
     //Get products from API
