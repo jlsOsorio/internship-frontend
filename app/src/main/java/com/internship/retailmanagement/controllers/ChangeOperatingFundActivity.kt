@@ -154,9 +154,9 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
         )
 
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val userPut = serviceGenerator.updateOpFund(gv.opFundId, opFundUpdate)
+        val opFundPut = serviceGenerator.updateOpFund(gv.opFundId, opFundUpdate)
 
-        userPut.enqueue(object : Callback<ResponseBody?> {
+        opFundPut.enqueue(object : Callback<ResponseBody?> {
 
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                 gv.opFundEntryQty = opFundUpdate.entryQty

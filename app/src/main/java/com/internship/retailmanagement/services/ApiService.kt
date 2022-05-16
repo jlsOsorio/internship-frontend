@@ -12,10 +12,7 @@ import com.internship.retailmanagement.dataclasses.users.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.*
 
 
 interface ApiService {
@@ -42,6 +39,9 @@ interface ApiService {
     //By user
     @GET("/operatingfunds/{userId}")
     fun getOpFunds(@Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>
+
+    @POST("/operatingfunds/{userId}")
+    fun addOperatingFund(@Path("userId") id: Long?, @Body opFund: InsertOpFundItem): Call<ResponseBody>
 
     //Update user's operating fund
     @PUT("/operatingfunds/{userId}")

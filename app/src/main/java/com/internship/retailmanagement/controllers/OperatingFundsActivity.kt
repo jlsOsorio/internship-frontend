@@ -63,6 +63,10 @@ class OperatingFundsActivity : AppCompatActivity() {
         }
 
         getOperatingFunds()
+
+        fab.setOnClickListener{
+            executeOtherActivity(CreateOperatingFundActivity::class.java, 0, 0.0, 0.0, 0, "")
+        }
     }
 
     //Get operating funds from API
