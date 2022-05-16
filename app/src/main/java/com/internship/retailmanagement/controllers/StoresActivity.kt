@@ -13,7 +13,8 @@ import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.StoresAdapter
 import com.internship.retailmanagement.databinding.ActivityStoresBinding
-import com.internship.retailmanagement.dataclasses.StoreItem
+import com.internship.retailmanagement.dataclasses.CashRegisterItem
+import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
@@ -52,7 +53,7 @@ class StoresActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = StoresAdapter(storesList, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = StoresAdapter(storesList, { _, _, _, _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -81,8 +82,15 @@ class StoresActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         storesList.clear()
                         storesList.addAll(response.body()!!.toMutableList())
-                        mAdapter = StoresAdapter(storesList, { _, id ->
-                            executeOtherActivity(ChangeStoreActivity::class.java, id)
+                        mAdapter = StoresAdapter(storesList, {
+                            _,
+                            id, storeAddress,
+                            storeCouncil,
+                            storeZipCode,
+                            storeContact,
+                            storeStatus,
+                            cashRegisters ->
+                            executeOtherActivity(ChangeStoreActivity::class.java, id, storeAddress, storeCouncil, storeZipCode, storeContact, storeStatus, cashRegisters)
                         }, { _, id ->""
                             //executeOtherActivity(UserProfileActivity::class.java, id)
                         })
@@ -103,10 +111,51 @@ class StoresActivity : AppCompatActivity() {
         swipeRefreshUsers.isRefreshing = false
     }
 
+   /* //Get cash registers from API
+    @Synchronized
+    private fun getCashRegisters() {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+
+        val crCall = serviceGenerator.getCashRegisters()
+
+        crCall.enqueue(
+            object : Callback<MutableList<CashRegisterItem>> {
+                override fun onResponse(
+                    call: Call<MutableList<CashRegisterItem>>,
+                    response: Response<MutableList<CashRegisterItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        crList.clear()
+                        crList.addAll(response.body()!!.toMutableList())
+                        gv.storeNumberCR = crList.size
+
+                        }
+                    }
+
+                override fun onFailure(call: Call<MutableList<CashRegisterItem>>, t: Throwable) {
+                    t.printStackTrace()
+                    Log.e("ChangeOpFundActivity", "Error:" + t.message.toString())
+                }
+            })
+    }*/
+
     //Save user email in global var to set it in the update page
     private fun executeOtherActivity(otherActivity: Class<*>,
-                                     id: Long) {
+                                     id: Long,
+                                     storeAddress: String,
+                                     storeCouncil: String,
+                                     storeZipCode: String,
+                                     storeContact: String,
+                                     storeStatus: String,
+                                     cashRegisters: Int)
+    {
         gv.storeId = id
+        gv.storeAddress = storeAddress
+        gv.storeCouncil = storeCouncil
+        gv.storeZipCode = storeZipCode
+        gv.storeContact = storeContact
+        gv.storeStatus = storeStatus
+        gv.storeNumberCR = cashRegisters
         val x = Intent(this@StoresActivity, otherActivity)
         startActivity(x)
     }
@@ -128,8 +177,8 @@ class StoresActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> executeOtherActivity(UserProfileActivity::class.java, gv.userId!!)
-            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java, gv.userId!!)
+            R.id.profileMenu -> executeOtherActivity(UserProfileActivity::class.java, gv.userId!!, gv.storeAddress!!, gv.storeCouncil!!, gv.storeZipCode!!, gv.storeContact!!, gv.storeStatus!!, gv.storeNumberCR!!)
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java, gv.userId!!, gv.storeAddress!!, gv.storeCouncil!!, gv.storeZipCode!!, gv.storeContact!!, gv.storeStatus!!, gv.storeNumberCR!!)
             R.id.signOutMenu -> null
         }
         return true

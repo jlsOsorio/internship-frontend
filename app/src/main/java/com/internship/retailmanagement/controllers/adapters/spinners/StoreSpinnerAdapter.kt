@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.StoreItem
+import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import kotlinx.android.synthetic.main.store_spinner.view.*
 
 class StoreSpinnerAdapter(context: Context, storeList: MutableList<StoreItem>) : ArrayAdapter<StoreItem>(context, 0, storeList) {

@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.StoreItem
+import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import kotlinx.android.synthetic.main.store_card.view.*
 
-class StoresAdapter(private var storesList: MutableList<StoreItem>, private val editListener: (StoreItem, Long) -> Unit, private val removeListener: (StoreItem, Long) -> Unit) :
+class StoresAdapter(private var storesList: MutableList<StoreItem>, private val editListener: (StoreItem, Long, String, String, String, String, String, Int) -> Unit, private val removeListener: (StoreItem, Long) -> Unit) :
     RecyclerView.Adapter<StoresAdapter.StoreCardViewHolder>(), Filterable {
 
     private val storesListClone: List<StoreItem>
@@ -30,14 +30,22 @@ class StoresAdapter(private var storesList: MutableList<StoreItem>, private val 
         private val editView: ImageView = itemView.updateCard
         private val removeView: ImageView = itemView.removeCard
 
-        fun bindView(storeItem: StoreItem, editListener: (StoreItem, Long) -> Unit, removeListener: (StoreItem, Long) -> Unit) {
+        fun bindView(storeItem: StoreItem, editListener: (StoreItem, Long, String, String, String, String, String, Int) -> Unit, removeListener: (StoreItem, Long) -> Unit) {
 
             cityView.text = storeItem.council
             addressView.text = storeItem.address
             zipCodeView.text = storeItem.zipCode
 
             editView.setOnClickListener{
-                editListener(storeItem, storeItem.id!!) //Go to changing content activity of this specific user
+                editListener(
+                    storeItem,
+                    storeItem.id!!,
+                    storeItem.address!!,
+                    storeItem.council!!,
+                    storeItem.zipCode!!,
+                    storeItem.contact!!,
+                    storeItem.status!!,
+                    storeItem.cashRegisters!!.size) //Go to changing content activity of this specific user
             }
 
             removeView.setOnClickListener{

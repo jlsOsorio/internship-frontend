@@ -5,6 +5,8 @@ import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundIt
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.dataclasses.products.UpdateProductItem
+import com.internship.retailmanagement.dataclasses.stores.StoreItem
+import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import okhttp3.ResponseBody
@@ -53,6 +55,9 @@ interface ApiService {
     //Specific store
     @GET("/stores/{id}")
     fun getStore(@Path(value = "id", encoded = false) id: Long): Call<StoreItem>
+
+    @PUT("/stores/{id}")
+    fun updateStore(@Path("id") id: Long?, @Body store: UpdateStoreItem?): Call<ResponseBody?>
 
 
     //////////////// PRODUCTS ////////////////

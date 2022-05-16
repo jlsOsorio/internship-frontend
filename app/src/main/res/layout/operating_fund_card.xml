@@ -15,9 +15,9 @@
             android:id="@+id/dateCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/date_placeholder"
             android:layout_centerVertical="true"
             android:fontFamily="@font/montserrat_bold"
+            android:hint="@string/date_placeholder"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textSize="12sp" />

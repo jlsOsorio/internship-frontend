@@ -8,6 +8,12 @@ class GlobalVar : Application() {
     var userCategory: String? = null
     var userStatus: String? = null
     var storeId: Long? = null
+    var storeAddress: String? = null
+    var storeCouncil: String? = null
+    var storeZipCode: String? = null
+    var storeContact: String? = null
+    var storeNumberCR: Int? = null
+    var storeStatus: String? = null
     var productId: Long? = null
     var productName: String? = null
     var productIva: Int? = null
