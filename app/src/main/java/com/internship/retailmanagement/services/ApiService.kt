@@ -1,6 +1,8 @@
 package com.internship.retailmanagement.services
 
 import com.internship.retailmanagement.dataclasses.*
+import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
+import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import okhttp3.ResponseBody
@@ -37,6 +39,10 @@ interface ApiService {
     @GET("/operatingfunds/{userId}")
     fun getOpFunds(@Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>
 
+    //Update user's operating fund
+    @PUT("/operatingfunds/{userId}")
+    fun updateOpFund(@Path("userId") id: Long?, @Body opFund: InsertOpFundItem?): Call<ResponseBody?>
+
     //////////////// STORES ////////////////
     //All stores
     @GET("/stores")
@@ -61,5 +67,10 @@ interface ApiService {
     //////////////// INVOICES ////////////////
     @GET("/invoices")
     fun getInvoices(): Call<MutableList<InvoiceItem>>
+
+
+    //////////////// CASH REGISTERS ////////////////
+    @GET("/cashregisters")
+    fun getCashRegisters(): Call<MutableList<CashRegisterItem>>
 
 }

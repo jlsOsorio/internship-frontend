@@ -10,6 +10,10 @@ class GlobalVar : Application() {
     var storeId: Long? = null
     var productId: Long? = null
     var opFundId: Long? = null
+    var opFundEntryQty: Double? = null
+    var opFundExitQty: Double? = null
+    var opFundCashRegister: Long? = null
+    var opFundMoment: String? = null
     var isLoggedIn: Boolean = false
     var userRole: String? = null
 }

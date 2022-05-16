@@ -57,16 +57,16 @@ class UsersActivity : AppCompatActivity() {
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
             //Show data in recycler view
-            getMyData()
+            getUsers()
             myRecyclerView.adapter!!.notifyDataSetChanged()
         }
 
-        getMyData()
+        getUsers()
     }
 
     //Get users from API
     @Synchronized
-    private fun getMyData() {
+    private fun getUsers() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
         val usersCall = serviceGenerator.getUsers()

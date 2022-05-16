@@ -11,7 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.controllers.adapters.StoreSpinnerAdapter
+import com.internship.retailmanagement.controllers.adapters.spinners.StoreSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeUserDataBinding
 import com.internship.retailmanagement.dataclasses.StoreItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
@@ -89,8 +89,8 @@ class ChangeUserDataActivity : AppCompatActivity() {
             ).show()
         }
 
-        getUser()
         getStores()
+        getUser()
 
         val categories : ArrayList<String> = arrayListOf("SUPERVISOR", "EMPLOYEE")
         val statusArr : ArrayList<String> = arrayListOf("ACTIVE", "INACTIVE")
@@ -155,7 +155,6 @@ class ChangeUserDataActivity : AppCompatActivity() {
             it.id == gv.storeId
         }
 
-        Log.e("ASDASDASD", gv.storeId.toString())
         val adapter = StoreSpinnerAdapter(this@ChangeUserDataActivity, storesList)
         stores.adapter = adapter
 
@@ -327,7 +326,6 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         ) {
                             //val text = parent!!.getItemAtPosition(1).toString()
                             val item = parent!!.selectedItem as StoreItem
-                            Toast.makeText(this@ChangeUserDataActivity, item.id.toString(), Toast.LENGTH_SHORT).show()
                             gv.storeId = item.id
                         }
 

@@ -119,17 +119,14 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/cashRegisterOpFund"
-                android:autofillHints="1"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
+                android:background="@drawable/button_shape_light"
                 android:gravity="end"
-                android:inputType="number"
-                android:hint="@string/no_content"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
@@ -162,6 +159,10 @@
                 android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="end"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:inputType="datetime"
                 android:hint="@string/no_content"
                 android:textColor="@color/black"

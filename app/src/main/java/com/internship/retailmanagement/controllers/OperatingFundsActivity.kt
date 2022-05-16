@@ -12,10 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.OpFundsAdapter
-import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
 import com.internship.retailmanagement.databinding.ActivityOperatingFundsBinding
-import com.internship.retailmanagement.dataclasses.OpFundItem
-import com.internship.retailmanagement.dataclasses.ProductItem
+import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
@@ -55,21 +53,21 @@ class OperatingFundsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = OpFundsAdapter(opFundsList, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = OpFundsAdapter(opFundsList, { _, _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
             //Show data in recycler view
-            getMyData()
+            getOperatingFunds()
             myRecyclerView.adapter!!.notifyDataSetChanged()
         }
 
-        getMyData()
+        getOperatingFunds()
     }
 
     //Get operating funds from API
     @Synchronized
-    private fun getMyData() {
+    private fun getOperatingFunds() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
         val opFundsCall = serviceGenerator.getOpFunds(gv.userId!!)
@@ -83,8 +81,8 @@ class OperatingFundsActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         opFundsList.clear()
                         opFundsList.addAll(response.body()!!.toMutableList())
-                        mAdapter = OpFundsAdapter(opFundsList, { _, id ->""
-                            executeOtherActivity(ChangeOperatingFundActivity::class.java, id)
+                        mAdapter = OpFundsAdapter(opFundsList, { _, id, entryQty, exitQty, crId, moment ->
+                            executeOtherActivity(ChangeOperatingFundActivity::class.java, id, entryQty, exitQty, crId, moment)
                         }, { _,id->""
                             //executeOtherActivity(ChangeProductDataActivity::class.java, id)
                         })
@@ -107,8 +105,12 @@ class OperatingFundsActivity : AppCompatActivity() {
     }
 
     //Save user email in global var to set it in the update page
-    private fun executeOtherActivity(otherActivity: Class<*>, id: Long) {
+    private fun executeOtherActivity(otherActivity: Class<*>, id: Long, entryQty: Double, exitQty: Double, cashRegId: Long, moment: String) {
         gv.opFundId = id
+        gv.opFundEntryQty = entryQty
+        gv.opFundExitQty = exitQty
+        gv.opFundCashRegister = cashRegId
+        gv.opFundMoment = moment
         val x = Intent(this@OperatingFundsActivity, otherActivity)
         startActivity(x)
     }
@@ -136,5 +138,18 @@ class OperatingFundsActivity : AppCompatActivity() {
             R.id.signOutMenu -> null
         }
         return true
+    }
+
+    /**
+     * When update or create a new operating fund, this activity must "auto refresh" to show immediatly the changes. So the method "onRestart()",
+     * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
+     */
+    override fun onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+
     }
 }

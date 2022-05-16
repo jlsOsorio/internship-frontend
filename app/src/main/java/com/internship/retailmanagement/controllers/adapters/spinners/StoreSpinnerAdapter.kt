@@ -1,4 +1,4 @@
-package com.internship.retailmanagement.controllers.adapters
+package com.internship.retailmanagement.controllers.adapters.spinners
 
 import android.content.Context
 import android.view.LayoutInflater
