@@ -22,10 +22,8 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ChangeUserDataActivity : AppCompatActivity() {
@@ -235,7 +233,10 @@ class ChangeUserDataActivity : AppCompatActivity() {
         userPut.enqueue(object : Callback<ResponseBody?> {
 
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                Toast.makeText(this@ChangeUserDataActivity, "User updated successfully!", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful)
+                {
+                    Toast.makeText(this@ChangeUserDataActivity, "User updated successfully!", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {

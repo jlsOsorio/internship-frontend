@@ -113,6 +113,7 @@ class CreateProductActivity : AppCompatActivity() {
         ivaValue.adapter = adapter
     }
 
+    //Create product
     @Synchronized
     private fun createProduct() {
         val nameStr = nameProduct.text.toString()
@@ -127,9 +128,9 @@ class CreateProductActivity : AppCompatActivity() {
         )
 
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val userPut = serviceGenerator.addProduct(productInsert)
+        val productCreate = serviceGenerator.addProduct(productInsert)
 
-        userPut.enqueue(object : Callback<ResponseBody?> {
+        productCreate.enqueue(object : Callback<ResponseBody?> {
 
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                 gv.productName = productInsert.name

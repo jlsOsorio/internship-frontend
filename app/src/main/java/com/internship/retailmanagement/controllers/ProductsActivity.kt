@@ -84,7 +84,7 @@ class ProductsActivity : AppCompatActivity() {
                         productsList.clear()
                         productsList.addAll(response.body()!!.toMutableList())
                         mAdapter = ProductsAdapter(productsList, { _, id ->""
-                            //executeOtherActivity(StockMovement::class.java, id)
+                            executeOtherActivity(StockMovementActivity::class.java, id, "", 0, 0.0)
                         }, { _,id, name, ivaValue, grossPrice->
                             executeOtherActivity(ChangeProductActivity::class.java, id, name, ivaValue, grossPrice)
                         }, { _,id ->

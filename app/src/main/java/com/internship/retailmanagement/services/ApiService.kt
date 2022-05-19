@@ -6,6 +6,8 @@ import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.dataclasses.products.InsertProductItem
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.dataclasses.products.UpdateProductItem
+import com.internship.retailmanagement.dataclasses.stockmovements.InsertStockMovItem
+import com.internship.retailmanagement.dataclasses.stockmovements.StockMovItem
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
@@ -76,7 +78,11 @@ interface ApiService {
     //////////////// STOCK MOVEMENTS ////////////////
     //By product
     @GET("/stockmovements/{productId}")
-    fun getStockMovements(@Path(value = "id", encoded = false) id: Long): Call<StockMovItem>
+    fun getStockMovements(@Path(value = "productId", encoded = false) id: Long): Call<MutableList<StockMovItem>>
+
+    //Create by product
+    @POST("/stockmovements/{productId}")
+    fun addStockMovement(@Path(value = "productId", encoded = false) id: Long, @Body stockMov: InsertStockMovItem): Call<ResponseBody>
 
     //////////////// IVA ////////////////
     @GET("/iva")

@@ -24,6 +24,7 @@ class GlobalVar : Application() {
     var opFundExitQty: Double? = null
     var opFundCashRegister: Long? = null
     var opFundMoment: String? = null
+    var typeMovement: String? = null
     var isLoggedIn: Boolean = false
     var userRole: String? = null
 }

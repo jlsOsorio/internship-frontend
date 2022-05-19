@@ -38,7 +38,6 @@ class OperatingFundsActivity : AppCompatActivity() {
 
         opFundsList = arrayListOf()
         fab = binding.fab
-        gv = application as GlobalVar
 
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
@@ -108,7 +107,6 @@ class OperatingFundsActivity : AppCompatActivity() {
         swipeRefreshUsers.isRefreshing = false
     }
 
-    //Save user email in global var to set it in the update page
     private fun executeOtherActivity(otherActivity: Class<*>, id: Long, entryQty: Double, exitQty: Double, cashRegId: Long, moment: String) {
         gv.opFundId = id
         gv.opFundEntryQty = entryQty

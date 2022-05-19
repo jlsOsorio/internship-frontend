@@ -26,11 +26,11 @@
             android:id="@+id/movementCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/movement_in"
             android:layout_alignParentEnd="true"
             android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/first_red"
+            android:hint="@string/movement_in"
             android:paddingEnd="5dp"
+            android:textColor="@color/first_red"
             android:textSize="16sp"
             tools:ignore="RelativeOverlap" />
 
