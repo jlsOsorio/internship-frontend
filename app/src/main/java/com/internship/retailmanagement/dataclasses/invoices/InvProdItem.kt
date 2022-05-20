@@ -1,4 +1,4 @@
-package com.internship.retailmanagement.dataclasses
+package com.internship.retailmanagement.dataclasses.invoices
 
 data class InvProdItem(
     val id: Long? = null,

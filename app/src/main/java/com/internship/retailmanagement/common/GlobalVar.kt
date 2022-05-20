@@ -1,8 +1,7 @@
 package com.internship.retailmanagement.common
 
 import android.app.Application
-import com.internship.retailmanagement.dataclasses.InvProdItem
-import java.util.*
+import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 
 class GlobalVar : Application() {
     var userId: Long? = null

@@ -40,6 +40,7 @@
                 android:id="@+id/labelNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_column="0"
                 android:layout_marginStart="5dp"
                 android:textStyle="bold"
@@ -51,6 +52,7 @@
                 android:id="@+id/numberStore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginEnd="5dp"
                 android:gravity="end"
                 android:textSize="16sp"
@@ -69,6 +71,7 @@
                 android:id="@+id/labelAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_column="0"
                 android:layout_marginStart="5dp"
                 android:textStyle="bold"
@@ -80,6 +83,7 @@
                 android:id="@+id/addressStore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginEnd="5dp"
                 android:gravity="end"
                 android:textSize="16sp"
@@ -99,6 +103,7 @@
                 android:id="@+id/labelCouncil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_column="0"
                 android:layout_marginStart="5dp"
                 android:textStyle="bold"
@@ -110,6 +115,7 @@
                 android:id="@+id/councilStore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginEnd="5dp"
                 android:gravity="end"
                 android:textSize="16sp"
@@ -129,6 +135,7 @@
                 android:id="@+id/labelZipCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_column="0"
                 android:layout_marginStart="5dp"
                 android:textStyle="bold"
@@ -140,6 +147,7 @@
                 android:id="@+id/zipCodeStore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginEnd="5dp"
                 android:gravity="end"
                 android:textSize="16sp"
@@ -159,6 +167,7 @@
                 android:id="@+id/labelContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_column="0"
                 android:layout_marginStart="5dp"
                 android:textStyle="bold"
@@ -170,6 +179,7 @@
                 android:id="@+id/contactStore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginEnd="5dp"
                 android:gravity="end"
                 android:textSize="16sp"
@@ -189,22 +199,55 @@
                 android:id="@+id/labelCashReg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:layout_column="0"
                 android:layout_marginStart="5dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/first_red"
-                android:text="@string/cash_register_label" />
+                android:text="@string/number_cash_register_label" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/cashRegisterStore"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_regular"
-                android:background="@drawable/button_shape_light"
+                android:layout_marginEnd="5dp"
                 android:gravity="end"
+                android:textSize="16sp"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:text="@string/no_content" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/eigthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/labelStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_column="0"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/first_red"
+                android:text="@string/status_label" />
+
+            <TextView
+                android:id="@+id/statusStore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:layout_marginEnd="5dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="@string/no_content" />
         </TableRow>
     </TableLayout>
 </TableLayout>

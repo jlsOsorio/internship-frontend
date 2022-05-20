@@ -13,7 +13,6 @@ import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.StoresAdapter
 import com.internship.retailmanagement.databinding.ActivityStoresBinding
-import com.internship.retailmanagement.dataclasses.CashRegisterItem
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
@@ -53,7 +52,7 @@ class StoresActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = StoresAdapter(storesList, { _, _, _, _, _, _, _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = StoresAdapter(storesList, {_,_ -> ""}, { _, _, _, _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -85,7 +84,9 @@ class StoresActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         storesList.clear()
                         storesList.addAll(response.body()!!.toMutableList())
-                        mAdapter = StoresAdapter(storesList, {
+                        mAdapter = StoresAdapter(storesList, {_, id ->
+                            executeOtherActivity(StoreDetailsActivity::class.java, id, "", "", "", "", "", 0)
+                        }, {
                             _,
                             id, storeAddress,
                             storeCouncil,

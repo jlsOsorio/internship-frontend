@@ -6,15 +6,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.InvProdAdapter
-import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
 import com.internship.retailmanagement.databinding.ActivityInvoicedProductsBinding
-import com.internship.retailmanagement.dataclasses.InvProdItem
-import com.internship.retailmanagement.dataclasses.products.ProductItem
+import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*

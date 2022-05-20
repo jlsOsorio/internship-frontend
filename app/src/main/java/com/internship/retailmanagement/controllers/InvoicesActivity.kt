@@ -13,7 +13,7 @@ import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.InvoicesAdapter
 import com.internship.retailmanagement.databinding.ActivityInvoicesBinding
-import com.internship.retailmanagement.dataclasses.InvoiceItem
+import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*

@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.InvoiceItem
+import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import kotlinx.android.synthetic.main.invoice_card.view.*
 
 

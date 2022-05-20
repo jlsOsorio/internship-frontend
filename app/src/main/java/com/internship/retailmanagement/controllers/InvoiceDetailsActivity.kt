@@ -11,8 +11,7 @@ import android.widget.TextView
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityInvoiceDetailsBinding
-import com.internship.retailmanagement.dataclasses.InvoiceItem
-import com.internship.retailmanagement.dataclasses.users.UserItem
+import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import retrofit2.Call

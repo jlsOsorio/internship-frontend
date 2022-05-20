@@ -1,6 +1,8 @@
 package com.internship.retailmanagement.services
 
 import com.internship.retailmanagement.dataclasses.*
+import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
+import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.dataclasses.products.InsertProductItem

@@ -9,7 +9,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.InvProdItem
+import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 import kotlinx.android.synthetic.main.invoiced_product_card.view.*
 import java.text.DecimalFormat
 
