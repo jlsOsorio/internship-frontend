@@ -29,13 +29,13 @@ class InvProdAdapter(private var productsList: MutableList<InvProdItem>) :
         private val quantityView: TextView = itemView.qtyCard
         private val subTotalNoIvaView: TextView = itemView.noIvaCard
         private val subTotalIvaView: TextView = itemView.totalIvaCard
+        val df = DecimalFormat("#.##")
 
         fun bindView(invProdItem: InvProdItem) {
 
             nameView.text = invProdItem.productName
             ivaView.text = invProdItem.ivaValue.toString()
             quantityView.text = invProdItem.quantity.toString()
-            val df = DecimalFormat("#.##")
             val subTotNoIvaRounded = df.format(invProdItem.subTotalNoIva)
             val subTotIvaRounded = df.format(invProdItem.subTotalIva)
             subTotalNoIvaView.text = subTotNoIvaRounded.toString()

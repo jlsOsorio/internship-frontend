@@ -51,7 +51,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _, _, _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _ -> "" }, { _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -83,7 +83,9 @@ class ProductsActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         productsList.clear()
                         productsList.addAll(response.body()!!.toMutableList())
-                        mAdapter = ProductsAdapter(productsList, { _, id ->""
+                        mAdapter = ProductsAdapter(productsList, { _, id ->
+                            executeOtherActivity(ProductDetailsActivity::class.java, id, "", 0, 0.0)
+                        }, { _, id ->
                             executeOtherActivity(StockMovementActivity::class.java, id, "", 0, 0.0)
                         }, { _,id, name, ivaValue, grossPrice->
                             executeOtherActivity(ChangeProductActivity::class.java, id, name, ivaValue, grossPrice)
@@ -149,11 +151,11 @@ class ProductsActivity : AppCompatActivity() {
      * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
      */
     override fun onRestart() {
-        super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
+        super.onRestart()
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
 
     }
 }

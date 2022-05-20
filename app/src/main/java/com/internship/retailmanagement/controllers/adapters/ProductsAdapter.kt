@@ -11,9 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.dataclasses.products.ProductItem
+import com.internship.retailmanagement.dataclasses.users.UserItem
 import kotlinx.android.synthetic.main.product_card.view.*
+import java.text.DecimalFormat
 
-class ProductsAdapter(private var productsList: MutableList<ProductItem>, private val stockMovListener: (ProductItem, Long) -> Unit, private val editListener: (ProductItem, Long, String, Int, Double) -> Unit, private val removeListener: (ProductItem, Long) -> Unit) :
+class ProductsAdapter(private var productsList: MutableList<ProductItem>, private val infoListener: (ProductItem, Long) -> Unit, private val stockMovListener: (ProductItem, Long) -> Unit, private val editListener: (ProductItem, Long, String, Int, Double) -> Unit, private val removeListener: (ProductItem, Long) -> Unit) :
     RecyclerView.Adapter<ProductsAdapter.ProductCardViewHolder>(), Filterable {
 
     val productsListClone: List<ProductItem>
@@ -30,12 +32,14 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
         private val stockMovView: ImageView = itemView.stockMovCard
         private val editView: ImageView = itemView.updateCard
         private val removeView: ImageView = itemView.removeCard
+        val df = DecimalFormat("#.##")
 
-        fun bindView(productItem: ProductItem, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long, String, Int, Double) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
+        fun bindView(productItem: ProductItem, infoListener: (ProductItem, Long) -> Unit, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long, String, Int, Double) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
 
             nameView.text = productItem.name
             stockView.text = productItem.stock.toString()
-            grossPriceView.text = productItem.grossPrice.toString()
+            val grossPriceRounded = df.format(productItem.grossPrice)
+            grossPriceView.text = grossPriceRounded.toString()
 
             editView.setOnClickListener{
                 editListener(productItem, productItem.id!!, productItem.name!!, productItem.ivaValue!!.toInt(), productItem.grossPrice!!) //Go to changing content activity of this specific user
@@ -47,6 +51,10 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
 
             removeView.setOnClickListener{
                 removeListener(productItem, productItem.id!!)
+            }
+
+            itemView.setOnClickListener{
+                infoListener(productItem, productItem.id!!)
             }
         }
     }
@@ -62,7 +70,7 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
     override fun getItemCount() = productsList.size
 
     override fun onBindViewHolder(holder: ProductCardViewHolder, position: Int) {
-        return holder.bindView(productsList[position],  stockMovListener, editListener, removeListener)
+        return holder.bindView(productsList[position], infoListener, stockMovListener, editListener, removeListener)
     }
 
     override fun getFilter(): Filter = ProductFilter()

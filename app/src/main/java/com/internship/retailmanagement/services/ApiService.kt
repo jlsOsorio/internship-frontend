@@ -74,6 +74,10 @@ interface ApiService {
     @GET("/products")
     fun getProducts(): Call<MutableList<ProductItem>>
 
+    //Specific product
+    @GET("/products/{id}")
+    fun getProduct(@Path(value = "id", encoded = false) id: Long): Call<ProductItem>
+
     //Create product
     @POST("/products")
     fun addProduct(@Body opFund: InsertProductItem): Call<ResponseBody>

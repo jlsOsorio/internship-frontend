@@ -68,51 +68,39 @@ class UserProfileActivity : AppCompatActivity() {
     //Get user from API
     @Synchronized
     private fun getUser() {
-        try {
-            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val userCall = serviceGenerator.getUser(gv.userId!!)
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val userCall = serviceGenerator.getUser(gv.userId!!)
 
-            userCall.enqueue(object : Callback<UserItem> {
-                override fun onResponse(
-                    call: Call<UserItem>,
-                    response: Response<UserItem>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()!!
-                        email.text = responseBody.email
-                        number.text = responseBody.id.toString()
-                        name.text = responseBody.name
-                        nif.text = responseBody.nif.toString()
-                        address.text = responseBody.address
-                        council.text = responseBody.council
-                        zipCode.text = responseBody.zipCode
-                        birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
-                        phoneNumber.text = responseBody.phone
-                        category.text = responseBody.category
-                        storeId.text = responseBody.store!!.id.toString()
-                        storeAddress.text = responseBody.store.address
-                        storeZipCode.text = responseBody.store.zipCode
-                        status.text = responseBody.status
-                    }
-
-
+        userCall.enqueue(object : Callback<UserItem> {
+            override fun onResponse(
+                call: Call<UserItem>,
+                response: Response<UserItem>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()!!
+                    email.text = responseBody.email
+                    number.text = responseBody.id.toString()
+                    name.text = responseBody.name
+                    nif.text = responseBody.nif.toString()
+                    address.text = responseBody.address
+                    council.text = responseBody.council
+                    zipCode.text = responseBody.zipCode
+                    birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
+                    phoneNumber.text = responseBody.phone
+                    category.text = responseBody.category
+                    storeId.text = responseBody.store!!.id.toString()
+                    storeAddress.text = responseBody.store.address
+                    storeZipCode.text = responseBody.store.zipCode
+                    status.text = responseBody.status
                 }
 
-                override fun onFailure(call: Call<UserItem>, t: Throwable) {
-                    Log.e("UserProfileActivity", "Error:" + t.message.toString())
-                }
-            })
-        }
-        catch(e: IllegalStateException)
-        {
-            e.printStackTrace()
-            e.message.toString()
-        }
-        catch(e: NoSuchElementException)
-        {
-            e.printStackTrace()
-            e.message.toString()
-        }
+
+            }
+
+            override fun onFailure(call: Call<UserItem>, t: Throwable) {
+                Log.e("UserProfileActivity", "Error:" + t.message.toString())
+            }
+        })
     }
 
     /**
