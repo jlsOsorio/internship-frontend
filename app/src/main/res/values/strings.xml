@@ -126,4 +126,7 @@
     <string name="value_name_iva">Value Name</string>
     <string name="value_iva">Value</string>
     <string name="gross_price_product">GPrice: €</string>
+    <string name="sub_total_no_iva">Tot (no IVA)</string>
+    <string name="sub_total_iva">Tot (IVA)</string>
+    <string name="iva_perc">IVA (%)</string>
 </resources>

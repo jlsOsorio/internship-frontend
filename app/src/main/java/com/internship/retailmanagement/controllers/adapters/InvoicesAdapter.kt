@@ -14,7 +14,7 @@ import com.internship.retailmanagement.dataclasses.InvoiceItem
 import kotlinx.android.synthetic.main.invoice_card.view.*
 
 
-class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, private val editListener: (InvoiceItem, Long) -> Unit, private val printListener: (InvoiceItem, Long) -> Unit) :
+class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, private val editListener: (InvoiceItem, Long) -> Unit, private val infoListener: (InvoiceItem, Long) -> Unit, private val printListener: (InvoiceItem, Long) -> Unit) :
     RecyclerView.Adapter<InvoicesAdapter.InvoiceCardViewHolder>(), Filterable {
 
     private val invoicesListClone: List<InvoiceItem>
@@ -29,7 +29,7 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
         private val editView: ImageView = itemView.updateCard
         private val billView: ImageView = itemView.billCard
 
-        fun bindView(invoiceItem: InvoiceItem, editListener: (InvoiceItem, Long) -> Unit, printListener: (InvoiceItem, Long) -> Unit) {
+        fun bindView(invoiceItem: InvoiceItem, editListener: (InvoiceItem, Long) -> Unit, infoListener: (InvoiceItem, Long) -> Unit, printListener: (InvoiceItem, Long) -> Unit) {
 
             numberView.text = invoiceItem.invoiceNumber.toString()
 
@@ -39,6 +39,10 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
 
             billView.setOnClickListener{
                 printListener(invoiceItem, invoiceItem.invoiceNumber!!)
+            }
+
+            itemView.setOnClickListener{
+                infoListener(invoiceItem, invoiceItem.invoiceNumber!!)
             }
         }
     }
@@ -54,7 +58,7 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
     override fun getItemCount() = invoicesList.size
 
     override fun onBindViewHolder(holder: InvoiceCardViewHolder, position: Int) {
-        return holder.bindView(invoicesList[position], editListener, printListener)
+        return holder.bindView(invoicesList[position], editListener, infoListener, printListener)
     }
 
     override fun getFilter(): Filter = InvoiceFilter()

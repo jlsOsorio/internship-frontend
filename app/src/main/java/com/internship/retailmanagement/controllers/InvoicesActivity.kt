@@ -51,7 +51,7 @@ class InvoicesActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = InvoicesAdapter(invoicesList, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = InvoicesAdapter(invoicesList, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -82,6 +82,8 @@ class InvoicesActivity : AppCompatActivity() {
                         mAdapter = InvoicesAdapter(invoicesList, { _, id ->""
                             //executeOtherActivity(ChangeUserDataActivity::class.java, id)
                         }, { _, id ->""
+                            executeOtherActivity(InvoiceDetailsActivity::class.java, id)
+                        }, { _, id ->""
                             //executeOtherActivity(UserProfileActivity::class.java, id)
                         })
                         mAdapter.notifyDataSetChanged()
@@ -108,7 +110,7 @@ class InvoicesActivity : AppCompatActivity() {
      */
     private fun executeOtherActivity(otherActivity: Class<*>,
                                      id: Long) {
-        gv.userId = id
+        gv.invoiceNumber = id
         val x = Intent(this@InvoicesActivity, otherActivity)
         startActivity(x)
     }

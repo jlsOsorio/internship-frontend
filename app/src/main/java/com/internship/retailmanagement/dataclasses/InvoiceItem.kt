@@ -7,7 +7,7 @@ data class InvoiceItem(
     val transaction: String? = null,
     val user: UserItem? = null,
     val cashRegister: CashRegisterItem? = null,
-    val invoicedProducts: MutableList<InvoicedProductItem>? = null,
+    val invoicedProducts: MutableList<InvProdItem>? = null,
     val totalNoIva: Double? = null,
-    val totalIva: Double? = null
+    val totalIva: Double? = null,
 )

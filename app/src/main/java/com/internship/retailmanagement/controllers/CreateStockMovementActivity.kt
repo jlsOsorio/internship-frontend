@@ -77,7 +77,7 @@ class CreateStockMovementActivity : AppCompatActivity() {
         }
     }
 
-    //Create product
+    //Create stock movement
     @Synchronized
     private fun createStockMovement() {
         val moveStr = gv.typeMovement
@@ -98,7 +98,7 @@ class CreateStockMovementActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("CreateProductActivity", "Error:" + t.message.toString())
+                Log.e("CreateStockMovementActivity", "Error:" + t.message.toString())
             }
         }
         )

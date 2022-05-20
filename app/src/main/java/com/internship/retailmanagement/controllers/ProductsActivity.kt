@@ -56,11 +56,11 @@ class ProductsActivity : AppCompatActivity() {
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
             //Show data in recycler view
-            getMyData()
+            getProducts()
             myRecyclerView.adapter!!.notifyDataSetChanged()
         }
 
-        getMyData()
+        getProducts()
 
         fab.setOnClickListener{
             executeOtherActivity(CreateProductActivity::class.java, 0, "", -1, 0.0)
@@ -69,7 +69,7 @@ class ProductsActivity : AppCompatActivity() {
 
     //Get products from API
     @Synchronized
-    private fun getMyData() {
+    private fun getProducts() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
         val productsCall = serviceGenerator.getProducts()

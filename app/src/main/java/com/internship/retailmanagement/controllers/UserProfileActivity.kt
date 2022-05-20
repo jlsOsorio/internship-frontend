@@ -60,7 +60,7 @@ class UserProfileActivity : AppCompatActivity() {
         storeId = binding.idStore
         storeAddress = binding.addressStore
         storeZipCode = binding.zipCodeStore
-        userItem = UserItem(null, "","","","",0,"","","","","",null)
+        //userItem = UserItem(null, "","","","",0,"","","","","",null)
 
         getUser()
     }

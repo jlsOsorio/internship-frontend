@@ -60,6 +60,11 @@ interface ApiService {
     @GET("/stores/{id}")
     fun getStore(@Path(value = "id", encoded = false) id: Long): Call<StoreItem>
 
+    //Create store
+    @POST("/stores")
+    fun addStore(@Body store: UpdateStoreItem): Call<ResponseBody>
+
+    //Update store
     @PUT("/stores/{id}")
     fun updateStore(@Path("id") id: Long?, @Body store: UpdateStoreItem?): Call<ResponseBody?>
 
@@ -69,9 +74,11 @@ interface ApiService {
     @GET("/products")
     fun getProducts(): Call<MutableList<ProductItem>>
 
+    //Create product
     @POST("/products")
     fun addProduct(@Body opFund: InsertProductItem): Call<ResponseBody>
 
+    //Update product
     @PUT("/products/{id}")
     fun updateProduct(@Path("id") id: Long?, @Body product: UpdateProductItem?): Call<ResponseBody?>
 
@@ -88,12 +95,23 @@ interface ApiService {
     @GET("/iva")
     fun getIvaValues(): Call<MutableList<IvaItem>>
 
+
     //////////////// INVOICES ////////////////
+    //All invoices
     @GET("/invoices")
     fun getInvoices(): Call<MutableList<InvoiceItem>>
 
+    //Specific invoice
+    @GET("/invoices/{id}")
+    fun getInvoice(@Path(value = "id", encoded = false) id: Long): Call<InvoiceItem>
+
+    //////////////// INVOICED PRODUCTS ////////////////
+    //All invoiced products
+    @GET("/invoicedproducts")
+    fun getInvoicedProducts(): Call<MutableList<InvProdItem>>
 
     //////////////// CASH REGISTERS ////////////////
+    //All cash registers
     @GET("/cashregisters")
     fun getCashRegisters(): Call<MutableList<CashRegisterItem>>
 

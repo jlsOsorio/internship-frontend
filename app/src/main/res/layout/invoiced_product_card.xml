@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape_light"
+        android:layout_margin="4dp"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@color/first_red"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/nameCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameLabel"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/name"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/ivaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/iva_perc"
+            android:textColor="@color/first_red"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/ivaCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivaLabel"
+            android:layout_marginStart="70dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="10dp"
+            android:text="@string/iva_perc"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/qtyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="130dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/qty"
+            android:textColor="@color/first_red"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/qtyCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qtyLabel"
+            android:layout_marginStart="130dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="10dp"
+            android:text="@string/qty"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+
+        <TextView
+            android:id="@+id/noIvaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:text="@string/sub_total_no_iva"
+            android:textColor="@color/first_red"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/noIvaCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/noIvaLabel"
+            android:layout_marginStart="200dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="10dp"
+            android:text="@string/total_no_iva_label"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/totalIvaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/first_red"
+            android:text="@string/sub_total_iva"
+            android:paddingEnd="5dp"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/totalIvaCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/totalIvaLabel"
+            android:layout_marginStart="300dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="5dp"
+            android:paddingEnd="10dp"
+            android:text="@string/sub_total_iva"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

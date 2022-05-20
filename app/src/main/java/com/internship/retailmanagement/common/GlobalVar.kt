@@ -1,6 +1,7 @@
 package com.internship.retailmanagement.common
 
 import android.app.Application
+import com.internship.retailmanagement.dataclasses.InvProdItem
 import java.util.*
 
 class GlobalVar : Application() {
@@ -25,6 +26,8 @@ class GlobalVar : Application() {
     var opFundCashRegister: Long? = null
     var opFundMoment: String? = null
     var typeMovement: String? = null
+    var invoiceNumber: Long? = null
+    var invProdsList: MutableList<InvProdItem>? = arrayListOf()
     var isLoggedIn: Boolean = false
     var userRole: String? = null
 }
