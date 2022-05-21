@@ -17,6 +17,7 @@ import com.internship.retailmanagement.services.ServiceGenerator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
 
 class InvoiceDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInvoiceDetailsBinding
@@ -64,15 +65,18 @@ class InvoiceDetailsActivity : AppCompatActivity() {
                 response: Response<InvoiceItem>
             ) {
                 if (response.isSuccessful) {
-                    gv.invProdsList!!.clear()
+                    val df = DecimalFormat("#.##")
+                    gv.invProdsList.clear()
                     val responseBody = response.body()!!
                     number.text = responseBody.invoiceNumber.toString()
                     transaction.text = responseBody.transaction
                     employee.text = responseBody.user!!.name
                     cashRegister.text = responseBody.cashRegister!!.id.toString()
-                    totalNoIva.text = responseBody.totalNoIva.toString()
-                    totalIva.text = responseBody.totalIva.toString()
-                    gv.invProdsList!!.addAll(responseBody.invoicedProducts!!.toMutableList())
+                    val totNoIvaRounded = df.format(responseBody.totalNoIva)
+                    totalNoIva.text = totNoIvaRounded
+                    val totIvaRounded = df.format(responseBody.totalIva)
+                    totalIva.text = totIvaRounded
+                    gv.invProdsList.addAll(responseBody.invoicedProducts!!.toMutableList())
                 }
 
 

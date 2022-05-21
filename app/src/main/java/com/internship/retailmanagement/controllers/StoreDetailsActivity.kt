@@ -45,7 +45,7 @@ class StoreDetailsActivity : AppCompatActivity() {
         getStore()
     }
 
-    //Get user from API
+    //Get store from API
     @Synchronized
     private fun getStore() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
@@ -67,8 +67,6 @@ class StoreDetailsActivity : AppCompatActivity() {
                     cashRegisters.text = responseBody.cashRegisters!!.size.toString()
                     status.text = responseBody.status
                 }
-
-
             }
 
             override fun onFailure(call: Call<StoreItem>, t: Throwable) {

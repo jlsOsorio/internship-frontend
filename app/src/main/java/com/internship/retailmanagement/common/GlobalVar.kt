@@ -2,9 +2,13 @@ package com.internship.retailmanagement.common
 
 import android.app.Application
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
+import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
+import com.internship.retailmanagement.dataclasses.products.ProductItem
 
 class GlobalVar : Application() {
     var userId: Long? = null
+    var emailLoggedIn: String? = null
+    var storeUserLogged: Long? = null
     var userCategory: String? = null
     var userStatus: String? = null
     var storeId: Long? = null
@@ -26,7 +30,11 @@ class GlobalVar : Application() {
     var opFundMoment: String? = null
     var typeMovement: String? = null
     var invoiceNumber: Long? = null
-    var invProdsList: MutableList<InvProdItem>? = arrayListOf()
+    var invProdsList: MutableList<InvProdItem> = arrayListOf()
+    var invCashRegister: Long? = null
+    var prodsList: MutableList<OrderProdItem> = arrayListOf()
+    var prodsNames: MutableList<String> = arrayListOf()
+    var mapProds: MutableMap<String, Int> = mutableMapOf()
     var isLoggedIn: Boolean = false
     var userRole: String? = null
 }

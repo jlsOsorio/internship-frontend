@@ -1,16 +1,173 @@
 package com.internship.retailmanagement.controllers
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.*
+import androidx.appcompat.widget.AppCompatButton
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.controllers.adapters.InvProdAdapter
+import com.internship.retailmanagement.controllers.adapters.OrderProdAdapter
+import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
+import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityOrderProductsBinding
+import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
+import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
+import com.internship.retailmanagement.dataclasses.products.ProductItem
+import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ServiceGenerator
+import com.internship.retailmanagement.services.SwipeToDeleteCallback
+import kotlinx.android.synthetic.main.activity_create_invoice.*
+import kotlinx.android.synthetic.main.activity_order_products.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.DecimalFormat
+import java.util.ArrayList
 
 class OrderProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderProductsBinding
+    private lateinit var gv: GlobalVar
+    private lateinit var quantity: EditText
+    private lateinit var remove: FloatingActionButton
+    private lateinit var add: FloatingActionButton
+    private lateinit var confirm: AppCompatButton
+    private lateinit var cancel: AppCompatButton
+    private lateinit var mAdapter: OrderProdAdapter
+    private lateinit var prodsName: Spinner
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.binding = ActivityOrderProductsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        gv = application as GlobalVar
+        var name = ""
+        quantity = binding.productQuantity
+        add = binding.addFab
+        remove = binding.removeFab
+        confirm = binding.buttonConfirm
+        cancel = binding.buttonCancel
+        prodsName = binding.productsName
+
+        Toast.makeText(this@OrderProductsActivity, gv.prodsNames.size.toString(), Toast.LENGTH_SHORT).show()
+        val defaultValue : ArrayList<String> = arrayListOf("SELECT PRODUCT")
+
+        val defaultAdapter = ArrayAdapter(this@OrderProductsActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, defaultValue)
+        prodsName.adapter = defaultAdapter
+
+        prodsName.setOnTouchListener { _, _ ->
+            val namesAdapter = ArrayAdapter(this@OrderProductsActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, gv.prodsNames)
+            prodsName.adapter = namesAdapter
+            false
+        }
+
+        prodsName.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                name = gv.prodsNames[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        mAdapter = OrderProdAdapter(gv.prodsList)
+        myRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@OrderProductsActivity)
+            adapter = mAdapter
+        }
+
+        //Remove item from list swiping left or right
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                gv.prodsList?.removeAt(position)
+                myRecyclerView.adapter?.notifyItemRemoved(position)
+            }
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(myRecyclerView)
+
+        add.setOnClickListener{
+            val orderItem = OrderProdItem(name, quantity.text.toString().toInt())
+            gv.prodsList.add(orderItem)
+            mAdapter.notifyDataSetChanged()
+        }
+
+        confirm.setOnClickListener{
+            finish()
+        }
+
+        cancel.setOnClickListener{
+            gv.prodsList.clear()
+            finish()
+        }
+    }
+
+    /*//Get product by name from API
+    @Synchronized
+    private fun getProductByName() {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val productCall = serviceGenerator.getProductByName(name.text.toString())
+
+        productCall.enqueue(object : Callback<ProductItem> {
+            override fun onResponse(
+                call: Call<ProductItem>,
+                response: Response<ProductItem>
+            ) {
+                if (response.isSuccessful) {
+                    gv.prodsList.add(response.body()!!)
+                }
+            }
+
+            override fun onFailure(call: Call<ProductItem>, t: Throwable) {
+                Log.e("OrderProductsActivity", "Error:" + t.message.toString())
+            }
+        })
+    }*/
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profileMenu -> null
+            R.id.changePasswordMenu -> null
+            R.id.signOutMenu -> null
+        }
+        return true
     }
 }

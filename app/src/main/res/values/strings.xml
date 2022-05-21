@@ -129,4 +129,9 @@
     <string name="sub_total_no_iva">Tot (no IVA)</string>
     <string name="sub_total_iva">Tot (IVA)</string>
     <string name="iva_perc">IVA (%)</string>
+    <string name="products_order">Order products</string>
+    <string name="show_ordered">Show ordered products</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="ordered_products">ORDERED PRODUCTS</string>
 </resources>

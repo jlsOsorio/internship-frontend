@@ -66,6 +66,7 @@ class StoresActivity : AppCompatActivity() {
         fab.setOnClickListener{
             executeOtherActivity(CreateStoreActivity::class.java,0,"","", "", "", "", 0)
         }
+
     }
 
     //Get stores from API

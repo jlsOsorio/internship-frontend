@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".controllers.CreateInvoiceActivity">
 
     <TextView
         android:id="@+id/newInvoice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_invoice"
         android:fontFamily="@font/montserrat_black"
+        android:layout_marginTop="100dp"
+        android:text="@string/new_invoice"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19" />
+        app:layout_constraintVertical_bias="0.07999998" />
 
     <EditText
         android:id="@+id/employeeInvoice"
@@ -26,9 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="100dp"
         android:autofillHints="400.50"
         android:background="@drawable/box_shape"
         android:ems="10"
+        android:enabled="false"
         android:fontFamily="@font/montserrat_regular"
         android:hint="@string/employee"
         android:inputType="textEmailAddress"
@@ -40,8 +44,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newInvoice"
-        app:layout_constraintVertical_bias="0.24000001"
-        android:enabled="false"/>
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <Spinner
         android:id="@+id/cashRegisterInvoice"
@@ -81,25 +84,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cashRegisterInvoice"
         app:layout_constraintVertical_bias="0.058"/>
 
-    <Spinner
-        android:id="@+id/productsInvoice"
-        android:autofillHints="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:gravity="end"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:background="@drawable/box_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transactionInvoice"
-        app:layout_constraintVertical_bias="0.058"/>
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonInvoicedProducts"
         android:layout_width="match_parent"
@@ -109,12 +93,12 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/button_shape_light"
         android:fontFamily="@font/montserrat_bold"
-        android:text="@string/products"
+        android:text="@string/products_order"
         android:textColor="@color/first_red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productsInvoice" />
+        app:layout_constraintTop_toBottomOf="@+id/transactionInvoice" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonCreate"
@@ -123,6 +107,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_shape"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/check_invoice"

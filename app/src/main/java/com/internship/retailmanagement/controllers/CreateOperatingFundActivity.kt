@@ -143,6 +143,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
             })
     }
 
+    //Create operating fund
     @Synchronized
     private fun createOpFund() {
         val entryStr = entryQty.text.toString()

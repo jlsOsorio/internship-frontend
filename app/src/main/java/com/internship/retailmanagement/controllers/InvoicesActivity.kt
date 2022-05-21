@@ -61,6 +61,10 @@ class InvoicesActivity : AppCompatActivity() {
         }
 
         getMyData()
+
+        fab.setOnClickListener{
+            executeOtherActivity(CreateInvoiceActivity::class.java,0)
+        }
     }
 
     //Get invoices from API

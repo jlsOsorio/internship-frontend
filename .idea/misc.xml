@@ -17,7 +17,7 @@
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_product.xml" value="0.2" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_store.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_change_user_data.xml" value="0.2" />
-        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_invoice.xml" value="0.15677083333333333" />
+        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_invoice.xml" value="0.2" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_operating_fund.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_product.xml" value="0.176" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_create_stock_movement.xml" value="0.25416666666666665" />
@@ -29,7 +29,7 @@
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_invoices.xml" value="0.264" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_operating_funds.xml" value="0.2" />
-        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_order_products.xml" value="0.15677083333333333" />
+        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_order_products.xml" value="0.25045045045045045" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_product_details.xml" value="0.12864583333333332" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_products.xml" value="0.2" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/activity_screen.xml" value="0.17552083333333332" />
@@ -45,6 +45,7 @@
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/invoiced_product_card.xml" value="0.264" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/iva_spinner.xml" value="0.264" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/operating_fund_card.xml" value="0.264" />
+        <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/order_item_card.xml" value="0.22878228782287824" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/product_card.xml" value="0.264" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/stock_movement_card.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/WINPROVIT/AndroidStudioProjects/RetailManagement/app/src/main/res/layout/store_card.xml" value="0.25416666666666665" />

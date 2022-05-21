@@ -1,6 +1,7 @@
 package com.internship.retailmanagement.services
 
 import com.internship.retailmanagement.dataclasses.*
+import com.internship.retailmanagement.dataclasses.invoices.InsertInvItem
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
@@ -76,9 +77,13 @@ interface ApiService {
     @GET("/products")
     fun getProducts(): Call<MutableList<ProductItem>>
 
-    //Specific product
+    //Specific product by id
     @GET("/products/{id}")
     fun getProduct(@Path(value = "id", encoded = false) id: Long): Call<ProductItem>
+
+    //Specific product by name
+    @GET("/products/product/{name}")
+    fun getProductByName(@Path(value = "name", encoded = false) name: String): Call<ProductItem>
 
     //Create product
     @POST("/products")
@@ -110,6 +115,10 @@ interface ApiService {
     //Specific invoice
     @GET("/invoices/{id}")
     fun getInvoice(@Path(value = "id", encoded = false) id: Long): Call<InvoiceItem>
+
+    //Create invoice
+    @POST("/invoices")
+    fun addInvoice(@Body invoice: InsertInvItem): Call<ResponseBody>
 
     //////////////// INVOICED PRODUCTS ////////////////
     //All invoiced products
