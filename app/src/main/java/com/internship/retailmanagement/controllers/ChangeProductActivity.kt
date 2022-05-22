@@ -107,6 +107,7 @@ class ChangeProductActivity : AppCompatActivity() {
             })
     }
 
+    //Update product
     @Synchronized
     private fun putProduct() {
         val nameStr = nameProduct.text.toString()

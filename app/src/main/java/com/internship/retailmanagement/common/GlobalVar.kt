@@ -3,7 +3,7 @@ package com.internship.retailmanagement.common
 import android.app.Application
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
-import com.internship.retailmanagement.dataclasses.products.ProductItem
+import java.io.FileOutputStream
 
 class GlobalVar : Application() {
     var userId: Long? = null
@@ -35,6 +35,7 @@ class GlobalVar : Application() {
     var prodsList: MutableList<OrderProdItem> = arrayListOf()
     var prodsNames: MutableList<String> = arrayListOf()
     var mapProds: MutableMap<String, Int> = mutableMapOf()
+    var fileInvoices: FileOutputStream? = null
     var isLoggedIn: Boolean = false
     var userRole: String? = null
 }

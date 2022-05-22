@@ -8,12 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
 import kotlinx.android.synthetic.main.order_item_card.view.*
-import kotlinx.android.synthetic.main.stock_movement_card.view.*
 
 class OrderProdAdapter(private var productsList: MutableList<OrderProdItem>) :
     RecyclerView.Adapter<OrderProdAdapter.OrderProdCardViewHolder>() {
 
-    val productsListClone: List<OrderProdItem>
+    private val productsListClone: List<OrderProdItem>
 
     init{
         productsListClone = productsList.toMutableList() //set list clone

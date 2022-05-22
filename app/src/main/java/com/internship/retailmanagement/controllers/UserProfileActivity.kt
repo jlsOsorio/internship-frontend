@@ -15,10 +15,8 @@ import com.internship.retailmanagement.services.ServiceGenerator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.NoSuchElementException
 
 class UserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserProfileBinding
@@ -37,7 +35,6 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var storeAddress: TextView
     private lateinit var storeZipCode: TextView
     private lateinit var status: TextView
-    private lateinit var userItem: UserItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +52,10 @@ class UserProfileActivity : AppCompatActivity() {
         birthDate = binding.birthDateProfile
         phoneNumber = binding.phoneNumberProfile
         category = binding.categoryProfile
-        //store = binding.storeProfile
         status = binding.statusProfile
         storeId = binding.idStore
         storeAddress = binding.addressStore
         storeZipCode = binding.zipCodeStore
-        //userItem = UserItem(null, "","","","",0,"","","","","",null)
 
         getUser()
     }
@@ -151,56 +146,5 @@ class UserProfileActivity : AppCompatActivity() {
         formatter.timeZone = timeZone
         return formatter.format(this)
     }
-
-    /*//Get store from API
-    @Synchronized
-    private fun getStore() {
-        try {
-            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val storeCall = serviceGenerator.getStore(gv.storeId!!)
-
-            storeCall.enqueue(object : Callback<StoreItem> {
-                override fun onResponse(
-                    call: Call<StoreItem>,
-                    response: Response<StoreItem>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()!!
-
-                        storeId.text = responseBody.id.toString()
-                        storeAddress.text = responseBody.address
-                        storeZipCode.text = responseBody.zipCode
-
-                        /*gv.storeId = responseBody.storeId
-                        email.text = responseBody.email
-                        number.text = responseBody.id.toString()
-                        name.text = responseBody.name
-                        nif.text = responseBody.nif.toString()
-                        address.text = responseBody.address
-                        council.text = responseBody.council
-                        zipCode.text = responseBody.zipCode
-                        birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
-                        phoneNumber.text = responseBody.phone
-                        category.text = responseBody.category
-                        store.text = responseBody.storeId.toString()
-                        status.text = responseBody.status*/
-
-                    }
-                }
-
-                override fun onFailure(call: Call<StoreItem>, t: Throwable) {
-                    Log.e("UserProfileActivity", "Error:" + t.message.toString())
-                }
-            })
-        }
-        catch(e: IllegalStateException)
-        {
-            e.message.toString()
-        }
-        catch(e: NoSuchElementException)
-        {
-            e.message.toString()
-        }
-    }*/
 
 }

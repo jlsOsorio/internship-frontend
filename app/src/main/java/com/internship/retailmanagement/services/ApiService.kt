@@ -17,7 +17,6 @@ import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 
@@ -28,10 +27,6 @@ interface ApiService {
     //All users
     @GET("/users")
     fun getUsers(): Call<MutableList<UserItem>>
-
-    //All users
-    @GET("/users")
-    suspend fun getUsersProfile(): Response<MutableList<UserItem>>
 
     //Specific user
     @GET("/users/{id}")
@@ -80,10 +75,6 @@ interface ApiService {
     //Specific product by id
     @GET("/products/{id}")
     fun getProduct(@Path(value = "id", encoded = false) id: Long): Call<ProductItem>
-
-    //Specific product by name
-    @GET("/products/product/{name}")
-    fun getProductByName(@Path(value = "name", encoded = false) name: String): Call<ProductItem>
 
     //Create product
     @POST("/products")

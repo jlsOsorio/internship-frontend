@@ -79,19 +79,6 @@
             app:layout_constraintTop_toBottomOf="@+id/productQuantity"
             app:tint="@color/white" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/removeFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:backgroundTint="@color/first_red"
-            android:contentDescription="@string/add_float_button"
-            android:src="@drawable/pull_icon"
-            app:layout_constraintEnd_toStartOf="@+id/addFab"
-            app:layout_constraintTop_toBottomOf="@+id/productQuantity"
-            app:tint="@color/white" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myRecyclerView"
             android:layout_width="match_parent"

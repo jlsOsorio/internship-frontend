@@ -8,10 +8,8 @@ import android.view.MenuItem
 import android.widget.TextView
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.databinding.ActivityChangeProductBinding
 import com.internship.retailmanagement.databinding.ActivityProductDetailsBinding
 import com.internship.retailmanagement.dataclasses.products.ProductItem
-import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import retrofit2.Call

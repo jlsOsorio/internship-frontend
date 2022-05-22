@@ -120,7 +120,6 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
                                 position: Int,
                                 id: Long
                             ) {
-                                //val text = parent!!.getItemAtPosition(1).toString()
                                 val item = parent!!.selectedItem as CashRegisterItem
                                 gv.opFundCashRegister = item.id
                             }

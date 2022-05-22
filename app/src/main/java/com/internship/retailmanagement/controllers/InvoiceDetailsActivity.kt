@@ -115,7 +115,6 @@ class InvoiceDetailsActivity : AppCompatActivity() {
     /**
      * Method to go to the next activity.
      * @param otherActivity     next activity
-     * @param id    global id intended to pass to next activity
      */
     private fun executeOtherActivity(otherActivity: Class<*>) {
         val x = Intent(this@InvoiceDetailsActivity, otherActivity)

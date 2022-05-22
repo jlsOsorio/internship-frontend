@@ -201,6 +201,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
         }
     }
 
+    //Update user
     @Synchronized
     private fun putUser() {
         val nameStr = name.text.toString()
@@ -208,7 +209,6 @@ class ChangeUserDataActivity : AppCompatActivity() {
         val phoneStr = phoneNumber.text.toString()
         val birthDateStr = birthDate.text.toString()
         val nifLong = Integer.parseInt(nif.text.toString()).toLong()
-        //val categoryStr = category.text.toString()
         val addressStr = address.text.toString()
         val councilStr = council.text.toString()
         val zipCodeStr = zipCode.text.toString()
@@ -325,7 +325,6 @@ class ChangeUserDataActivity : AppCompatActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            //val text = parent!!.getItemAtPosition(1).toString()
                             val item = parent!!.selectedItem as StoreItem
                             gv.storeId = item.id
                         }

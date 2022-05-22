@@ -23,8 +23,8 @@ class IvaSpinnerAdapter(context: Context, ivaList: MutableList<IvaItem>) : Array
         val iva = getItem(position)
         val view = LayoutInflater.from(context).inflate(R.layout.iva_spinner, parent, false)
         view.idIva.text = iva!!.id.toString()
-        view.valueNameIva.text = iva!!.value
-        view.valueIva.text = iva!!.tax.toString()
+        view.valueNameIva.text = iva.value
+        view.valueIva.text = iva.tax.toString()
 
         return view
     }

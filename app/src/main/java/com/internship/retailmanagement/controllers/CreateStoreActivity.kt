@@ -9,7 +9,6 @@ import android.widget.*
 import androidx.appcompat.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityCreateStoreBinding
-import com.internship.retailmanagement.dataclasses.stockmovements.InsertStockMovItem
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator

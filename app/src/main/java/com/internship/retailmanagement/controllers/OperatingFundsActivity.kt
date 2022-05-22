@@ -147,11 +147,11 @@ class OperatingFundsActivity : AppCompatActivity() {
      * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
      */
     override fun onRestart() {
-        super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
+        super.onRestart()
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
 
     }
 }

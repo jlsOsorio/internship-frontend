@@ -9,14 +9,9 @@ import android.widget.*
 import androidx.appcompat.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityCreateStockMovementBinding
-import com.internship.retailmanagement.databinding.ActivityMainBinding
-import com.internship.retailmanagement.dataclasses.products.InsertProductItem
 import com.internship.retailmanagement.dataclasses.stockmovements.InsertStockMovItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
-import kotlinx.android.synthetic.main.activity_change_product.*
-import kotlinx.android.synthetic.main.activity_change_product.nameProduct
-import kotlinx.android.synthetic.main.activity_create_product.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -98,7 +93,7 @@ class CreateStockMovementActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("CreateStockMovementActivity", "Error:" + t.message.toString())
+                Log.e("CreateStockMovActivity", "Error:" + t.message.toString())
             }
         }
         )

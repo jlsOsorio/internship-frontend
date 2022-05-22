@@ -11,7 +11,6 @@ import androidx.appcompat.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityChangeStoreBinding
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
-import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
@@ -83,6 +82,7 @@ class ChangeStoreActivity : AppCompatActivity() {
         }
     }
 
+    //Update store
     @Synchronized
     private fun putStore() {
         val addressStr = storeAddress.text.toString()

@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.AppCompatButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityMainBinding
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         stores = binding.stores
 
         newOrder.setOnClickListener{
-            executeOtherActivity(InvoicesActivity::class.java, 1)
+            executeOtherActivity(CreateInvoiceActivity::class.java, 1)
         }
 
         users.setOnClickListener{

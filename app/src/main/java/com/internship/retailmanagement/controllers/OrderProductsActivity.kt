@@ -3,7 +3,6 @@ package com.internship.retailmanagement.controllers
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,30 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.controllers.adapters.InvProdAdapter
 import com.internship.retailmanagement.controllers.adapters.OrderProdAdapter
-import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
-import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityOrderProductsBinding
-import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
-import com.internship.retailmanagement.dataclasses.products.ProductItem
-import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ServiceGenerator
 import com.internship.retailmanagement.services.SwipeToDeleteCallback
-import kotlinx.android.synthetic.main.activity_create_invoice.*
 import kotlinx.android.synthetic.main.activity_order_products.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.text.DecimalFormat
 import java.util.ArrayList
 
 class OrderProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderProductsBinding
     private lateinit var gv: GlobalVar
     private lateinit var quantity: EditText
-    private lateinit var remove: FloatingActionButton
     private lateinit var add: FloatingActionButton
     private lateinit var confirm: AppCompatButton
     private lateinit var cancel: AppCompatButton
@@ -56,7 +42,6 @@ class OrderProductsActivity : AppCompatActivity() {
         var name = ""
         quantity = binding.productQuantity
         add = binding.addFab
-        remove = binding.removeFab
         confirm = binding.buttonConfirm
         cancel = binding.buttonCancel
         prodsName = binding.productsName
@@ -100,7 +85,7 @@ class OrderProductsActivity : AppCompatActivity() {
         val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                gv.prodsList?.removeAt(position)
+                gv.prodsList.removeAt(position)
                 myRecyclerView.adapter?.notifyItemRemoved(position)
             }
 

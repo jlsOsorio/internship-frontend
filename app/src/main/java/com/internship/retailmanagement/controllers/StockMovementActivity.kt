@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.controllers.adapters.OpFundsAdapter
 import com.internship.retailmanagement.controllers.adapters.StockMovAdapter
 import com.internship.retailmanagement.databinding.ActivityStockMovementBinding
-import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.dataclasses.stockmovements.StockMovItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
@@ -140,11 +138,11 @@ class StockMovementActivity : AppCompatActivity() {
      * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
      */
     override fun onRestart() {
-        super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
+        super.onRestart()
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
 
     }
 }

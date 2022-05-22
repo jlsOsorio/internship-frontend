@@ -2,8 +2,6 @@ package com.internship.retailmanagement.controllers
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,24 +10,17 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.controllers.adapters.InvProdAdapter
-import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
-import com.internship.retailmanagement.controllers.adapters.UsersAdapter
 import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityCreateInvoiceBinding
 import com.internship.retailmanagement.dataclasses.CashRegisterItem
 import com.internship.retailmanagement.dataclasses.invoices.InsertInvItem
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
-import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
-import kotlinx.android.synthetic.main.activity_create_invoice.*
-import kotlinx.android.synthetic.main.activity_users.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -118,40 +109,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
 
         }
 
-       /* cashRegister.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-                gv.invCashRegister = cashRegList[position].id!!
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }*/
-
-        /*show.setOnClickListener{
-            hide.setTextColor(Color.parseColor("#0D0D0D"))
-            hide.setBackgroundColor(Color.TRANSPARENT)
-            show.setTextColor(Color.parseColor("#E5E5E5"))
-            show.setBackgroundResource(R.drawable.button_shape)
-            myRecyclerView.visibility = View.VISIBLE
-            mAdapter.notifyDataSetChanged()
-        }
-
-        hide.setOnClickListener{
-            show.setTextColor(Color.parseColor("#0D0D0D"))
-            show.setBackgroundColor(Color.TRANSPARENT)
-            hide.setTextColor(Color.parseColor("#E5E5E5"))
-            hide.setBackgroundResource(R.drawable.button_shape)
-            myRecyclerView.visibility = View.GONE
-        }
-        */
         orderProducts.setOnClickListener {
             getProducts()
             executeOtherActivity(OrderProductsActivity::class.java)
@@ -308,12 +265,11 @@ class CreateInvoiceActivity : AppCompatActivity() {
      * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
      */
     override fun onRestart() {
-        super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
-
+        super.onRestart()
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 
 }

@@ -156,6 +156,5 @@ class ProductsActivity : AppCompatActivity() {
         overridePendingTransition(0, 0)
         startActivity(intent)
         overridePendingTransition(0, 0)
-
     }
 }
