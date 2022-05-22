@@ -109,15 +109,18 @@ class CreateInvoiceActivity : AppCompatActivity() {
 
         }
 
+        getProducts()
+
         orderProducts.setOnClickListener {
-            getProducts()
             executeOtherActivity(OrderProductsActivity::class.java)
         }
 
         checkInv.setOnClickListener {
             gv.mapProds = gv.prodsList.associateBy({ it.productName!! }, { it.quantity!! }).toMutableMap()
             createInvoice()
-            onRestart()
+            gv.prodsList.clear()
+            executeOtherActivity(InvoicesActivity::class.java)
+            finish()
         }
 
     }
@@ -258,18 +261,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
             R.id.signOutMenu -> null
         }
         return true
-    }
-
-    /**
-     * When update or create a new user, this activity must "auto refresh" to show immediatly the changes. So the method "onRestart()",
-     * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
-     */
-    override fun onRestart() {
-        super.onRestart()
-        finish()
-        overridePendingTransition(0, 0)
-        startActivity(intent)
-        overridePendingTransition(0, 0)
     }
 
 }

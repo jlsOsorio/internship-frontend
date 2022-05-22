@@ -1,11 +1,13 @@
 package com.internship.retailmanagement.controllers
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -95,41 +97,36 @@ class InvoicesActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         invoicesList.clear()
                         invoicesList.addAll(response.body()!!.toMutableList())
+                        gv.fileInvoices = openFileOutput("data.txt", Context.MODE_PRIVATE)
                         val outputWriter = OutputStreamWriter(gv.fileInvoices)
                         for (invoice in invoicesList)
                         {
-                            val payment = Random.nextDouble(invoice.totalIva!!, invoice.totalIva + 100)
-                            outputWriter.append(invoiceTemplate(invoice.invoiceNumber!!,
+                            //val payment = Random.nextDouble(invoice.totalIva!!, invoice.totalIva + 100)
+                            outputWriter.write(invoiceTemplate(invoice.invoiceNumber!!,
                                 invoice.cashRegister!!.id!!,
                                 invoice.user!!.name!!,
                                 invoice.user.store!!.address,
                                 invoice.user.store.zipCode,
                                 invoice.user.store.contact,
-                                invoice.totalIva, payment,
+                                invoice.totalIva!!,
+                                invoice.transaction!!,
                                 invoice.invoicedProducts!!))
                             outputWriter.flush()
                         }
-                        /*outputWriter.write("ESTE É O PRIMEIRO TESTE COM A FACTURA COM O NÚMERO 1231032103")
-                        outputWriter.append("\nE ESTA É UMA STRING ADICIONAL!")
-                        outputWriter.flush()*/
-                        //outputWriter.close()
                         mAdapter = InvoicesAdapter(invoicesList, { _, id ->""
                             //executeOtherActivity(ChangeUserDataActivity::class.java, id)
                         }, { _, id ->""
                             executeOtherActivity(InvoiceDetailsActivity::class.java, id)
-                        }, { _, id ->
-                            /*val outputWriter = OutputStreamWriter(gv.fileInvoices)
-                            outputWriter.append("\nMAIS UMA!!")
-                            outputWriter.flush()
-                            Toast.makeText(this@InvoicesActivity, "File saved successfully!", Toast.LENGTH_SHORT).show()
+                        }, { invoice, id ->
 
-
-                            val fileOutputStream = FileOutputStream("data.txt", true)
-                            val outputWriter = OutputStreamWriter(fileOutputStream)
-                            outputWriter.append("\nMAIS UMA!!!")
-                            outputWriter.close()
-                            Toast.makeText(this@InvoicesActivity, "Text added successfully!", Toast.LENGTH_SHORT).show()
-                            */
+                            //Generate pop up dialog to show full bill info from intended one
+                            val builder = AlertDialog.Builder(this@InvoicesActivity)
+                            builder.setTitle(getString(R.string.invoice))
+                            builder.setMessage(invoiceTemplate(id, invoice.cashRegister!!.id!!, invoice.user!!.name!!, invoice.user.store!!.address, invoice.user.store.zipCode, invoice.user.store.contact, invoice.totalIva!!, invoice.transaction!!, invoice.invoicedProducts!!))
+                            builder.setPositiveButton("CLOSE") { dialogInterface: DialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }
+                            builder.show()
                         })
                         mAdapter.notifyDataSetChanged()
                         myRecyclerView.apply {
@@ -191,15 +188,16 @@ class InvoicesActivity : AppCompatActivity() {
                                 storeZipCode: String,
                                 storeContact: String,
                                 invTotal: Double,
-                                received: Double,
+                                transaction: String,
                                 responseProds: MutableList<InvProdItem>) : String {
 
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
         val currentDate = sdf.format(Date())
         val df = DecimalFormat("#.##")
         val invTotalRounded = df.format(invTotal)
-        val receivedRounded = df.format(received)
-        val changeRounded = df.format(received-invTotal)
+        val payment = Random.nextDouble(invTotal, invTotal + 100)
+        val receivedRounded = df.format(payment)
+        val changeRounded = df.format(payment-invTotal)
         val res = StringBuilder()
 
         res.append("============================= NEW INVOICE =============================\n")
@@ -227,10 +225,12 @@ class InvoicesActivity : AppCompatActivity() {
         for (prod in responseProds) {
             val prodValRounded = df.format(prod.subTotalIva?.div(prod.quantity!!))
             val subTotalRounded = df.format(prod.subTotalIva)
-            res.append("\n              ${prod.id} - ${prod.productName}")
+            res.append("\n              ${prod.productId} - ${prod.productName}")
             res.append("\n${prod.quantity} X $prodValRounded                       ${prod.ivaValue}    ${subTotalRounded}\n")
         }
         res.append("------------------------------------------")
+        res.append("\nTRANSACTION                       $transaction")
+        res.append("\n------------------------------------------")
         res.append("\nTOTAL                                $invTotalRounded")
         res.append("\nRECEIVED                             $receivedRounded")
         res.append("\nCHANGE                               $changeRounded")
@@ -246,5 +246,17 @@ class InvoicesActivity : AppCompatActivity() {
         res.append("\n------------------------------------------\n\n\n")
 
         return res.toString()
+    }
+
+    /**
+     * When update or create a new invoice, this activity must "auto refresh" to show immediatly the changes. So the method "onRestart()",
+     * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
+     */
+    override fun onRestart() {
+        super.onRestart()
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 }

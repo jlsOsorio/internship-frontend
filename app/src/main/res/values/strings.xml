@@ -134,4 +134,5 @@
     <string name="show">Show</string>
     <string name="hide">Hide</string>
     <string name="ordered_products">ORDERED PRODUCTS</string>
+    <string name="invoice">INVOICE</string>
 </resources>
