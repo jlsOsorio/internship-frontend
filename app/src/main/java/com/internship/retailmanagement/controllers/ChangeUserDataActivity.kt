@@ -2,12 +2,14 @@ package com.internship.retailmanagement.controllers
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
@@ -17,11 +19,15 @@ import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.NumberFormatException
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -143,7 +149,6 @@ class ChangeUserDataActivity : AppCompatActivity() {
 
         confirm.setOnClickListener {
             putUser()
-            finish()
         }
 
     }
@@ -204,46 +209,69 @@ class ChangeUserDataActivity : AppCompatActivity() {
     //Update user
     @Synchronized
     private fun putUser() {
-        val nameStr = name.text.toString()
-        val emailStr = email.text.toString()
-        val phoneStr = phoneNumber.text.toString()
-        val birthDateStr = birthDate.text.toString()
-        val nifLong = Integer.parseInt(nif.text.toString()).toLong()
-        val addressStr = address.text.toString()
-        val councilStr = council.text.toString()
-        val zipCodeStr = zipCode.text.toString()
+        try {
+            val nameStr = name.text.toString()
+            val emailStr = email.text.toString()
+            val phoneStr = phoneNumber.text.toString()
+            val birthDateStr = birthDate.text.toString()
+            val nifLong = Integer.parseInt(nif.text.toString()).toLong()
+            val addressStr = address.text.toString()
+            val councilStr = council.text.toString()
+            val zipCodeStr = zipCode.text.toString()
 
-        val userUpdate = InsertUserItem(
-            gv.userId,
-            nameStr,
-            emailStr,
-            phoneStr,
-            birthDateStr.toDate("dd-MM-yyyy").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            nifLong,
-            gv.userCategory,
-            gv.userStatus,
-            addressStr,
-            councilStr,
-            zipCodeStr,
-            gv.storeId
-        )
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val userPut = serviceGenerator.updateUser(gv.userId, userUpdate)
+            val userUpdate = InsertUserItem(
+                gv.userId,
+                nameStr,
+                emailStr,
+                phoneStr,
+                birthDateStr.toDate("dd-MM-yyyy").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                nifLong,
+                gv.userCategory,
+                gv.userStatus,
+                addressStr,
+                councilStr,
+                zipCodeStr,
+                gv.storeId
+            )
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val userPut = serviceGenerator.updateUser(gv.userId, userUpdate)
 
-        userPut.enqueue(object : Callback<ResponseBody?> {
+            userPut.enqueue(object : Callback<ResponseBody?> {
 
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                if (response.isSuccessful)
-                {
-                    Toast.makeText(this@ChangeUserDataActivity, "User updated successfully!", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@ChangeUserDataActivity,
+                            "User updated successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        if (response.code() >= 400) {
+                            var jsonObject = JSONObject(response.errorBody()?.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeUserDataActivity, message)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("ChangeUserDataActivity", "Error:" + t.message.toString())
                 }
             }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("ChangeUserDataActivity", "Error:" + t.message.toString())
-            }
-        }
             )
+        }
+        catch(e: NumberFormatException)
+        {
+            ErrorDialog.setDialog(this@ChangeUserDataActivity, "Invalid Input").show()
+        }
+        catch(e: ParseException)
+        {
+            ErrorDialog.setDialog(this@ChangeUserDataActivity, "Please insert the date of the operation.").show()
+        }
     }
 
     /**

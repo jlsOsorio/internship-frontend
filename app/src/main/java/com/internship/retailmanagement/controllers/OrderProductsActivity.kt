@@ -110,28 +110,6 @@ class OrderProductsActivity : AppCompatActivity() {
         }
     }
 
-    /*//Get product by name from API
-    @Synchronized
-    private fun getProductByName() {
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val productCall = serviceGenerator.getProductByName(name.text.toString())
-
-        productCall.enqueue(object : Callback<ProductItem> {
-            override fun onResponse(
-                call: Call<ProductItem>,
-                response: Response<ProductItem>
-            ) {
-                if (response.isSuccessful) {
-                    gv.prodsList.add(response.body()!!)
-                }
-            }
-
-            override fun onFailure(call: Call<ProductItem>, t: Throwable) {
-                Log.e("OrderProductsActivity", "Error:" + t.message.toString())
-            }
-        })
-    }*/
-
     /**
      * Overwrite method to generate menu in action bar.
      * @param menu: menu Type.

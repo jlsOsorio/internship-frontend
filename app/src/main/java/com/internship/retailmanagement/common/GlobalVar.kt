@@ -36,6 +36,7 @@ class GlobalVar : Application() {
     var prodsNames: MutableList<String> = arrayListOf()
     var mapProds: MutableMap<String, Int> = mutableMapOf()
     var fileInvoices: FileOutputStream? = null
+    var errorMessage: String? = null
     var isLoggedIn: Boolean = false
     var userRole: String? = null
 }

@@ -135,4 +135,5 @@
     <string name="hide">Hide</string>
     <string name="ordered_products">ORDERED PRODUCTS</string>
     <string name="invoice">INVOICE</string>
+    <string name="oops">Oops...</string>
 </resources>

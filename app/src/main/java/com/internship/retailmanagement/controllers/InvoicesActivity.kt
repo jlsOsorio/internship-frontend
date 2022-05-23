@@ -49,7 +49,7 @@ class InvoicesActivity : AppCompatActivity() {
         fab = binding.fab
         gv = application as GlobalVar
 
-        gv.fileInvoices = openFileOutput("data.txt", Context.MODE_APPEND)
+        //gv.fileInvoices = openFileOutput("data.txt", Context.MODE_APPEND)
 
 
         /**
@@ -97,7 +97,7 @@ class InvoicesActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         invoicesList.clear()
                         invoicesList.addAll(response.body()!!.toMutableList())
-                        gv.fileInvoices = openFileOutput("data.txt", Context.MODE_PRIVATE)
+                        gv.fileInvoices = openFileOutput("invoices.txt", Context.MODE_PRIVATE)
                         val outputWriter = OutputStreamWriter(gv.fileInvoices)
                         for (invoice in invoicesList)
                         {

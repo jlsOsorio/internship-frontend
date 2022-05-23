@@ -13,13 +13,16 @@ import com.internship.retailmanagement.databinding.ActivityCreateProductBinding
 import com.internship.retailmanagement.dataclasses.IvaItem
 import com.internship.retailmanagement.dataclasses.products.InsertProductItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_change_product.nameProduct
 import kotlinx.android.synthetic.main.activity_create_product.*
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.NumberFormatException
 import java.util.ArrayList
 
 class CreateProductActivity : AppCompatActivity() {
@@ -59,7 +62,6 @@ class CreateProductActivity : AppCompatActivity() {
 
         create.setOnClickListener{
             createProduct()
-            finish()
         }
     }
 
@@ -116,34 +118,57 @@ class CreateProductActivity : AppCompatActivity() {
     //Create product
     @Synchronized
     private fun createProduct() {
-        val nameStr = nameProduct.text.toString()
-        val stockStr = qtyProduct.text.toString()
-        val grossPriceStr = grossPrice.text.toString()
+        try {
+            val nameStr = nameProduct.text.toString()
+            val stockStr = qtyProduct.text.toString()
+            val grossPriceStr = grossPrice.text.toString()
 
-        val productInsert = InsertProductItem(
-            nameStr,
-            stockStr.toInt(),
-            gv.productIva,
-            grossPriceStr.toDouble(),
-        )
+            val productInsert = InsertProductItem(
+                nameStr,
+                stockStr.toInt(),
+                gv.productIva,
+                grossPriceStr.toDouble(),
+            )
 
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val productCreate = serviceGenerator.addProduct(productInsert)
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val productCreate = serviceGenerator.addProduct(productInsert)
 
-        productCreate.enqueue(object : Callback<ResponseBody?> {
+            productCreate.enqueue(object : Callback<ResponseBody?> {
 
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                gv.productName = productInsert.name
-                gv.productStock = productInsert.stock
-                gv.productIva = productInsert.ivaValue
-                gv.productGrossPrice = productInsert.grossPrice
-                Toast.makeText(this@CreateProductActivity, "Product created successfully!", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful) {
+                        gv.productName = productInsert.name
+                        gv.productStock = productInsert.stock
+                        gv.productIva = productInsert.ivaValue
+                        gv.productGrossPrice = productInsert.grossPrice
+                        Toast.makeText(
+                            this@CreateProductActivity,
+                            "Product created successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        if (response.code() >= 400) {
+                            var jsonObject = JSONObject(response.errorBody()?.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@CreateProductActivity, message).show()
+                        }
+                    }
+
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("CreateProductActivity", "Error:" + t.message.toString())
+                }
             }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("CreateProductActivity", "Error:" + t.message.toString())
-            }
+            )
         }
-        )
+        catch (e: NumberFormatException)
+        {
+            ErrorDialog.setDialog(this@CreateProductActivity, "Invalid input!").show()
+        }
     }
 }

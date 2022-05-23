@@ -2,22 +2,28 @@ package com.internship.retailmanagement.controllers
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeOperatingFundBinding
 import com.internship.retailmanagement.dataclasses.CashRegisterItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -72,7 +78,6 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
 
         confirm.setOnClickListener {
             putOpFund()
-            finish()
         }
 
     }
@@ -141,35 +146,64 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
 
     @Synchronized
     private fun putOpFund() {
-        val entryStr = entryQty.text.toString()
-        val exitStr = exitQty.text.toString()
-        val momentStr = moment.text.toString()
+        try {
 
-        val opFundUpdate = InsertOpFundItem(
-            entryStr.toDouble(),
-            exitStr.toDouble(),
-            momentStr.toDate("dd-MM-yyyy HH:mm:ss").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            gv.opFundCashRegister
-        )
 
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val opFundPut = serviceGenerator.updateOpFund(gv.opFundId, opFundUpdate)
+            val entryStr = entryQty.text.toString()
+            val exitStr = exitQty.text.toString()
+            val momentStr = moment.text.toString()
 
-        opFundPut.enqueue(object : Callback<ResponseBody?> {
+            val opFundUpdate = InsertOpFundItem(
+                entryStr.toDouble(),
+                exitStr.toDouble(),
+                momentStr.toDate("dd-MM-yyyy HH:mm:ss").formatTo("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                gv.opFundCashRegister
+            )
 
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                gv.opFundEntryQty = opFundUpdate.entryQty
-                gv.opFundExitQty = opFundUpdate.exitQty
-                gv.opFundCashRegister = opFundUpdate.cashRegisterId
-                gv.opFundMoment = opFundUpdate.moment
-                Toast.makeText(this@ChangeOperatingFundActivity, "Operating fund updated successfully!", Toast.LENGTH_SHORT).show()
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val opFundPut = serviceGenerator.updateOpFund(gv.opFundId, opFundUpdate)
+
+            opFundPut.enqueue(object : Callback<ResponseBody?> {
+
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful) {
+                        gv.opFundEntryQty = opFundUpdate.entryQty
+                        gv.opFundExitQty = opFundUpdate.exitQty
+                        gv.opFundCashRegister = opFundUpdate.cashRegisterId
+                        gv.opFundMoment = opFundUpdate.moment
+                        Toast.makeText(
+                            this@ChangeOperatingFundActivity,
+                            "Operating fund updated successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+
+                    } else {
+                        if (response.code() >= 400) {
+                            var jsonObject = JSONObject(response.errorBody()?.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeOperatingFundActivity, message).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("ChangeOpFundActivity", "Error:" + t.message.toString())
+                }
             }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("ChangeOpFundActivity", "Error:" + t.message.toString())
-            }
+            )
         }
-        )
+        catch (e: NumberFormatException)
+        {
+            ErrorDialog.setDialog(this@ChangeOperatingFundActivity, "Invalid input!").show()
+        }
+        catch (e: ParseException)
+        {
+            ErrorDialog.setDialog(this@ChangeOperatingFundActivity, "Please insert the date of the operation.").show()
+        }
     }
 
     /**

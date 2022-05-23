@@ -11,7 +11,9 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityUserProfileBinding
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -87,6 +89,15 @@ class UserProfileActivity : AppCompatActivity() {
                     storeAddress.text = responseBody.store.address
                     storeZipCode.text = responseBody.store.zipCode
                     status.text = responseBody.status
+                }
+                else
+                {
+                    if (response.code() >= 400) {
+                        var jsonObject = JSONObject(response.errorBody()?.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@UserProfileActivity, message)
+                        finish()
+                    }
                 }
 
 

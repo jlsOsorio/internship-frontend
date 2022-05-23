@@ -11,11 +11,14 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityCreateStoreBinding
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.NumberFormatException
 
 class CreateStoreActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateStoreBinding
@@ -75,40 +78,65 @@ class CreateStoreActivity : AppCompatActivity() {
 
         create.setOnClickListener {
             createStore()
-            finish()
         }
     }
 
     //Create store
     @Synchronized
     private fun createStore() {
-        val addressStr = storeAddress.text.toString()
-        val councilStr = storeCouncil.text.toString()
-        val zipCodeStr = storeZipCode.text.toString()
-        val contactStr = storeContact.text.toString()
-        val numberCR = storeNumberCR.text.toString()
+        try {
+            val addressStr = storeAddress.text.toString()
+            val councilStr = storeCouncil.text.toString()
+            val zipCodeStr = storeZipCode.text.toString()
+            val contactStr = storeContact.text.toString()
+            val numberCR = storeNumberCR.text.toString()
 
-        val storeUpdate = UpdateStoreItem(
-            addressStr,
-            councilStr,
-            zipCodeStr,
-            contactStr,
-            gv.storeStatus,
-            numberCR.toInt()
-        )
+            val storeUpdate = UpdateStoreItem(
+                addressStr,
+                councilStr,
+                zipCodeStr,
+                contactStr,
+                gv.storeStatus,
+                numberCR.toInt()
+            )
 
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val storeCreate = serviceGenerator.addStore(storeUpdate)
-        storeCreate.enqueue(object : Callback<ResponseBody?> {
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val storeCreate = serviceGenerator.addStore(storeUpdate)
+            storeCreate.enqueue(object : Callback<ResponseBody?> {
 
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                Toast.makeText(this@CreateStoreActivity, "Store created successfully!", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful)
+                    {
+                        Toast.makeText(
+                            this@CreateStoreActivity,
+                            "Store created successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+                    else
+                    {
+                        if (response.code() >= 400) {
+                            var jsonObject = JSONObject(response.errorBody()?.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@CreateStoreActivity, message).show()
+                        }
+                    }
+
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("CreateStoreActivity", "Error:" + t.message.toString())
+                }
             }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("CreateStoreActivity", "Error:" + t.message.toString())
-            }
+            )
         }
-        )
+        catch (e: NumberFormatException)
+        {
+            ErrorDialog.setDialog(this@CreateStoreActivity, "Invalid input!").show()
+        }
     }
 }

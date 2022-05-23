@@ -1,6 +1,7 @@
 package com.internship.retailmanagement.controllers
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
@@ -22,6 +24,7 @@ import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,6 +58,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
         cashRegList = arrayListOf()
         prodsList = arrayListOf()
         cashRegisterItem = CashRegisterItem(0)
+        gv.invCashRegister = null
 
         userInvoice.setText(gv.emailLoggedIn)
 
@@ -119,8 +123,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
             gv.mapProds = gv.prodsList.associateBy({ it.productName!! }, { it.quantity!! }).toMutableMap()
             createInvoice()
             gv.prodsList.clear()
-            executeOtherActivity(InvoicesActivity::class.java)
-            finish()
         }
 
     }
@@ -229,7 +231,26 @@ class CreateInvoiceActivity : AppCompatActivity() {
         invoiceAdd.enqueue(object : Callback<ResponseBody> {
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Toast.makeText(this@CreateInvoiceActivity, "Invoice created successfully!", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful)
+                {
+                    Toast.makeText(this@CreateInvoiceActivity, "Invoice created successfully!", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                else
+                {
+                    if (response.code() >= 400) {
+                        var jsonObject = JSONObject(response.errorBody()?.string())
+                        val message : String = jsonObject.getString("message")
+                        val builder = AlertDialog.Builder(this@CreateInvoiceActivity)
+                        builder.setTitle(getString(R.string.oops))
+                        builder.setIcon(R.drawable.warning_icon)
+                        builder.setMessage(message)
+                        builder.setPositiveButton("OK") { dialogInterface: DialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }
+                        builder.show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

@@ -68,7 +68,7 @@ class StockMovementActivity : AppCompatActivity() {
         }
     }
 
-    //Get operating funds from API
+    //Get stock movements from API
     @Synchronized
     private fun getStockMovements() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)

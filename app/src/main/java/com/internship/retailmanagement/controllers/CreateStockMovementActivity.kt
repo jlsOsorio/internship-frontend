@@ -11,11 +11,14 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityCreateStockMovementBinding
 import com.internship.retailmanagement.dataclasses.stockmovements.InsertStockMovItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.NumberFormatException
 import java.util.ArrayList
 
 class CreateStockMovementActivity : AppCompatActivity() {
@@ -68,34 +71,55 @@ class CreateStockMovementActivity : AppCompatActivity() {
 
         create.setOnClickListener{
             createStockMovement()
-            finish()
         }
     }
 
     //Create stock movement
     @Synchronized
     private fun createStockMovement() {
-        val moveStr = gv.typeMovement
-        val quantityStr = quantity.text.toString()
+        try {
+            val moveStr = gv.typeMovement
+            val quantityStr = quantity.text.toString()
 
-        val smInsert = InsertStockMovItem(
-            quantityStr.toInt(),
-            moveStr
-        )
+            val smInsert = InsertStockMovItem(
+                quantityStr.toInt(),
+                moveStr
+            )
 
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val smCreate = serviceGenerator.addStockMovement(gv.productId!!, smInsert)
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val smCreate = serviceGenerator.addStockMovement(gv.productId!!, smInsert)
 
-        smCreate.enqueue(object : Callback<ResponseBody?> {
+            smCreate.enqueue(object : Callback<ResponseBody?> {
 
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                Toast.makeText(this@CreateStockMovementActivity, "Stock Movement created successfully!", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@CreateStockMovementActivity,
+                            "Stock Movement created successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        if (response.code() >= 400) {
+                            var jsonObject = JSONObject(response.errorBody()?.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@CreateStockMovementActivity, message).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("CreateStockMovActivity", "Error:" + t.message.toString())
+                }
             }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("CreateStockMovActivity", "Error:" + t.message.toString())
-            }
+            )
         }
-        )
+        catch (e: NumberFormatException)
+        {
+            ErrorDialog.setDialog(this@CreateStockMovementActivity, "Invalid input!").show()
+        }
     }
 }

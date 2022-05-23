@@ -116,35 +116,7 @@ class StoresActivity : AppCompatActivity() {
         swipeRefreshUsers.isRefreshing = false
     }
 
-   /* //Get cash registers from API
-    @Synchronized
-    private fun getCashRegisters() {
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-
-        val crCall = serviceGenerator.getCashRegisters()
-
-        crCall.enqueue(
-            object : Callback<MutableList<CashRegisterItem>> {
-                override fun onResponse(
-                    call: Call<MutableList<CashRegisterItem>>,
-                    response: Response<MutableList<CashRegisterItem>>
-                ) {
-                    if (response.isSuccessful) {
-                        crList.clear()
-                        crList.addAll(response.body()!!.toMutableList())
-                        gv.storeNumberCR = crList.size
-
-                        }
-                    }
-
-                override fun onFailure(call: Call<MutableList<CashRegisterItem>>, t: Throwable) {
-                    t.printStackTrace()
-                    Log.e("ChangeOpFundActivity", "Error:" + t.message.toString())
-                }
-            })
-    }*/
-
-    //Save user email in global var to set it in the update page
+    //Save store info in global vars to set it in the update page
     private fun executeOtherActivity(otherActivity: Class<*>,
                                      id: Long,
                                      storeAddress: String,
@@ -187,5 +159,17 @@ class StoresActivity : AppCompatActivity() {
             R.id.signOutMenu -> null
         }
         return true
+    }
+
+    /**
+     * When update or create a new store, this activity must "auto refresh" to show immediatly the changes. So the method "onRestart()",
+     * which is a method that is called an activity is finished and the app goes back to the previous activity, was rewritten this way.
+     */
+    override fun onRestart() {
+        super.onRestart()
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 }

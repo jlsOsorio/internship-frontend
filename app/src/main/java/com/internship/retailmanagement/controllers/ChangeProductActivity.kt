@@ -1,22 +1,28 @@
 package com.internship.retailmanagement.controllers
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.spinners.IvaSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeProductBinding
 import com.internship.retailmanagement.dataclasses.IvaItem
 import com.internship.retailmanagement.dataclasses.products.UpdateProductItem
 import com.internship.retailmanagement.services.ApiService
+import com.internship.retailmanagement.services.ErrorDialog
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_change_product.*
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.NumberFormatException
 
 class ChangeProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangeProductBinding
@@ -47,7 +53,6 @@ class ChangeProductActivity : AppCompatActivity() {
 
         confirm.setOnClickListener {
             putProduct()
-            finish()
         }
     }
 
@@ -110,31 +115,53 @@ class ChangeProductActivity : AppCompatActivity() {
     //Update product
     @Synchronized
     private fun putProduct() {
-        val nameStr = nameProduct.text.toString()
-        val grossPriceStr = grossPrice.text.toString()
+        try {
+            val nameStr = nameProduct.text.toString()
+            val grossPriceStr = grossPrice.text.toString()
 
-        val productUpdate = UpdateProductItem(
-            nameStr,
-            gv.productIva,
-            grossPriceStr.toDouble(),
-        )
+            val productUpdate = UpdateProductItem(
+                nameStr,
+                gv.productIva,
+                grossPriceStr.toDouble(),
+            )
 
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val userPut = serviceGenerator.updateProduct(gv.productId, productUpdate)
+            val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+            val userPut = serviceGenerator.updateProduct(gv.productId, productUpdate)
 
-        userPut.enqueue(object : Callback<ResponseBody?> {
+            userPut.enqueue(object : Callback<ResponseBody?> {
 
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                gv.productName = productUpdate.name
-                gv.productIva = productUpdate.ivaValue
-                gv.productGrossPrice = productUpdate.grossPrice
-                Toast.makeText(this@ChangeProductActivity, "Product updated successfully!", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful) {
+                        gv.productName = productUpdate.name
+                        gv.productIva = productUpdate.ivaValue
+                        gv.productGrossPrice = productUpdate.grossPrice
+                        Toast.makeText(
+                            this@ChangeProductActivity,
+                            "Product updated successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        if (response.code() >= 400) {
+                            var jsonObject = JSONObject(response.errorBody()?.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeProductActivity, message).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("ChangeProductActivity", "Error:" + t.message.toString())
+                }
             }
-
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("ChangeProductActivity", "Error:" + t.message.toString())
-            }
+            )
         }
-        )
+        catch(e: NumberFormatException)
+        {
+            ErrorDialog.setDialog(this@ChangeProductActivity, "Invalid input!").show()
+        }
     }
 }
