@@ -1,9 +1,12 @@
 package com.internship.retailmanagement.controllers
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.R
@@ -11,7 +14,9 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityCreateStockMovementBinding
 import com.internship.retailmanagement.dataclasses.stockmovements.InsertStockMovItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -27,6 +32,7 @@ class CreateStockMovementActivity : AppCompatActivity() {
     private lateinit var movement: Spinner
     private lateinit var quantity: EditText
     private lateinit var create: Button
+    private lateinit var sessionManager: SessionManager
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +45,7 @@ class CreateStockMovementActivity : AppCompatActivity() {
         movement = binding.typeMovement
         quantity = binding.qtyProduct
         create = binding.buttonCreate
+        sessionManager = SessionManager(this)
 
         val defaultValue : ArrayList<String> = arrayListOf("SELECT MOVEMENT TYPE")
         val movArr : ArrayList<String> = arrayListOf("IN", "OUT")
@@ -87,7 +94,7 @@ class CreateStockMovementActivity : AppCompatActivity() {
             )
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val smCreate = serviceGenerator.addStockMovement(gv.productId!!, smInsert)
+            val smCreate = serviceGenerator.addStockMovement("Bearer ${sessionManager.fetchAuthToken()}", gv.productId!!, smInsert)
 
             smCreate.enqueue(object : Callback<ResponseBody?> {
 
@@ -103,8 +110,13 @@ class CreateStockMovementActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() >= 400) {
-                            var jsonObject = JSONObject(response.errorBody()?.string())
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@CreateStockMovementActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")
                             ErrorDialog.setDialog(this@CreateStockMovementActivity, message).show()
                         }
@@ -121,5 +133,38 @@ class CreateStockMovementActivity : AppCompatActivity() {
         {
             ErrorDialog.setDialog(this@CreateStockMovementActivity, "Invalid input!").show()
         }
+    }
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(com.internship.retailmanagement.R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            com.internship.retailmanagement.R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            com.internship.retailmanagement.R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            com.internship.retailmanagement.R.id.signOutMenu -> Utils.logout(this@CreateStockMovementActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@CreateStockMovementActivity, otherActivity)
+        startActivity(x)
     }
 }

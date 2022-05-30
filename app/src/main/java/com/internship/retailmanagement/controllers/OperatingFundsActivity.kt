@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.OpFundsAdapter
 import com.internship.retailmanagement.databinding.ActivityOperatingFundsBinding
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +31,7 @@ class OperatingFundsActivity : AppCompatActivity() {
     private lateinit var mAdapter: OpFundsAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var gv: GlobalVar
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,7 @@ class OperatingFundsActivity : AppCompatActivity() {
 
         opFundsList = arrayListOf()
         fab = binding.fab
+        sessionManager = SessionManager(this)
 
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
@@ -57,23 +63,23 @@ class OperatingFundsActivity : AppCompatActivity() {
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
             //Show data in recycler view
-            getOperatingFunds()
+            getMyOF()
             myRecyclerView.adapter!!.notifyDataSetChanged()
         }
 
-        getOperatingFunds()
+        getMyOF()
 
         fab.setOnClickListener{
-            executeOtherActivity(CreateOperatingFundActivity::class.java, 0, 0.0, 0.0, 0, "")
+            executeOtherActivity(CreateOperatingFundActivity::class.java)
         }
     }
 
-    //Get operating funds from API
+   /* //Get operating funds from API
     @Synchronized
     private fun getOperatingFunds() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val opFundsCall = serviceGenerator.getOpFunds(gv.userId!!)
+        val opFundsCall = serviceGenerator.getOpFunds("Bearer ${sessionManager.fetchAuthToken()}", gv.userId!!)
 
         opFundsCall.enqueue(
             object : Callback<MutableList<OpFundItem>> {
@@ -85,7 +91,12 @@ class OperatingFundsActivity : AppCompatActivity() {
                         opFundsList.clear()
                         opFundsList.addAll(response.body()!!.toMutableList())
                         mAdapter = OpFundsAdapter(opFundsList, { _, id, entryQty, exitQty, crId, moment ->
-                            executeOtherActivity(ChangeOperatingFundActivity::class.java, id, entryQty, exitQty, crId, moment)
+                            gv.opFundId = id
+                            gv.opFundEntryQty = entryQty
+                            gv.opFundExitQty = exitQty
+                            gv.opFundCashRegister = crId
+                            gv.opFundMoment = moment
+                            executeOtherActivity(ChangeOperatingFundActivity::class.java)
                         }, { _,id->""
                             //executeOtherActivity(ChangeProductDataActivity::class.java, id)
                         })
@@ -94,6 +105,19 @@ class OperatingFundsActivity : AppCompatActivity() {
                             layoutManager = LinearLayoutManager(this@OperatingFundsActivity)
                             setHasFixedSize(true)
                             adapter = mAdapter
+                        }
+                    }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@OperatingFundsActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@OperatingFundsActivity, message).show()
                         }
                     }
                 }
@@ -105,18 +129,60 @@ class OperatingFundsActivity : AppCompatActivity() {
             })
 
         swipeRefreshUsers.isRefreshing = false
-    }
+    }*/
 
-    private fun executeOtherActivity(otherActivity: Class<*>, id: Long, entryQty: Double, exitQty: Double, cashRegId: Long, moment: String) {
-        gv.opFundId = id
-        gv.opFundEntryQty = entryQty
-        gv.opFundExitQty = exitQty
-        gv.opFundCashRegister = cashRegId
-        gv.opFundMoment = moment
-        val x = Intent(this@OperatingFundsActivity, otherActivity)
-        startActivity(x)
-    }
+    //Get user authenticated from API
+    @Synchronized
+    private fun getMyOF() {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val myOF = serviceGenerator.getMyOpFund("Bearer ${sessionManager.fetchAuthToken()}")
 
+        myOF.enqueue(object : Callback<MutableList<OpFundItem>> {
+            override fun onResponse(
+                call: Call<MutableList<OpFundItem>>,
+                response: Response<MutableList<OpFundItem>>
+            ) {
+                if (response.isSuccessful) {
+                    opFundsList.clear()
+                    opFundsList.addAll(response.body()!!.toMutableList())
+                    mAdapter = OpFundsAdapter(opFundsList, { _, id, entryQty, exitQty, crId, moment ->
+                        gv.opFundId = id
+                        gv.opFundEntryQty = entryQty
+                        gv.opFundExitQty = exitQty
+                        gv.opFundCashRegister = crId
+                        gv.opFundMoment = moment
+                        executeOtherActivity(ChangeOperatingFundActivity::class.java)
+                    }, { _,id->""
+                        //executeOtherActivity(ChangeProductDataActivity::class.java, id)
+                    })
+                    mAdapter.notifyDataSetChanged()
+                    myRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(this@OperatingFundsActivity)
+                        setHasFixedSize(true)
+                        adapter = mAdapter
+                    }
+                }
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@OperatingFundsActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@OperatingFundsActivity, message).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<OpFundItem>>, t: Throwable) {
+                Log.e("OperatingFundsActivity", "Error:" + t.message.toString())
+            }
+        })
+        swipeRefreshUsers.isRefreshing = false
+    }
 
     /**
      * Overwrite method to generate menu in action bar.
@@ -135,11 +201,20 @@ class OperatingFundsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@OperatingFundsActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@OperatingFundsActivity, otherActivity)
+        startActivity(x)
     }
 
     /**

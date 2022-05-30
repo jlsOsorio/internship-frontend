@@ -1,7 +1,6 @@
 package com.internship.retailmanagement.controllers
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,10 +9,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityCreateInvoiceBinding
 import com.internship.retailmanagement.dataclasses.CashRegisterItem
@@ -41,6 +42,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
     private lateinit var orderProducts: AppCompatButton
     private lateinit var prodsList: MutableList<InvProdItem>
     private lateinit var checkInv: AppCompatButton
+    private lateinit var sessionManager: SessionManager
 
     @SuppressLint("ClickableViewAccessibility", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +61,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
         prodsList = arrayListOf()
         cashRegisterItem = CashRegisterItem(0)
         gv.invCashRegister = null
+        sessionManager = SessionManager(this)
 
         userInvoice.setText(gv.emailLoggedIn)
 
@@ -124,7 +127,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
             createInvoice()
             gv.prodsList.clear()
         }
-
     }
 
     private fun setupCustomSpinner() {
@@ -136,7 +138,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
     @Synchronized
     private fun getStore() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val storeCall = serviceGenerator.getStore(gv.storeUserLogged!!)
+        val storeCall = serviceGenerator.getStore("Bearer ${sessionManager.fetchAuthToken()}", gv.storeUserLogged!!)
 
         storeCall.enqueue(object : Callback<StoreItem> {
             override fun onResponse(
@@ -165,11 +167,21 @@ class CreateInvoiceActivity : AppCompatActivity() {
                             override fun onNothingSelected(parent: AdapterView<*>?) {
                                 TODO("Not yet implemented")
                             }
-
                         }
                 }
-
-
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@CreateInvoiceActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@CreateInvoiceActivity, message).show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<StoreItem>, t: Throwable) {
@@ -183,7 +195,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
     private fun getProducts() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val productsCall = serviceGenerator.getProducts()
+        val productsCall = serviceGenerator.getProducts("Bearer ${sessionManager.fetchAuthToken()}")
 
         productsCall.enqueue(
             object : Callback<MutableList<ProductItem>> {
@@ -199,6 +211,19 @@ class CreateInvoiceActivity : AppCompatActivity() {
                             gv.prodsNames.add(it.name!!)
                         }
                     }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@CreateInvoiceActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@CreateInvoiceActivity, message).show()
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<MutableList<ProductItem>>, t: Throwable) {
@@ -206,12 +231,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
                     Log.e("ProductsActivity", "Error:" + t.message.toString())
                 }
             })
-    }
-
-    //Continue the invoice creation in next activity
-    private fun executeOtherActivity(otherActivity: Class<*>) {
-        val x = Intent(this@CreateInvoiceActivity, otherActivity)
-        startActivity(x)
     }
 
     //Create invoice
@@ -226,7 +245,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
         )
 
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val invoiceAdd = serviceGenerator.addInvoice(invInsert)
+        val invoiceAdd = serviceGenerator.addInvoice("Bearer ${sessionManager.fetchAuthToken()}", invInsert)
 
         invoiceAdd.enqueue(object : Callback<ResponseBody> {
 
@@ -238,17 +257,15 @@ class CreateInvoiceActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    if (response.code() >= 400) {
-                        var jsonObject = JSONObject(response.errorBody()?.string())
-                        val message : String = jsonObject.getString("message")
-                        val builder = AlertDialog.Builder(this@CreateInvoiceActivity)
-                        builder.setTitle(getString(R.string.oops))
-                        builder.setIcon(R.drawable.warning_icon)
-                        builder.setMessage(message)
-                        builder.setPositiveButton("OK") { dialogInterface: DialogInterface, _ ->
-                            dialogInterface.cancel()
-                        }
-                        builder.show()
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@CreateInvoiceActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@CreateInvoiceActivity, message).show()
                     }
                 }
             }
@@ -277,11 +294,19 @@ class CreateInvoiceActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@CreateInvoiceActivity)
         }
         return true
     }
 
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@CreateInvoiceActivity, otherActivity)
+        startActivity(x)
+    }
 }

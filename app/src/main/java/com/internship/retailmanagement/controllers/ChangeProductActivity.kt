@@ -1,20 +1,22 @@
 package com.internship.retailmanagement.controllers
 
-import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.spinners.IvaSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeProductBinding
 import com.internship.retailmanagement.dataclasses.IvaItem
 import com.internship.retailmanagement.dataclasses.products.UpdateProductItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_change_product.*
 import okhttp3.ResponseBody
@@ -32,6 +34,7 @@ class ChangeProductActivity : AppCompatActivity() {
     private lateinit var grossPrice: EditText
     private lateinit var ivaList: MutableList<IvaItem>
     private lateinit var confirm: Button
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,7 @@ class ChangeProductActivity : AppCompatActivity() {
         grossPrice = binding.grossPriceProduct
         confirm = binding.buttonConfirm
         ivaList = arrayListOf()
+        sessionManager = SessionManager(this)
 
         productName.setText(gv.productName)
         grossPrice.setText(gv.productGrossPrice.toString())
@@ -72,7 +76,7 @@ class ChangeProductActivity : AppCompatActivity() {
     private fun getIvaValues() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val ivaCall = serviceGenerator.getIvaValues()
+        val ivaCall = serviceGenerator.getIvaValues("Bearer ${sessionManager.fetchAuthToken()}")
 
         ivaCall.enqueue(
             object : Callback<MutableList<IvaItem>> {
@@ -100,7 +104,19 @@ class ChangeProductActivity : AppCompatActivity() {
                             override fun onNothingSelected(parent: AdapterView<*>?) {
                                 TODO("Not yet implemented")
                             }
-
+                        }
+                    }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeProductActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeProductActivity, message).show()
                         }
                     }
                 }
@@ -126,7 +142,7 @@ class ChangeProductActivity : AppCompatActivity() {
             )
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val userPut = serviceGenerator.updateProduct(gv.productId, productUpdate)
+            val userPut = serviceGenerator.updateProduct("Bearer ${sessionManager.fetchAuthToken()}", gv.productId, productUpdate)
 
             userPut.enqueue(object : Callback<ResponseBody?> {
 
@@ -145,8 +161,13 @@ class ChangeProductActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() >= 400) {
-                            var jsonObject = JSONObject(response.errorBody()?.string())
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeProductActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")
                             ErrorDialog.setDialog(this@ChangeProductActivity, message).show()
                         }
@@ -163,5 +184,38 @@ class ChangeProductActivity : AppCompatActivity() {
         {
             ErrorDialog.setDialog(this@ChangeProductActivity, "Invalid input!").show()
         }
+    }
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(com.internship.retailmanagement.R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            com.internship.retailmanagement.R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            com.internship.retailmanagement.R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            com.internship.retailmanagement.R.id.signOutMenu -> Utils.logout(this@ChangeProductActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@ChangeProductActivity, otherActivity)
+        startActivity(x)
     }
 }

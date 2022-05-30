@@ -1,5 +1,6 @@
 package com.internship.retailmanagement.controllers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,11 +8,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.databinding.ActivityStoreDetailsBinding
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +31,7 @@ class StoreDetailsActivity : AppCompatActivity() {
     private lateinit var contact: TextView
     private lateinit var cashRegisters: TextView
     private lateinit var status: TextView
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,7 @@ class StoreDetailsActivity : AppCompatActivity() {
         contact = binding.contactStore
         cashRegisters = binding.cashRegisterStore
         status = binding.statusStore
+        sessionManager = SessionManager(this)
 
         getStore()
     }
@@ -49,7 +56,7 @@ class StoreDetailsActivity : AppCompatActivity() {
     @Synchronized
     private fun getStore() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val storeCall = serviceGenerator.getStore(gv.storeId!!)
+        val storeCall = serviceGenerator.getStore("Bearer ${sessionManager.fetchAuthToken()}", gv.storeId!!)
 
         storeCall.enqueue(object : Callback<StoreItem> {
             override fun onResponse(
@@ -67,6 +74,19 @@ class StoreDetailsActivity : AppCompatActivity() {
                     cashRegisters.text = responseBody.cashRegisters!!.size.toString()
                     status.text = responseBody.status
                 }
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@StoreDetailsActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@StoreDetailsActivity, message).show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<StoreItem>, t: Throwable) {
@@ -74,6 +94,7 @@ class StoreDetailsActivity : AppCompatActivity() {
             }
         })
     }
+
 
     /**
      * Overwrite method to generate menu in action bar.
@@ -92,10 +113,19 @@ class StoreDetailsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@StoreDetailsActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@StoreDetailsActivity, otherActivity)
+        startActivity(x)
     }
 }

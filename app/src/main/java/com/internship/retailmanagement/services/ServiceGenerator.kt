@@ -19,35 +19,12 @@ import java.security.AccessController.getContext
 
 
 //base url
-const val BASE_URL = "http://localhost:8080"
+const val BASE_URL = "http://192.168.1.102:8080"
 
 /**
  * Service that provides the JSON result from the base URL, based on Retrofit.
  */
 object ServiceGenerator {
-    //Tentar implementar interceptor para capturar respostas dos erros de forma global
-    /*var okHttpClient: OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(Interceptor { chain ->
-            val request: Request = chain.request()
-            val response = chain.proceed(request)
-
-            // todo deal with the issues the way you need to
-            if (response.code >= 400) {
-                /*var jsonObject = JSONObject(response.body!!.string())
-                val message : String = jsonObject.getString("message")
-                val builder = AlertDialog.Builder()
-                builder.setTitle("ERROR")
-                builder.setIcon(R.drawable.remove_icon)
-                builder.setMessage(message)
-                builder.setPositiveButton("OK") { dialogInterface: DialogInterface, _ ->
-                    dialogInterface.cancel()
-                }
-                builder.show()*/
-                return@Interceptor response
-            }
-            response
-        })
-        .build()*/
 
     private val client = OkHttpClient.Builder().build()
 

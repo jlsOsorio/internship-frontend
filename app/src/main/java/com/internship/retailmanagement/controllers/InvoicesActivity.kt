@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.InvoicesAdapter
 import com.internship.retailmanagement.databinding.ActivityInvoicesBinding
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
@@ -21,11 +24,11 @@ import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
-import java.lang.StringBuilder
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,6 +40,7 @@ class InvoicesActivity : AppCompatActivity() {
     private lateinit var mAdapter: InvoicesAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var gv: GlobalVar
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +48,10 @@ class InvoicesActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
         invoicesList = arrayListOf()
         fab = binding.fab
         gv = application as GlobalVar
-
-        //gv.fileInvoices = openFileOutput("data.txt", Context.MODE_APPEND)
-
+        sessionManager = SessionManager(this)
 
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
@@ -86,7 +87,7 @@ class InvoicesActivity : AppCompatActivity() {
     private fun getInvoices() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val invoicesCall = serviceGenerator.getInvoices()
+        val invoicesCall = serviceGenerator.getInvoices("Bearer ${sessionManager.fetchAuthToken()}")
 
         invoicesCall.enqueue(
             object : Callback<MutableList<InvoiceItem>> {
@@ -101,7 +102,6 @@ class InvoicesActivity : AppCompatActivity() {
                         val outputWriter = OutputStreamWriter(gv.fileInvoices)
                         for (invoice in invoicesList)
                         {
-                            //val payment = Random.nextDouble(invoice.totalIva!!, invoice.totalIva + 100)
                             outputWriter.write(invoiceTemplate(invoice.invoiceNumber!!,
                                 invoice.cashRegister!!.id!!,
                                 invoice.user!!.name!!,
@@ -115,7 +115,7 @@ class InvoicesActivity : AppCompatActivity() {
                         }
                         mAdapter = InvoicesAdapter(invoicesList, { _, id ->""
                             //executeOtherActivity(ChangeUserDataActivity::class.java, id)
-                        }, { _, id ->""
+                        }, { _, id ->
                             executeOtherActivity(InvoiceDetailsActivity::class.java, id)
                         }, { invoice, id ->
 
@@ -135,6 +135,19 @@ class InvoicesActivity : AppCompatActivity() {
                             adapter = mAdapter
                         }
                     }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@InvoicesActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@InvoicesActivity, message).show()
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<MutableList<InvoiceItem>>, t: Throwable) {
@@ -143,42 +156,6 @@ class InvoicesActivity : AppCompatActivity() {
                 }
             })
         swipeRefreshUsers.isRefreshing = false
-    }
-
-    /**
-     * Method to go to the next activity.
-     * @param otherActivity     next activity
-     * @param id    global id intended to pass to next activity
-     */
-    private fun executeOtherActivity(otherActivity: Class<*>,
-                                     id: Long) {
-        gv.invoiceNumber = id
-        val x = Intent(this@InvoicesActivity, otherActivity)
-        startActivity(x)
-    }
-
-    /**
-     * Overwrite method to generate menu in action bar.
-     * @param menu: menu Type.
-     */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_bar, menu)
-        return true
-    }
-
-    /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
-     * @param item MenuItem type
-     * @return boolean value
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
-        }
-        return true
     }
 
     private fun invoiceTemplate(invNumber: Long,
@@ -191,7 +168,7 @@ class InvoicesActivity : AppCompatActivity() {
                                 transaction: String,
                                 responseProds: MutableList<InvProdItem>) : String {
 
-        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US)
         val currentDate = sdf.format(Date())
         val df = DecimalFormat("#.##")
         val invTotalRounded = df.format(invTotal)
@@ -232,8 +209,11 @@ class InvoicesActivity : AppCompatActivity() {
         res.append("\nTRANSACTION                       $transaction")
         res.append("\n------------------------------------------")
         res.append("\nTOTAL                                $invTotalRounded")
-        res.append("\nRECEIVED                             $receivedRounded")
-        res.append("\nCHANGE                               $changeRounded")
+        if (transaction == "DEBIT")
+        {
+            res.append("\nRECEIVED                             $receivedRounded")
+            res.append("\nCHANGE                               $changeRounded")
+        }
         res.append("\n")
         res.append("RESPONSIBLE                         $employee")
         res.append("\n------------------------------------------")
@@ -246,6 +226,46 @@ class InvoicesActivity : AppCompatActivity() {
         res.append("\n------------------------------------------\n\n\n")
 
         return res.toString()
+    }
+
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java, 0)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java, 0)
+            R.id.signOutMenu -> Utils.logout(this@InvoicesActivity)
+        }
+        return true
+    }
+
+    /**
+     * Method to go to the next activity.
+     * @param otherActivity     next activity
+     * @param id    global id intended to pass to next activity
+     */
+    private fun executeOtherActivity(otherActivity: Class<*>,
+                                     id: Long) {
+        gv.invoiceNumber = id
+        val x = Intent(this@InvoicesActivity, otherActivity)
+        startActivity(x)
     }
 
     /**

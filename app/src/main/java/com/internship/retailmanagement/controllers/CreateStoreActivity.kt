@@ -1,9 +1,12 @@
 package com.internship.retailmanagement.controllers
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.R
@@ -11,7 +14,9 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityCreateStoreBinding
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -30,6 +35,7 @@ class CreateStoreActivity : AppCompatActivity() {
     private lateinit var storeNumberCR: EditText
     private lateinit var storeStatus: Spinner
     private lateinit var create: Button
+    private lateinit var sessionManager: SessionManager
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +52,7 @@ class CreateStoreActivity : AppCompatActivity() {
         storeNumberCR = binding.cashRegisterStore
         storeStatus = binding.statusStore
         create = binding.buttonCreate
+        sessionManager = SessionManager(this)
 
         val defaultValue : java.util.ArrayList<String> = arrayListOf("SELECT STORE STATUS")
         val statusArr : ArrayList<String> = arrayListOf("ACTIVE", "INACTIVE")
@@ -101,7 +108,7 @@ class CreateStoreActivity : AppCompatActivity() {
             )
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val storeCreate = serviceGenerator.addStore(storeUpdate)
+            val storeCreate = serviceGenerator.addStore("Bearer ${sessionManager.fetchAuthToken()}", storeUpdate)
             storeCreate.enqueue(object : Callback<ResponseBody?> {
 
                 override fun onResponse(
@@ -119,8 +126,13 @@ class CreateStoreActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() >= 400) {
-                            var jsonObject = JSONObject(response.errorBody()?.string())
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@CreateStoreActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")
                             ErrorDialog.setDialog(this@CreateStoreActivity, message).show()
                         }
@@ -138,5 +150,38 @@ class CreateStoreActivity : AppCompatActivity() {
         {
             ErrorDialog.setDialog(this@CreateStoreActivity, "Invalid input!").show()
         }
+    }
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(com.internship.retailmanagement.R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            com.internship.retailmanagement.R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            com.internship.retailmanagement.R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            com.internship.retailmanagement.R.id.signOutMenu -> Utils.logout(this@CreateStoreActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@CreateStoreActivity, otherActivity)
+        startActivity(x)
     }
 }

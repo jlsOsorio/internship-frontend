@@ -1,4 +1,4 @@
-package com.internship.retailmanagement.services
+package com.internship.retailmanagement.config
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

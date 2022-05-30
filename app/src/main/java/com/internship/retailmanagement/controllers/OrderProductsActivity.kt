@@ -1,6 +1,7 @@
 package com.internship.retailmanagement.controllers
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -14,10 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
 import com.internship.retailmanagement.controllers.adapters.OrderProdAdapter
 import com.internship.retailmanagement.databinding.ActivityOrderProductsBinding
 import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
-import com.internship.retailmanagement.services.SwipeToDeleteCallback
+import com.internship.retailmanagement.config.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.activity_order_products.*
 import java.util.ArrayList
 
@@ -127,10 +129,19 @@ class OrderProductsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@OrderProductsActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@OrderProductsActivity, otherActivity)
+        startActivity(x)
     }
 }

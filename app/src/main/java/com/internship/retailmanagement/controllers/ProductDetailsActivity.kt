@@ -1,5 +1,6 @@
 package com.internship.retailmanagement.controllers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,11 +8,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.databinding.ActivityProductDetailsBinding
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +31,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     private lateinit var iva: TextView
     private lateinit var grossPrice: TextView
     private lateinit var taxedPrice: TextView
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +46,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         iva = binding.ivaProduct
         grossPrice = binding.grossPriceProduct
         taxedPrice = binding.taxedPriceProduct
+        sessionManager = SessionManager(this)
 
         getProduct()
     }
@@ -48,7 +55,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     @Synchronized
     private fun getProduct() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val productCall = serviceGenerator.getProduct(gv.productId!!)
+        val productCall = serviceGenerator.getProduct("Bearer ${sessionManager.fetchAuthToken()}", gv.productId!!)
 
         productCall.enqueue(object : Callback<ProductItem> {
             override fun onResponse(
@@ -67,8 +74,19 @@ class ProductDetailsActivity : AppCompatActivity() {
                     val taxedPriceRounded = df.format(responseBody.taxedPrice)
                     taxedPrice.text = taxedPriceRounded.toString()
                 }
-
-
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@ProductDetailsActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@ProductDetailsActivity, message).show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<ProductItem>, t: Throwable) {
@@ -94,10 +112,19 @@ class ProductDetailsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@ProductDetailsActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@ProductDetailsActivity, otherActivity)
+        startActivity(x)
     }
 }

@@ -1,5 +1,6 @@
 package com.internship.retailmanagement.controllers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,12 +9,16 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.databinding.ActivityChangeStoreBinding
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +33,7 @@ class ChangeStoreActivity : AppCompatActivity() {
     private lateinit var storeNumberCR: EditText
     private lateinit var storeStatus: Spinner
     private lateinit var confirm: Button
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +49,7 @@ class ChangeStoreActivity : AppCompatActivity() {
         storeNumberCR = binding.cashRegisterStore
         storeStatus = binding.statusStore
         confirm = binding.buttonConfirm
+        sessionManager = SessionManager(this)
 
         storeAddress.setText(gv.storeAddress)
         storeCouncil.setText(gv.storeCouncil)
@@ -101,16 +108,32 @@ class ChangeStoreActivity : AppCompatActivity() {
         )
 
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val storePut = serviceGenerator.updateStore(gv.storeId, storeUpdate)
+        val storePut = serviceGenerator.updateStore("Bearer ${sessionManager.fetchAuthToken()}", gv.storeId, storeUpdate)
 
         storePut.enqueue(object : Callback<ResponseBody?> {
 
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                Toast.makeText(this@ChangeStoreActivity, "Store updated successfully!", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful)
+                {
+                    Toast.makeText(this@ChangeStoreActivity, "Store updated successfully!", Toast.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@ChangeStoreActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@ChangeStoreActivity, message).show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
-                Log.e("ChangeUserDataActivity", "Error:" + t.message.toString())
+                Log.e("ChangeStoreActivity", "Error:" + t.message.toString())
             }
         }
         )
@@ -133,10 +156,19 @@ class ChangeStoreActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            com.internship.retailmanagement.R.id.profileMenu -> null
-            com.internship.retailmanagement.R.id.changePasswordMenu -> null
-            com.internship.retailmanagement.R.id.signOutMenu -> null
+            com.internship.retailmanagement.R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            com.internship.retailmanagement.R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            com.internship.retailmanagement.R.id.signOutMenu -> Utils.logout(this@ChangeStoreActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@ChangeStoreActivity, otherActivity)
+        startActivity(x)
     }
 }

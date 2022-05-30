@@ -2,21 +2,23 @@ package com.internship.retailmanagement.controllers
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeOperatingFundBinding
 import com.internship.retailmanagement.dataclasses.CashRegisterItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -36,6 +38,7 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
     private lateinit var moment: EditText
     private lateinit var confirm: Button
     private lateinit var crList: MutableList<CashRegisterItem>
+    private lateinit var sessionManager: SessionManager
     private val myCalendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
         moment = binding.dateOpFund
         confirm = binding.buttonConfirm
         crList = arrayListOf()
+        sessionManager = SessionManager(this)
 
         val date =
             OnDateSetListener { view, year, month, day ->
@@ -104,7 +108,7 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
     private fun getCashRegisters() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val crCall = serviceGenerator.getCashRegisters()
+        val crCall = serviceGenerator.getCashRegisters("Bearer ${sessionManager.fetchAuthToken()}")
 
         crCall.enqueue(
             object : Callback<MutableList<CashRegisterItem>> {
@@ -135,6 +139,19 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
 
                         }
                     }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeOperatingFundActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeOperatingFundActivity, message).show()
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<MutableList<CashRegisterItem>>, t: Throwable) {
@@ -161,7 +178,7 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
             )
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val opFundPut = serviceGenerator.updateOpFund(gv.opFundId, opFundUpdate)
+            val opFundPut = serviceGenerator.updateOpFund("Bearer ${sessionManager.fetchAuthToken()}",gv.opFundId, opFundUpdate)
 
             opFundPut.enqueue(object : Callback<ResponseBody?> {
 
@@ -182,8 +199,13 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
                         finish()
 
                     } else {
-                        if (response.code() >= 400) {
-                            var jsonObject = JSONObject(response.errorBody()?.string())
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeOperatingFundActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")
                             ErrorDialog.setDialog(this@ChangeOperatingFundActivity, message).show()
                         }
@@ -212,7 +234,7 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
      * @param timeZone      timeZone UTC
      * @return Date
      */
-    fun String.toDate(dateFormat: String, timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+    private fun String.toDate(dateFormat: String, timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
         val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
         parser.timeZone = timeZone
         return parser.parse(this)!!
@@ -228,5 +250,38 @@ class ChangeOperatingFundActivity : AppCompatActivity() {
         val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
         formatter.timeZone = timeZone
         return formatter.format(this)
+    }
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(com.internship.retailmanagement.R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            com.internship.retailmanagement.R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            com.internship.retailmanagement.R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            com.internship.retailmanagement.R.id.signOutMenu -> Utils.logout(this@ChangeOperatingFundActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@ChangeOperatingFundActivity, otherActivity)
+        startActivity(x)
     }
 }

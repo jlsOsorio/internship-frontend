@@ -17,6 +17,7 @@
         android:background="@drawable/button_shape_light"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/new_order"
+        android:textColor="@color/first_red"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout

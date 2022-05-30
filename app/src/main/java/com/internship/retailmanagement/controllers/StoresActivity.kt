@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.StoresAdapter
 import com.internship.retailmanagement.databinding.ActivityStoresBinding
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +31,7 @@ class StoresActivity : AppCompatActivity() {
     private lateinit var mAdapter: StoresAdapter
     private lateinit var gv: GlobalVar
     private lateinit var fab: FloatingActionButton
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,7 @@ class StoresActivity : AppCompatActivity() {
 
         storesList = arrayListOf()
         fab = binding.fab
+        sessionManager = SessionManager(this)
 
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
@@ -64,7 +70,7 @@ class StoresActivity : AppCompatActivity() {
         getStores()
 
         fab.setOnClickListener{
-            executeOtherActivity(CreateStoreActivity::class.java,0,"","", "", "", "", 0)
+            executeOtherActivity(CreateStoreActivity::class.java)
         }
 
     }
@@ -74,7 +80,7 @@ class StoresActivity : AppCompatActivity() {
     private fun getStores() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val storesCall = serviceGenerator.getStores()
+        val storesCall = serviceGenerator.getStores("Bearer ${sessionManager.fetchAuthToken()}")
 
         storesCall.enqueue(
             object : Callback<MutableList<StoreItem>> {
@@ -85,8 +91,8 @@ class StoresActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         storesList.clear()
                         storesList.addAll(response.body()!!.toMutableList())
-                        mAdapter = StoresAdapter(storesList, {_, id ->
-                            executeOtherActivity(StoreDetailsActivity::class.java, id, "", "", "", "", "", 0)
+                        mAdapter = StoresAdapter(storesList, {_, _ ->
+                            executeOtherActivity(StoreDetailsActivity::class.java)
                         }, {
                             _,
                             id, storeAddress,
@@ -95,7 +101,14 @@ class StoresActivity : AppCompatActivity() {
                             storeContact,
                             storeStatus,
                             cashRegisters ->
-                            executeOtherActivity(ChangeStoreActivity::class.java, id, storeAddress, storeCouncil, storeZipCode, storeContact, storeStatus, cashRegisters)
+                            gv.storeId = id
+                            gv.storeAddress = storeAddress
+                            gv.storeCouncil = storeCouncil
+                            gv.storeZipCode = storeZipCode
+                            gv.storeContact = storeContact
+                            gv.storeStatus = storeStatus
+                            gv.storeNumberCR = cashRegisters
+                            executeOtherActivity(ChangeStoreActivity::class.java)
                         }, { _, id ->""
                             //executeOtherActivity(UserProfileActivity::class.java, id)
                         })
@@ -106,6 +119,19 @@ class StoresActivity : AppCompatActivity() {
                             adapter = mAdapter
                         }
                     }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@StoresActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@StoresActivity, message).show()
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<MutableList<StoreItem>>, t: Throwable) {
@@ -114,27 +140,6 @@ class StoresActivity : AppCompatActivity() {
                 }
             })
         swipeRefreshUsers.isRefreshing = false
-    }
-
-    //Save store info in global vars to set it in the update page
-    private fun executeOtherActivity(otherActivity: Class<*>,
-                                     id: Long,
-                                     storeAddress: String,
-                                     storeCouncil: String,
-                                     storeZipCode: String,
-                                     storeContact: String,
-                                     storeStatus: String,
-                                     cashRegisters: Int)
-    {
-        gv.storeId = id
-        gv.storeAddress = storeAddress
-        gv.storeCouncil = storeCouncil
-        gv.storeZipCode = storeZipCode
-        gv.storeContact = storeContact
-        gv.storeStatus = storeStatus
-        gv.storeNumberCR = cashRegisters
-        val x = Intent(this@StoresActivity, otherActivity)
-        startActivity(x)
     }
 
     /**
@@ -154,11 +159,20 @@ class StoresActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> executeOtherActivity(UserProfileActivity::class.java, gv.userId!!, gv.storeAddress!!, gv.storeCouncil!!, gv.storeZipCode!!, gv.storeContact!!, gv.storeStatus!!, gv.storeNumberCR!!)
-            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java, gv.userId!!, gv.storeAddress!!, gv.storeCouncil!!, gv.storeZipCode!!, gv.storeContact!!, gv.storeStatus!!, gv.storeNumberCR!!)
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@StoresActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@StoresActivity, otherActivity)
+        startActivity(x)
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.internship.retailmanagement.controllers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +12,9 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.databinding.ActivityUserProfileBinding
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import org.json.JSONObject
 import retrofit2.Call
@@ -37,6 +40,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var storeAddress: TextView
     private lateinit var storeZipCode: TextView
     private lateinit var status: TextView
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,15 +62,24 @@ class UserProfileActivity : AppCompatActivity() {
         storeId = binding.idStore
         storeAddress = binding.addressStore
         storeZipCode = binding.zipCodeStore
+        sessionManager = SessionManager(this)
 
-        getUser()
+        if (gv.isMyProfile)
+        {
+            getMyProfile()
+            gv.isMyProfile = false
+        }
+        else
+        {
+            getUser()
+        }
     }
 
     //Get user from API
     @Synchronized
     private fun getUser() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val userCall = serviceGenerator.getUser(gv.userId!!)
+        val userCall = serviceGenerator.getUser("Bearer ${sessionManager.fetchAuthToken()}", gv.userId!!)
 
         userCall.enqueue(object : Callback<UserItem> {
             override fun onResponse(
@@ -92,15 +105,17 @@ class UserProfileActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    if (response.code() >= 400) {
-                        var jsonObject = JSONObject(response.errorBody()?.string())
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@UserProfileActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
                         val message: String = jsonObject.getString("message")
-                        ErrorDialog.setDialog(this@UserProfileActivity, message)
-                        finish()
+                        ErrorDialog.setDialog(this@UserProfileActivity, message).show()
                     }
                 }
-
-
             }
 
             override fun onFailure(call: Call<UserItem>, t: Throwable) {
@@ -109,28 +124,55 @@ class UserProfileActivity : AppCompatActivity() {
         })
     }
 
-    /**
-     * Overwrite method to generate menu in action bar.
-     * @param menu: menu Type.
-     */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_bar, menu)
-        return true
-    }
+    //Get user authenticated from API
+    @Synchronized
+    private fun getMyProfile() {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val myProfile = serviceGenerator.getMe("Bearer ${sessionManager.fetchAuthToken()}")
 
-    /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
-     * @param item MenuItem type
-     * @return boolean value
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
-        }
-        return true
+        myProfile.enqueue(object : Callback<UserItem> {
+            override fun onResponse(
+                call: Call<UserItem>,
+                response: Response<UserItem>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()!!
+                    email.text = responseBody.email
+                    number.text = responseBody.id.toString()
+                    name.text = responseBody.name
+                    nif.text = responseBody.nif.toString()
+                    address.text = responseBody.address
+                    council.text = responseBody.council
+                    zipCode.text = responseBody.zipCode
+                    birthDate.text = responseBody.birthDate!!.toDate().formatTo("dd-MM-yyyy")
+                    phoneNumber.text = responseBody.phone
+                    category.text = responseBody.category
+                    storeId.text = responseBody.store!!.id.toString()
+                    storeAddress.text = responseBody.store.address
+                    storeZipCode.text = responseBody.store.zipCode
+                    status.text = responseBody.status
+                }
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@UserProfileActivity, errorMessage).show()
+                        finish()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@UserProfileActivity, message).show()
+                        finish()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<UserItem>, t: Throwable) {
+                Log.e("UserProfileActivity", "Error:" + t.message.toString())
+            }
+        })
     }
 
     /**
@@ -158,4 +200,38 @@ class UserProfileActivity : AppCompatActivity() {
         return formatter.format(this)
     }
 
+
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@UserProfileActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@UserProfileActivity, otherActivity)
+        startActivity(x)
+    }
 }

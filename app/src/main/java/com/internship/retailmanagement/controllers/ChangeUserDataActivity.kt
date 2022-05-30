@@ -2,14 +2,13 @@ package com.internship.retailmanagement.controllers
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
@@ -19,7 +18,9 @@ import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -48,6 +49,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
     private lateinit var confirm: Button
     private lateinit var stores: Spinner
     private lateinit var storesList: MutableList<StoreItem>
+    private lateinit var sessionManager: SessionManager
     private val myCalendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,9 +59,6 @@ class ChangeUserDataActivity : AppCompatActivity() {
         setContentView(view)
 
         gv = application as GlobalVar
-
-        Toast.makeText(this,
-            "You can now edit the employee with the number ${gv.userId}", Toast.LENGTH_SHORT).show()
 
         email = binding.emailProfile
         name = binding.nameProfile
@@ -74,6 +73,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
         status = binding.statusProfile
         confirm = binding.buttonConfirm
         storesList = arrayListOf()
+        sessionManager = SessionManager(this)
 
         val date =
             OnDateSetListener { view, year, month, day ->
@@ -169,7 +169,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
     private fun getUser() {
         try {
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val userCall = serviceGenerator.getUser(gv.userId!!)
+            val userCall = serviceGenerator.getUser("Bearer ${sessionManager.fetchAuthToken()}", gv.userId!!)
 
             userCall.enqueue(object : Callback<UserItem> {
                 override fun onResponse(
@@ -188,6 +188,19 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         phoneNumber.setText(responseBody.phone)
                         gv.userCategory = responseBody.category
                         gv.userStatus = responseBody.status
+                    }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeUserDataActivity, message).show()
+                        }
                     }
                 }
 
@@ -234,7 +247,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
                 gv.storeId
             )
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val userPut = serviceGenerator.updateUser(gv.userId, userUpdate)
+            val userPut = serviceGenerator.updateUser("Bearer ${sessionManager.fetchAuthToken()}", gv.userId, userUpdate)
 
             userPut.enqueue(object : Callback<ResponseBody?> {
 
@@ -250,8 +263,13 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() >= 400) {
-                            var jsonObject = JSONObject(response.errorBody()?.string())
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage)
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")
                             ErrorDialog.setDialog(this@ChangeUserDataActivity, message)
                         }
@@ -274,28 +292,61 @@ class ChangeUserDataActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Overwrite method to generate menu in action bar.
-     * @param menu: menu Type.
-     */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_bar, menu)
-        return true
-    }
+    //Get stores from API
+    @Synchronized
+    private fun getStores() {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val storesCall = serviceGenerator.getStores("Bearer ${sessionManager.fetchAuthToken()}")
 
-    /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
-     * @param item MenuItem type
-     * @return boolean value
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
-        }
-        return true
+        storesCall.enqueue(
+            object : Callback<MutableList<StoreItem>> {
+                override fun onResponse(
+                    call: Call<MutableList<StoreItem>>,
+                    response: Response<MutableList<StoreItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        storesList.clear()
+                        storesList.addAll(response.body()!!.toMutableList())
+                        setupCustomSpinner()
+                        stores.onItemSelectedListener = object:
+                            AdapterView.OnItemSelectedListener {
+
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                val item = parent!!.selectedItem as StoreItem
+                                gv.storeId = item.id
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                                TODO("Not yet implemented")
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage)
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ChangeUserDataActivity, message)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<MutableList<StoreItem>>, t: Throwable) {
+                    t.printStackTrace()
+                    Log.e("ChangeUserDataActivity", "Error:" + t.message.toString())
+                }
+            })
     }
 
     /**
@@ -328,47 +379,37 @@ class ChangeUserDataActivity : AppCompatActivity() {
         birthDate.setText(dateFormat.format(myCalendar.time))
     }
 
-    //Get users from API
-    @Synchronized
-    private fun getStores() {
-        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val storesCall = serviceGenerator.getStores()
-
-        storesCall.enqueue(
-        object : Callback<MutableList<StoreItem>> {
-            override fun onResponse(
-                call: Call<MutableList<StoreItem>>,
-                response: Response<MutableList<StoreItem>>
-            ) {
-                if (response.isSuccessful) {
-                    storesList.clear()
-                    storesList.addAll(response.body()!!.toMutableList())
-                    setupCustomSpinner()
-                    stores.onItemSelectedListener = object:
-                        AdapterView.OnItemSelectedListener {
-
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            val item = parent!!.selectedItem as StoreItem
-                            gv.storeId = item.id
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                            TODO("Not yet implemented")
-                        }
-
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<MutableList<StoreItem>>, t: Throwable) {
-                t.printStackTrace()
-                Log.e("ChangeUserDataActivity", "Error:" + t.message.toString())
-            }
-        })
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bar, menu)
+        return true
     }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@ChangeUserDataActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@ChangeUserDataActivity, otherActivity)
+        startActivity(x)
+    }
+
 }

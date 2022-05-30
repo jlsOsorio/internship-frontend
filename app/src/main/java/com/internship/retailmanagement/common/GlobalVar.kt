@@ -1,6 +1,7 @@
 package com.internship.retailmanagement.common
 
 import android.app.Application
+import android.content.SharedPreferences
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 import com.internship.retailmanagement.dataclasses.invoices.OrderProdItem
 import java.io.FileOutputStream
@@ -36,7 +37,7 @@ class GlobalVar : Application() {
     var prodsNames: MutableList<String> = arrayListOf()
     var mapProds: MutableMap<String, Int> = mutableMapOf()
     var fileInvoices: FileOutputStream? = null
-    var errorMessage: String? = null
-    var isLoggedIn: Boolean = false
+    var isMyProfile: Boolean = false
+    var userToken: String? = null
     var userRole: String? = null
 }

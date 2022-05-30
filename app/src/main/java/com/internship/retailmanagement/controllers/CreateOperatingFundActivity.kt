@@ -3,13 +3,14 @@ package com.internship.retailmanagement.controllers
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.R
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.spinners.CRSpinnerAdapter
@@ -17,14 +18,15 @@ import com.internship.retailmanagement.databinding.ActivityCreateOperatingFundBi
 import com.internship.retailmanagement.dataclasses.CashRegisterItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.services.ApiService
-import com.internship.retailmanagement.services.ErrorDialog
+import com.internship.retailmanagement.common.ErrorDialog
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.RuntimeException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,6 +42,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
     private lateinit var crList: MutableList<CashRegisterItem>
     private lateinit var cashRegItem: CashRegisterItem
     private lateinit var create: Button
+    private lateinit var sessionManager: SessionManager
     private val myCalendar = Calendar.getInstance()
 
     @SuppressLint("ClickableViewAccessibility")
@@ -56,6 +59,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
         moment = binding.dateOpFund
         create = binding.buttonCreate
         crList = arrayListOf()
+        sessionManager = SessionManager(this)
 
         val date =
             OnDateSetListener { view, year, month, day ->
@@ -108,7 +112,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
     private fun getCashRegisters() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val crCall = serviceGenerator.getCashRegisters()
+        val crCall = serviceGenerator.getCashRegisters("Bearer ${sessionManager.fetchAuthToken()}")
 
         crCall.enqueue(
             object : Callback<MutableList<CashRegisterItem>> {
@@ -139,6 +143,19 @@ class CreateOperatingFundActivity : AppCompatActivity() {
 
                         }
                     }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@CreateOperatingFundActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@CreateOperatingFundActivity, message).show()
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<MutableList<CashRegisterItem>>, t: Throwable) {
@@ -167,7 +184,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
             )
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val opFundAdd = serviceGenerator.addOperatingFund(gv.userId, opFundInsert)
+            val opFundAdd = serviceGenerator.addOperatingFund("Bearer ${sessionManager.fetchAuthToken()}", gv.userId, opFundInsert)
 
             opFundAdd.enqueue(object : Callback<ResponseBody> {
 
@@ -187,8 +204,13 @@ class CreateOperatingFundActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() >= 400) {
-                            var jsonObject = JSONObject(response.errorBody()?.string())
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@CreateOperatingFundActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")
                             ErrorDialog.setDialog(this@CreateOperatingFundActivity, message).show()
                         }
@@ -233,5 +255,38 @@ class CreateOperatingFundActivity : AppCompatActivity() {
         val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
         formatter.timeZone = timeZone
         return formatter.format(this)
+    }
+
+    /**
+     * Overwrite method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(com.internship.retailmanagement.R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Overwrite method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            com.internship.retailmanagement.R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            com.internship.retailmanagement.R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            com.internship.retailmanagement.R.id.signOutMenu -> Utils.logout(this@CreateOperatingFundActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@CreateOperatingFundActivity, otherActivity)
+        startActivity(x)
     }
 }

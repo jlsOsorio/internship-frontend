@@ -9,11 +9,15 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.databinding.ActivityInvoiceDetailsBinding
 import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +33,7 @@ class InvoiceDetailsActivity : AppCompatActivity() {
     private lateinit var totalNoIva: TextView
     private lateinit var totalIva: TextView
     private lateinit var checkProducts: Button
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +50,7 @@ class InvoiceDetailsActivity : AppCompatActivity() {
         totalNoIva = binding.noIvaInvoice
         totalIva = binding.totalIvaInvoice
         checkProducts = binding.buttonInvoicedProducts
+        sessionManager = SessionManager(this)
 
         getInvoice()
 
@@ -57,7 +63,7 @@ class InvoiceDetailsActivity : AppCompatActivity() {
     @Synchronized
     private fun getInvoice() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-        val invoiceCall = serviceGenerator.getInvoice(gv.invoiceNumber!!)
+        val invoiceCall = serviceGenerator.getInvoice("Bearer ${sessionManager.fetchAuthToken()}", gv.invoiceNumber!!)
 
         invoiceCall.enqueue(object : Callback<InvoiceItem> {
             override fun onResponse(
@@ -78,8 +84,19 @@ class InvoiceDetailsActivity : AppCompatActivity() {
                     totalIva.text = totIvaRounded
                     gv.invProdsList.addAll(responseBody.invoicedProducts!!.toMutableList())
                 }
-
-
+                else
+                {
+                    if (response.code() == 401 || response.code() == 403) {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@InvoiceDetailsActivity, errorMessage).show()
+                    }
+                    else if (response.code() > 403)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@InvoiceDetailsActivity, message).show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<InvoiceItem>, t: Throwable) {
@@ -105,17 +122,17 @@ class InvoiceDetailsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@InvoiceDetailsActivity)
         }
         return true
     }
 
-    /**
-     * Method to go to the next activity.
-     * @param otherActivity     next activity
-     */
+    //Go to next activity
     private fun executeOtherActivity(otherActivity: Class<*>) {
         val x = Intent(this@InvoiceDetailsActivity, otherActivity)
         startActivity(x)

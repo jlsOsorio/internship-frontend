@@ -136,4 +136,6 @@
     <string name="ordered_products">ORDERED PRODUCTS</string>
     <string name="invoice">INVOICE</string>
     <string name="oops">Oops...</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="no_permisson">NO PERMISSIONS</string>
 </resources>

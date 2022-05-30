@@ -1,11 +1,14 @@
 package com.internship.retailmanagement.controllers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.InvProdAdapter
 import com.internship.retailmanagement.databinding.ActivityInvoicedProductsBinding
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
@@ -52,10 +55,19 @@ class InvoicedProductsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@InvoicedProductsActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@InvoicedProductsActivity, otherActivity)
+        startActivity(x)
     }
 }

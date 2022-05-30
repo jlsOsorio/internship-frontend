@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
+import com.internship.retailmanagement.common.Utils
+import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.ProductsAdapter
 import com.internship.retailmanagement.databinding.ActivityProductsBinding
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +31,7 @@ class ProductsActivity : AppCompatActivity() {
     private lateinit var productsList: MutableList<ProductItem>
     private lateinit var fab: FloatingActionButton
     private lateinit var gv: GlobalVar
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,7 @@ class ProductsActivity : AppCompatActivity() {
         productsList = arrayListOf()
         fab = binding.fab
         gv = application as GlobalVar
+        sessionManager = SessionManager(this)
 
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
@@ -63,7 +69,7 @@ class ProductsActivity : AppCompatActivity() {
         getProducts()
 
         fab.setOnClickListener{
-            executeOtherActivity(CreateProductActivity::class.java, 0, "", -1, 0.0)
+            executeOtherActivity(CreateProductActivity::class.java)
         }
     }
 
@@ -72,7 +78,7 @@ class ProductsActivity : AppCompatActivity() {
     private fun getProducts() {
         val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
 
-        val productsCall = serviceGenerator.getProducts()
+        val productsCall = serviceGenerator.getProducts("Bearer ${sessionManager.fetchAuthToken()}")
 
         productsCall.enqueue(
             object : Callback<MutableList<ProductItem>> {
@@ -84,11 +90,17 @@ class ProductsActivity : AppCompatActivity() {
                         productsList.clear()
                         productsList.addAll(response.body()!!.toMutableList())
                         mAdapter = ProductsAdapter(productsList, { _, id ->
-                            executeOtherActivity(ProductDetailsActivity::class.java, id, "", 0, 0.0)
+                            gv.productId = id
+                            executeOtherActivity(ProductDetailsActivity::class.java)
                         }, { _, id ->
-                            executeOtherActivity(StockMovementActivity::class.java, id, "", 0, 0.0)
-                        }, { _,id, name, ivaValue, grossPrice->
-                            executeOtherActivity(ChangeProductActivity::class.java, id, name, ivaValue, grossPrice)
+                            gv.productId = id
+                            executeOtherActivity(StockMovementActivity::class.java)
+                        }, { _,id, name, ivaValue, grossPrice ->
+                            gv.productId = id
+                            gv.productName = name
+                            gv.productIva = ivaValue
+                            gv.productGrossPrice = grossPrice
+                            executeOtherActivity(ChangeProductActivity::class.java)
                         }, { _,id ->
                             "" //deleteProduct)
                         })
@@ -97,6 +109,19 @@ class ProductsActivity : AppCompatActivity() {
                             layoutManager = LinearLayoutManager(this@ProductsActivity)
                             setHasFixedSize(true)
                             adapter = mAdapter
+                        }
+                    }
+                    else
+                    {
+                        if (response.code() == 401 || response.code() == 403) {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ProductsActivity, errorMessage).show()
+                        }
+                        else if (response.code() > 403)
+                        {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@ProductsActivity, message).show()
                         }
                     }
                 }
@@ -108,17 +133,6 @@ class ProductsActivity : AppCompatActivity() {
             })
 
         swipeRefreshUsers.isRefreshing = false
-    }
-
-    //Save user email in global var to set it in the update page
-    private fun executeOtherActivity(otherActivity: Class<*>,
-                                     id: Long, name: String, ivaValue: Int, grossPrice: Double ) {
-        gv.productId = id
-        gv.productName = name
-        gv.productIva = ivaValue
-        gv.productGrossPrice = grossPrice
-        val x = Intent(this@ProductsActivity, otherActivity)
-        startActivity(x)
     }
 
 
@@ -139,11 +153,20 @@ class ProductsActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.profileMenu -> null
-            R.id.changePasswordMenu -> null
-            R.id.signOutMenu -> null
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@ProductsActivity)
         }
         return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@ProductsActivity, otherActivity)
+        startActivity(x)
     }
 
     /**

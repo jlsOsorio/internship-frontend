@@ -38,10 +38,10 @@
             android:id="@+id/quantityCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/number"
-            android:layout_alignParentEnd="true"
             android:layout_below="@id/movementCard"
+            android:layout_alignParentEnd="true"
             android:fontFamily="@font/montserrat_bold"
+            android:hint="@string/number"
             android:paddingEnd="5dp"
             android:textSize="14sp"
             tools:ignore="RelativeOverlap" />

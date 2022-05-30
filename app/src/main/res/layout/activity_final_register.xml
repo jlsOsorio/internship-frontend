@@ -145,7 +145,7 @@
         android:inputType="phone"
         android:minHeight="48dp"
         android:padding="10dp"
-        android:hint="@string/contact_store"
+        android:hint="@string/phone_number"
         android:fontFamily="@font/montserrat_regular"
         android:textSize="18sp"
         android:background="@drawable/box_shape"
@@ -157,7 +157,7 @@
         app:layout_constraintVertical_bias="0.058" />
 
     <Spinner
-        android:id="@+id/statusStore"
+        android:id="@+id/userCategory"
         android:autofillHints="23"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -175,6 +175,25 @@
         app:layout_constraintTop_toBottomOf="@+id/phoneNumberProfile"
         app:layout_constraintVertical_bias="0.058"/>
 
+    <Spinner
+        android:id="@+id/userStore"
+        android:autofillHints="23"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="end"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:background="@drawable/box_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userCategory"
+        app:layout_constraintVertical_bias="0.058"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
@@ -189,6 +208,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusStore" />
+        app:layout_constraintTop_toBottomOf="@+id/userStore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,8 +13,7 @@ import com.internship.retailmanagement.dataclasses.stockmovements.InsertStockMov
 import com.internship.retailmanagement.dataclasses.stockmovements.StockMovItem
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.dataclasses.stores.UpdateStoreItem
-import com.internship.retailmanagement.dataclasses.users.InsertUserItem
-import com.internship.retailmanagement.dataclasses.users.UserItem
+import com.internship.retailmanagement.dataclasses.users.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -26,99 +25,115 @@ interface ApiService {
 
     //All users
     @GET("/users")
-    fun getUsers(): Call<MutableList<UserItem>>
+    fun getUsers(@Header("Authorization") token: String): Call<MutableList<UserItem>>
 
     //Specific user
     @GET("/users/{id}")
-    fun getUser(@Path(value = "id", encoded = false) id: Long): Call<UserItem>
+    fun getUser(@Header("Authorization") token: String, @Path(value = "id", encoded = false) id: Long): Call<UserItem>
+
+    //Get user authenticated
+    @GET("/users/me")
+    fun getMe(@Header("Authorization") token: String): Call<UserItem>
 
     //Update user
     @PUT("/users/{id}")
-    fun updateUser(@Path("id") id: Long?, @Body user: InsertUserItem?): Call<ResponseBody?>
+    fun updateUser(@Header("Authorization") token: String, @Path("id") id: Long?, @Body user: InsertUserItem?): Call<ResponseBody?>
+
+    //Login
+    @POST("/auth/login")
+    fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
+
+    //Change password
+    @PATCH("/users/me/changepassword")
+    fun changePassword(@Header("Authorization") token: String, @Body userPassword: UserPassword): Call<ResponseBody>
 
     //////////////// OPERATING FUNDS ////////////////
     //By user
     @GET("/operatingfunds/{userId}")
-    fun getOpFunds(@Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>
+    fun getOpFunds(@Header("Authorization") token: String, @Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>
+
+    //Get user authenticated
+    @GET("/operatingfunds/me")
+    fun getMyOpFund(@Header("Authorization") token: String): Call<MutableList<OpFundItem>>
 
     //Post user operating fund
     @POST("/operatingfunds/{userId}")
-    fun addOperatingFund(@Path("userId") id: Long?, @Body opFund: InsertOpFundItem): Call<ResponseBody>
+    fun addOperatingFund(@Header("Authorization") token: String, @Path("userId") id: Long?, @Body opFund: InsertOpFundItem): Call<ResponseBody>
 
     //Update user's operating fund
     @PUT("/operatingfunds/{userId}")
-    fun updateOpFund(@Path("userId") id: Long?, @Body opFund: InsertOpFundItem?): Call<ResponseBody?>
+    fun updateOpFund(@Header("Authorization") token: String, @Path("userId") id: Long?, @Body opFund: InsertOpFundItem?): Call<ResponseBody?>
 
     //////////////// STORES ////////////////
     //All stores
     @GET("/stores")
-    fun getStores(): Call<MutableList<StoreItem>>
+    fun getStores(@Header("Authorization") token: String): Call<MutableList<StoreItem>>
 
     //Specific store
     @GET("/stores/{id}")
-    fun getStore(@Path(value = "id", encoded = false) id: Long): Call<StoreItem>
+    fun getStore(@Header("Authorization") token: String, @Path(value = "id", encoded = false) id: Long): Call<StoreItem>
 
     //Create store
     @POST("/stores")
-    fun addStore(@Body store: UpdateStoreItem): Call<ResponseBody>
+    fun addStore(@Header("Authorization") token: String, @Body store: UpdateStoreItem): Call<ResponseBody>
 
     //Update store
     @PUT("/stores/{id}")
-    fun updateStore(@Path("id") id: Long?, @Body store: UpdateStoreItem?): Call<ResponseBody?>
+    fun updateStore(@Header("Authorization") token: String, @Path("id") id: Long?, @Body store: UpdateStoreItem?): Call<ResponseBody?>
 
 
     //////////////// PRODUCTS ////////////////
     //All products
     @GET("/products")
-    fun getProducts(): Call<MutableList<ProductItem>>
+    fun getProducts(@Header("Authorization") token: String): Call<MutableList<ProductItem>>
 
     //Specific product by id
     @GET("/products/{id}")
-    fun getProduct(@Path(value = "id", encoded = false) id: Long): Call<ProductItem>
+    fun getProduct(@Header("Authorization") token: String, @Path(value = "id", encoded = false) id: Long): Call<ProductItem>
 
     //Create product
     @POST("/products")
-    fun addProduct(@Body opFund: InsertProductItem): Call<ResponseBody>
+    fun addProduct(@Header("Authorization") token: String, @Body opFund: InsertProductItem): Call<ResponseBody>
 
     //Update product
     @PUT("/products/{id}")
-    fun updateProduct(@Path("id") id: Long?, @Body product: UpdateProductItem?): Call<ResponseBody?>
+    fun updateProduct(@Header("Authorization") token: String, @Path("id") id: Long?, @Body product: UpdateProductItem?): Call<ResponseBody?>
 
     //////////////// STOCK MOVEMENTS ////////////////
     //By product
     @GET("/stockmovements/{productId}")
-    fun getStockMovements(@Path(value = "productId", encoded = false) id: Long): Call<MutableList<StockMovItem>>
+    fun getStockMovements(@Header("Authorization") token: String, @Path(value = "productId", encoded = false) id: Long): Call<MutableList<StockMovItem>>
 
     //Create by product
     @POST("/stockmovements/{productId}")
-    fun addStockMovement(@Path(value = "productId", encoded = false) id: Long, @Body stockMov: InsertStockMovItem): Call<ResponseBody>
+    fun addStockMovement(@Header("Authorization") token: String, @Path(value = "productId", encoded = false) id: Long, @Body stockMov: InsertStockMovItem): Call<ResponseBody>
 
     //////////////// IVA ////////////////
     @GET("/iva")
-    fun getIvaValues(): Call<MutableList<IvaItem>>
+    fun getIvaValues(@Header("Authorization") token: String): Call<MutableList<IvaItem>>
 
 
     //////////////// INVOICES ////////////////
     //All invoices
     @GET("/invoices")
-    fun getInvoices(): Call<MutableList<InvoiceItem>>
+    fun getInvoices(@Header("Authorization") token: String): Call<MutableList<InvoiceItem>>
 
     //Specific invoice
     @GET("/invoices/{id}")
-    fun getInvoice(@Path(value = "id", encoded = false) id: Long): Call<InvoiceItem>
+    fun getInvoice(@Header("Authorization") token: String, @Path(value = "id", encoded = false) id: Long): Call<InvoiceItem>
 
     //Create invoice
     @POST("/invoices")
-    fun addInvoice(@Body invoice: InsertInvItem): Call<ResponseBody>
+    fun addInvoice(@Header("Authorization") token: String, @Body invoice: InsertInvItem): Call<ResponseBody>
 
     //////////////// INVOICED PRODUCTS ////////////////
     //All invoiced products
-    @GET("/invoicedproducts")
-    fun getInvoicedProducts(): Call<MutableList<InvProdItem>>
+    //@GET("/invoicedproducts")
+    //fun getInvoicedProducts(@Header("Authorization") token: String): Call<MutableList<InvProdItem>>
 
     //////////////// CASH REGISTERS ////////////////
     //All cash registers
     @GET("/cashregisters")
-    fun getCashRegisters(): Call<MutableList<CashRegisterItem>>
+    fun getCashRegisters(@Header("Authorization") token: String): Call<MutableList<CashRegisterItem>>
 
 }
