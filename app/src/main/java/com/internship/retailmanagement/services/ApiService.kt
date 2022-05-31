@@ -37,7 +37,11 @@ interface ApiService {
 
     //Update user
     @PUT("/users/{id}")
-    fun updateUser(@Header("Authorization") token: String, @Path("id") id: Long?, @Body user: InsertUserItem?): Call<ResponseBody?>
+    fun updateUser(@Header("Authorization") token: String, @Path("id") id: Long?, @Body user: UpdateUserItem?): Call<ResponseBody?>
+
+    //Add user
+    @POST("/users")
+    fun addUser(@Header("Authorization") token: String, @Body user: InsertUserItem): Call<ResponseBody>
 
     //Login
     @POST("/auth/login")

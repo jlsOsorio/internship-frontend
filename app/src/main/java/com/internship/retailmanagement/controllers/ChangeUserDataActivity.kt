@@ -15,12 +15,12 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.controllers.adapters.spinners.StoreSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityChangeUserDataBinding
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
-import com.internship.retailmanagement.dataclasses.users.InsertUserItem
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.Utils
 import com.internship.retailmanagement.config.SessionManager
+import com.internship.retailmanagement.dataclasses.users.UpdateUserItem
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -232,7 +232,7 @@ class ChangeUserDataActivity : AppCompatActivity() {
             val councilStr = council.text.toString()
             val zipCodeStr = zipCode.text.toString()
 
-            val userUpdate = InsertUserItem(
+            val userUpdate = UpdateUserItem(
                 gv.userId,
                 nameStr,
                 emailStr,

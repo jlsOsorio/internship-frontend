@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".controllers.SignInActivity">
 
-    <!--<ImageView
+    <ImageView
         android:id="@+id/signInLogo"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -14,8 +14,8 @@
         app:layout_constraintBottom_toTopOf="@+id/signIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/ic_logo"
-        android:contentDescription="@string/logo_image" />-->
+        android:src="@drawable/ic_logo_rm"
+        android:contentDescription="@string/logo_image" />-
 
     <TextView
         android:id="@+id/signIn"

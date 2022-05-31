@@ -1,9 +1,9 @@
 package com.internship.retailmanagement.dataclasses.users
 
-data class InsertUserItem(
+data class UpdateUserItem(
+    val id: Long? = null,
     val name: String? = null,
     val email: String? = null,
-    val password: String? = null,
     val phone: String? = null,
     val birthDate: String? = null,
     val nif: Long? = null,

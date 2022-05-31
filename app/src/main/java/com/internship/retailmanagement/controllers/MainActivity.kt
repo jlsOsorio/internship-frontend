@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.AppCompatButton
-import com.auth0.android.jwt.Claim
 import com.auth0.android.jwt.JWT
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         stores = binding.stores
         sessionManager = SessionManager(this)
 
-        var jwt = JWT(sessionManager.fetchAuthToken()!!)
+        val jwt = JWT(sessionManager.fetchAuthToken()!!)
         gv.userId = jwt.getClaim("id").asLong()
         gv.userRole = jwt.getClaim("category").asString()
         gv.emailLoggedIn = jwt.getClaim("email").asString()
