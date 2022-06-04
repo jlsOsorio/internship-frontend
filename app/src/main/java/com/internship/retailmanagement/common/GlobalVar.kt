@@ -8,6 +8,7 @@ import java.io.FileOutputStream
 
 class GlobalVar : Application() {
     var userId: Long? = null
+    var userLoggedId: Long? = null
     var emailLoggedIn: String? = null
     var storeUserLogged: Long? = null
     var userCategory: String? = null

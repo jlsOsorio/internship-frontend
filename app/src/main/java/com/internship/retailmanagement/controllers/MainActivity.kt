@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         val jwt = JWT(sessionManager.fetchAuthToken()!!)
-        gv.userId = jwt.getClaim("id").asLong()
+        gv.userLoggedId = jwt.getClaim("id").asLong()
         gv.userRole = jwt.getClaim("category").asString()
         gv.emailLoggedIn = jwt.getClaim("email").asString()
         gv.storeUserLogged = jwt.getClaim("store").asLong()

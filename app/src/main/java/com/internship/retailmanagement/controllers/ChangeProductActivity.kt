@@ -50,12 +50,17 @@ class ChangeProductActivity : AppCompatActivity() {
         ivaList = arrayListOf()
         sessionManager = SessionManager(this)
 
-        productName.setText(gv.productName)
+        productName.setText(gv.productName!!.substring(0, 15))
         grossPrice.setText(gv.productGrossPrice.toString())
 
         getIvaValues()
 
         confirm.setOnClickListener {
+            if (productName.text.length > 15)
+            {
+                productName.error = "Name should not have more than 15 characters"
+                return@setOnClickListener
+            }
             putProduct()
         }
     }
@@ -143,6 +148,7 @@ class ChangeProductActivity : AppCompatActivity() {
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
             val userPut = serviceGenerator.updateProduct("Bearer ${sessionManager.fetchAuthToken()}", gv.productId, productUpdate)
+
 
             userPut.enqueue(object : Callback<ResponseBody?> {
 

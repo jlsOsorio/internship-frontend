@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +47,8 @@ class UsersActivity : AppCompatActivity() {
         fab = binding.fab
         sessionManager = SessionManager(this)
 
+        fab.visibility = View.INVISIBLE
+
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
          */
@@ -59,7 +62,7 @@ class UsersActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = UsersAdapter(usersList, { _, _, _, _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = UsersAdapter(usersList, gv, { _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -70,8 +73,12 @@ class UsersActivity : AppCompatActivity() {
 
         getUsers()
 
-        fab.setOnClickListener{
-            executeOtherActivity(FirstRegisterActivity::class.java)
+        if (gv.userRole == "SUPERVISOR")
+        {
+            fab.visibility = View.VISIBLE
+            fab.setOnClickListener{
+                executeOtherActivity(FirstRegisterActivity::class.java)
+            }
         }
     }
 
@@ -91,13 +98,14 @@ class UsersActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         usersList.clear()
                         usersList.addAll(response.body()!!.toMutableList())
-                        mAdapter = UsersAdapter(usersList, { _, id, storeId, userStatus, userCategory ->
+                        mAdapter = UsersAdapter(usersList, gv, { _, id, storeId, userStatus, userCategory ->
                             gv.userId = id
                             gv.storeId = storeId
                             gv.userStatus = userStatus
                             gv.userCategory = userCategory
                             executeOtherActivity(ChangeUserDataActivity::class.java)
-                        }, { _, _ ->
+                        }, { _, id ->
+                            gv.userId = id
                             executeOtherActivity(UserProfileActivity::class.java)
                         })
                         mAdapter.notifyDataSetChanged()

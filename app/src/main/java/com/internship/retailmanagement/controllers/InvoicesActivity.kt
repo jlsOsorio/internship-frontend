@@ -172,7 +172,7 @@ class InvoicesActivity : AppCompatActivity() {
         val currentDate = sdf.format(Date())
         val df = DecimalFormat("#.##")
         val invTotalRounded = df.format(invTotal)
-        val payment = Random.nextDouble(invTotal, invTotal + 100)
+        val payment = Random.nextDouble(invTotal, invTotal + 20)
         val receivedRounded = df.format(payment)
         val changeRounded = df.format(payment-invTotal)
         val res = StringBuilder()

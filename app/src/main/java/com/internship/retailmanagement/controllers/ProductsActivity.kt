@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,6 +45,8 @@ class ProductsActivity : AppCompatActivity() {
         gv = application as GlobalVar
         sessionManager = SessionManager(this)
 
+        fab.visibility = View.INVISIBLE
+
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
          */
@@ -57,7 +60,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = ProductsAdapter(productsList, { _, _ -> "" }, { _, _ -> "" }, { _, _, _, _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = ProductsAdapter(productsList, gv, { _, _ -> "" }, { _, _ -> "" }, { _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -68,8 +71,12 @@ class ProductsActivity : AppCompatActivity() {
 
         getProducts()
 
-        fab.setOnClickListener{
-            executeOtherActivity(CreateProductActivity::class.java)
+        if (gv.userRole == "SUPERVISOR")
+        {
+            fab.visibility = View.VISIBLE
+            fab.setOnClickListener{
+                executeOtherActivity(CreateProductActivity::class.java)
+            }
         }
     }
 
@@ -89,7 +96,7 @@ class ProductsActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         productsList.clear()
                         productsList.addAll(response.body()!!.toMutableList())
-                        mAdapter = ProductsAdapter(productsList, { _, id ->
+                        mAdapter = ProductsAdapter(productsList, gv, { _, id ->
                             gv.productId = id
                             executeOtherActivity(ProductDetailsActivity::class.java)
                         }, { _, id ->

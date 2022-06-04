@@ -63,16 +63,51 @@ class ProductDetailsActivity : AppCompatActivity() {
                 response: Response<ProductItem>
             ) {
                 if (response.isSuccessful) {
-                    val df = DecimalFormat("#.##")
-                    val responseBody = response.body()!!
-                    number.text = responseBody.id.toString()
-                    name.text = responseBody.name
-                    stock.text = responseBody.stock.toString()
-                    iva.text = responseBody.ivaValue.toString()
-                    val grossPriceRounded = df.format(responseBody.grossPrice)
-                    grossPrice.text = grossPriceRounded.toString()
-                    val taxedPriceRounded = df.format(responseBody.taxedPrice)
-                    taxedPrice.text = taxedPriceRounded.toString()
+                    try {
+                        val df = DecimalFormat("#.##")
+                        val responseBody = response.body()!!
+                        var nameSize = responseBody.name!!.length
+                        var nameStr = responseBody.name
+
+                        if(nameSize > 15)
+                        {
+                            nameStr = responseBody.name.substring(0, 15)
+                            var stringBeginning = 15
+                            nameSize -= 15
+
+                            while(nameSize > 15)
+                            {
+                                nameStr += "\n${responseBody.name.substring(stringBeginning, stringBeginning + 15)}"
+                                stringBeginning += 15
+                                nameSize -= 15
+                            }
+
+                            if (nameSize > 0)
+                            {
+                                nameStr += "\n${responseBody.name.substring(stringBeginning, stringBeginning + nameSize)}"
+
+                                /*if(responseBody.name[responseBody.name.length-nameSize - 1] != ' ')
+                                {
+                                    val nameWords : ArrayList<String> = ArrayList(responseBody.name.split(" "))
+                                    val lastCharsSizeToRemove = nameWords[nameWords.size - 1].length - nameSize
+                                    nameStr.removeSuffix(nameWords[nameWords.size - 1])
+                                    nameStr += "\n${nameWords[nameWords.size - 1]}"
+                                }*/
+                            }
+                        }
+                        number.text = responseBody.id.toString()
+                        name.text = nameStr
+                        stock.text = responseBody.stock.toString()
+                        iva.text = responseBody.ivaValue.toString()
+                        val grossPriceRounded = df.format(responseBody.grossPrice)
+                        grossPrice.text = grossPriceRounded.toString()
+                        val taxedPriceRounded = df.format(responseBody.taxedPrice)
+                        taxedPrice.text = taxedPriceRounded.toString()
+                    } catch (e: RuntimeException)
+                    {
+                        Log.e("ERROR:", e.message.toString())
+                    }
+
                 }
                 else
                 {

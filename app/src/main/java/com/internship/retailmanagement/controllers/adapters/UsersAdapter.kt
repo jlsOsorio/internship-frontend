@@ -10,10 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.dataclasses.users.UserItem
 import kotlinx.android.synthetic.main.user_card.view.*
 
-class UsersAdapter(private var usersList: MutableList<UserItem>, private val editListener: (UserItem, Long, Long, String, String) -> Unit, private val infoListener: (UserItem, Long) -> Unit) :
+class UsersAdapter(private var usersList: MutableList<UserItem>, private val gv: GlobalVar, private val editListener: (UserItem, Long, Long, String, String) -> Unit, private val infoListener: (UserItem, Long) -> Unit) :
     RecyclerView.Adapter<UsersAdapter.UserCardViewHolder>(), Filterable {
 
     val usersListClone: List<UserItem>
@@ -30,12 +31,22 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val edi
                 private val statusUncheckView: ImageView = itemView.statusUncheckCard
                 private val editView: ImageView = itemView.updateCard
 
-                fun bindView(userItem: UserItem, editListener: (UserItem, Long, Long, String, String) -> Unit, infoListener: (UserItem, Long) -> Unit) {
+                fun bindView(gv: GlobalVar, userItem: UserItem, editListener: (UserItem, Long, Long, String, String) -> Unit, infoListener: (UserItem, Long) -> Unit) {
                     statusCheckView.visibility = View.INVISIBLE
                     statusUncheckView.visibility = View.INVISIBLE
+                    editView.visibility = View.INVISIBLE
 
                     emailView.text = userItem.email
                     nifView.text = userItem.nif.toString()
+
+                    if (gv.userRole == "SUPERVISOR")
+                    {
+                        editView.visibility = View.VISIBLE
+                        itemView.setOnClickListener{
+                            infoListener(userItem, userItem.id!!)
+                        }
+                    }
+
                     if (userItem.status == "ACTIVE")
                     {
                         statusCheckView.visibility = View.VISIBLE
@@ -49,9 +60,6 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val edi
                         editListener(userItem, userItem.id!!, userItem.store!!.id, userItem.status!!, userItem.category!!) //Go to changing content activity of this specific user
                     }
 
-                    itemView.setOnClickListener{
-                        infoListener(userItem, userItem.id!!)
-                    }
                 }
             }
 
@@ -66,7 +74,7 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val edi
     override fun getItemCount() = usersList.size
 
     override fun onBindViewHolder(holder: UserCardViewHolder, position: Int) {
-        return holder.bindView(usersList[position], editListener, infoListener)
+        return holder.bindView(gv, usersList[position], editListener, infoListener)
     }
 
     override fun getFilter(): Filter = UserFilter()

@@ -10,11 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.dataclasses.products.ProductItem
 import kotlinx.android.synthetic.main.product_card.view.*
 import java.text.DecimalFormat
 
-class ProductsAdapter(private var productsList: MutableList<ProductItem>, private val infoListener: (ProductItem, Long) -> Unit, private val stockMovListener: (ProductItem, Long) -> Unit, private val editListener: (ProductItem, Long, String, Int, Double) -> Unit, private val removeListener: (ProductItem, Long) -> Unit) :
+class ProductsAdapter(private var productsList: MutableList<ProductItem>, private val gv: GlobalVar, private val infoListener: (ProductItem, Long) -> Unit, private val stockMovListener: (ProductItem, Long) -> Unit, private val editListener: (ProductItem, Long, String, Int, Double) -> Unit, private val removeListener: (ProductItem, Long) -> Unit) :
     RecyclerView.Adapter<ProductsAdapter.ProductCardViewHolder>(), Filterable {
 
     val productsListClone: List<ProductItem>
@@ -33,27 +34,45 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
         private val removeView: ImageView = itemView.removeCard
         val df = DecimalFormat("#.##")
 
-        fun bindView(productItem: ProductItem, infoListener: (ProductItem, Long) -> Unit, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long, String, Int, Double) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
+        fun bindView(gv: GlobalVar, productItem: ProductItem, infoListener: (ProductItem, Long) -> Unit, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long, String, Int, Double) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
 
-            nameView.text = productItem.name
+            editView.visibility = View.INVISIBLE
+            removeView.visibility = View.INVISIBLE
+
             stockView.text = productItem.stock.toString()
             val grossPriceRounded = df.format(productItem.grossPrice)
             grossPriceView.text = grossPriceRounded.toString()
 
-            editView.setOnClickListener{
-                editListener(productItem, productItem.id!!, productItem.name!!, productItem.ivaValue!!.toInt(), productItem.grossPrice!!) //Go to changing content activity of this specific user
+            if (productItem.name!!.length > 14)
+            {
+                nameView.text = productItem.name.substring(0, 15)
+            }
+            else
+            {
+                nameView.text = productItem.name
             }
 
-            stockMovView.setOnClickListener{
-                stockMovListener(productItem, productItem.id!!)
-            }
+            if (gv.userRole == "SUPERVISOR")
+            {
+                stockView.visibility = View.VISIBLE
+                editView.visibility = View.VISIBLE
+                removeView.visibility = View.VISIBLE
 
-            removeView.setOnClickListener{
-                removeListener(productItem, productItem.id!!)
+                editView.setOnClickListener{
+                    editListener(productItem, productItem.id!!, productItem.name, productItem.ivaValue!!.toInt(), productItem.grossPrice!!) //Go to changing content activity of this specific user
+                }
+
+                removeView.setOnClickListener{
+                    removeListener(productItem, productItem.id!!)
+                }
             }
 
             itemView.setOnClickListener{
                 infoListener(productItem, productItem.id!!)
+            }
+
+            stockMovView.setOnClickListener{
+                stockMovListener(productItem, productItem.id!!)
             }
         }
     }
@@ -69,7 +88,7 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
     override fun getItemCount() = productsList.size
 
     override fun onBindViewHolder(holder: ProductCardViewHolder, position: Int) {
-        return holder.bindView(productsList[position], infoListener, stockMovListener, editListener, removeListener)
+        return holder.bindView(gv, productsList[position], infoListener, stockMovListener, editListener, removeListener)
     }
 
     override fun getFilter(): Filter = ProductFilter()

@@ -99,7 +99,8 @@ class SignInActivity : AppCompatActivity() {
                 {
                     val responseBody = response.body()!!
                     sessionManager.saveAuthToken(responseBody.token!!)
-                    gv.userId = responseBody.id
+                    gv.userLoggedId = responseBody.id
+                    gv.emailLoggedIn = responseBody.email
                     gv.userRole = responseBody.category
                     Toast.makeText(this@SignInActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                     executeOtherActivity(MainActivity::class.java)

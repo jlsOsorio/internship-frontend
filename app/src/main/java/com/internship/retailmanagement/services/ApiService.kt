@@ -61,8 +61,8 @@ interface ApiService {
     fun getMyOpFund(@Header("Authorization") token: String): Call<MutableList<OpFundItem>>
 
     //Post user operating fund
-    @POST("/operatingfunds/{userId}")
-    fun addOperatingFund(@Header("Authorization") token: String, @Path("userId") id: Long?, @Body opFund: InsertOpFundItem): Call<ResponseBody>
+    @POST("/operatingfunds/me")
+    fun addOperatingFund(@Header("Authorization") token: String, @Body opFund: InsertOpFundItem): Call<ResponseBody>
 
     //Update user's operating fund
     @PUT("/operatingfunds/{userId}")

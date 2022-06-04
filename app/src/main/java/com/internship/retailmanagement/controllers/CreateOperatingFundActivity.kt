@@ -184,7 +184,7 @@ class CreateOperatingFundActivity : AppCompatActivity() {
             )
 
             val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
-            val opFundAdd = serviceGenerator.addOperatingFund("Bearer ${sessionManager.fetchAuthToken()}", gv.userId, opFundInsert)
+            val opFundAdd = serviceGenerator.addOperatingFund("Bearer ${sessionManager.fetchAuthToken()}", opFundInsert)
 
             opFundAdd.enqueue(object : Callback<ResponseBody> {
 
