@@ -117,7 +117,13 @@ class UsersActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@UsersActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@UsersActivity, errorMessage).show()
                         }

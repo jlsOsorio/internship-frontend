@@ -47,4 +47,28 @@ object Utils {
         builder.show()
     }
 
+    //redirect to login page if session expired
+    fun redirectUnauthorized(context: AppCompatActivity, message: String?){
+        //Get alert dialog
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Session expired.")
+        builder.setMessage("$message Please sign in again.")
+        builder.setPositiveButton("OK") { _,_ ->
+            //Clear token
+            val sessionManager =  SessionManager(context)
+            sessionManager.deleteAuthToken()
+
+            //Go to sign in activity
+            val intent = Intent(context, SignInActivity::class.java)
+
+            //Removes everything registered all the user way through the application (visited activities, sequence of usage, and so on)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            context.startActivity(intent)
+            context.finish()
+
+        }
+        builder.show()
+    }
+
 }

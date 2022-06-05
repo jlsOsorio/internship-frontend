@@ -145,7 +145,13 @@ class CreateOperatingFundActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@CreateOperatingFundActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@CreateOperatingFundActivity, errorMessage).show()
                         }
@@ -204,7 +210,13 @@ class CreateOperatingFundActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@CreateOperatingFundActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@CreateOperatingFundActivity, errorMessage).show()
                         }

@@ -8,7 +8,6 @@ import android.view.MenuItem
 import com.internship.retailmanagement.R
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.common.Utils
-import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.adapters.InvProdAdapter
 import com.internship.retailmanagement.databinding.ActivityInvoicedProductsBinding
 import com.internship.retailmanagement.dataclasses.invoices.InvProdItem

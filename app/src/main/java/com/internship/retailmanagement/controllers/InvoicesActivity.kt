@@ -137,7 +137,13 @@ class InvoicesActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@InvoicesActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@InvoicesActivity, errorMessage).show()
                         }

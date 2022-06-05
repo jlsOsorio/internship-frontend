@@ -105,7 +105,13 @@ class UserProfileActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    if (response.code() == 401 || response.code() == 403) {
+                    if (response.code() == 401)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        Utils.redirectUnauthorized(this@UserProfileActivity, errorMessage)
+                    }
+                    else if (response.code() == 403)
+                    {
                         val errorMessage = response.errorBody()!!.string()
                         ErrorDialog.setPermissionDialog(this@UserProfileActivity, errorMessage).show()
                     }
@@ -154,17 +160,21 @@ class UserProfileActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    if (response.code() == 401 || response.code() == 403) {
+                    if (response.code() == 401)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        Utils.redirectUnauthorized(this@UserProfileActivity, errorMessage)
+                    }
+                    else if (response.code() == 403)
+                    {
                         val errorMessage = response.errorBody()!!.string()
                         ErrorDialog.setPermissionDialog(this@UserProfileActivity, errorMessage).show()
-                        finish()
                     }
                     else if (response.code() >= 400)
                     {
                         val jsonObject = JSONObject(response.errorBody()!!.string())
                         val message: String = jsonObject.getString("message")
                         ErrorDialog.setDialog(this@UserProfileActivity, message).show()
-                        finish()
                     }
                 }
             }

@@ -110,7 +110,13 @@ class CreateProductActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@CreateProductActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@CreateProductActivity, errorMessage).show()
                         }
@@ -171,7 +177,13 @@ class CreateProductActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@CreateProductActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@CreateProductActivity, errorMessage).show()
                         }

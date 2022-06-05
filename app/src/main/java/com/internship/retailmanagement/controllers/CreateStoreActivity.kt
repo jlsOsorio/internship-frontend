@@ -126,7 +126,13 @@ class CreateStoreActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@CreateStoreActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@CreateStoreActivity, errorMessage).show()
                         }

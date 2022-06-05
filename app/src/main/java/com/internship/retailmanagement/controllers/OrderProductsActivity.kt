@@ -48,7 +48,6 @@ class OrderProductsActivity : AppCompatActivity() {
         cancel = binding.buttonCancel
         prodsName = binding.productsName
 
-        Toast.makeText(this@OrderProductsActivity, gv.prodsNames.size.toString(), Toast.LENGTH_SHORT).show()
         val defaultValue : ArrayList<String> = arrayListOf("SELECT PRODUCT")
 
         val defaultAdapter = ArrayAdapter(this@OrderProductsActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, defaultValue)

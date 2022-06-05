@@ -191,7 +191,13 @@ class ChangeUserDataActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            Utils.redirectUnauthorized(this@ChangeUserDataActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage).show()
                         }
@@ -263,9 +269,15 @@ class ChangeUserDataActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
                             val errorMessage = response.errorBody()!!.string()
-                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage)
+                            Utils.redirectUnauthorized(this@ChangeUserDataActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage).show()
                         }
                         else if (response.code() >= 400)
                         {
@@ -329,9 +341,15 @@ class ChangeUserDataActivity : AppCompatActivity() {
                     }
                     else
                     {
-                        if (response.code() == 401 || response.code() == 403) {
+                        if (response.code() == 401)
+                        {
                             val errorMessage = response.errorBody()!!.string()
-                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage)
+                            Utils.redirectUnauthorized(this@ChangeUserDataActivity, errorMessage)
+                        }
+                        else if (response.code() == 403)
+                        {
+                            val errorMessage = response.errorBody()!!.string()
+                            ErrorDialog.setPermissionDialog(this@ChangeUserDataActivity, errorMessage).show()
                         }
                         else if (response.code() >= 400)
                         {

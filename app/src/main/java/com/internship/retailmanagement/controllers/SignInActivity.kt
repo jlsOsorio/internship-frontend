@@ -49,7 +49,7 @@ class SignInActivity : AppCompatActivity() {
 
         gv.userToken = sessionManager.fetchAuthToken()
 
-        if(gv.userToken != null) {
+        if(sessionManager.fetchAuthToken() != null) {
             executeOtherActivity(MainActivity::class.java)
         }
 

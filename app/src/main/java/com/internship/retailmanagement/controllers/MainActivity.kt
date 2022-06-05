@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import com.auth0.android.jwt.JWT
 import com.internship.retailmanagement.R
@@ -12,6 +13,7 @@ import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.common.Utils
 import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -40,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         val jwt = JWT(sessionManager.fetchAuthToken()!!)
+
+        if (jwt.expiresAt!!.before(Date()))
+        {
+            Utils.redirectUnauthorized(this, "Invalid token.")
+        }
+
         gv.userLoggedId = jwt.getClaim("id").asLong()
         gv.userRole = jwt.getClaim("category").asString()
         gv.emailLoggedIn = jwt.getClaim("email").asString()
