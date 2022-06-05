@@ -70,7 +70,7 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/stockMovCard"
+            android:id="@+id/stockMovCardSuper"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
@@ -99,6 +99,18 @@
             android:layout_centerVertical="true"
             android:contentDescription="@string/status_description"
             android:src="@drawable/remove_icon" />
+
+        <ImageView
+            android:id="@+id/stockMovCardNormal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/status_description"
+            android:src="@drawable/stock_mov_icon"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

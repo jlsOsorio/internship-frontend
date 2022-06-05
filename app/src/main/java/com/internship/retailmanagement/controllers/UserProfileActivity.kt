@@ -109,7 +109,7 @@ class UserProfileActivity : AppCompatActivity() {
                         val errorMessage = response.errorBody()!!.string()
                         ErrorDialog.setPermissionDialog(this@UserProfileActivity, errorMessage).show()
                     }
-                    else if (response.code() > 403)
+                    else if (response.code() >= 400)
                     {
                         val jsonObject = JSONObject(response.errorBody()!!.string())
                         val message: String = jsonObject.getString("message")
@@ -159,7 +159,7 @@ class UserProfileActivity : AppCompatActivity() {
                         ErrorDialog.setPermissionDialog(this@UserProfileActivity, errorMessage).show()
                         finish()
                     }
-                    else if (response.code() > 403)
+                    else if (response.code() >= 400)
                     {
                         val jsonObject = JSONObject(response.errorBody()!!.string())
                         val message: String = jsonObject.getString("message")

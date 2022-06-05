@@ -10,7 +10,7 @@
         android:id="@+id/titleRM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_italic"
+        android:fontFamily="@font/montserrat_bold"
         android:text="@string/title"
         android:textSize="32sp"
         android:gravity="center"

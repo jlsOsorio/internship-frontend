@@ -10,12 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import kotlinx.android.synthetic.main.operating_fund_card.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private val editListener: (OpFundItem, Long, Double, Double, Long, String) -> Unit, private val removeListener: (OpFundItem, Long) -> Unit) :
+class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private val gv: GlobalVar, private val editListener: (OpFundItem, Long, Double, Double, Long, String) -> Unit, private val removeListener: (OpFundItem, Long) -> Unit) :
     RecyclerView.Adapter<OpFundsAdapter.OpFundCardViewHolder>(), Filterable {
     private val opFundsListClone: List<OpFundItem>
 
@@ -31,18 +32,27 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
         private val editView: ImageView = itemView.updateCardOpFund
         private val removeView: ImageView = itemView.removeCard
 
-        fun bindView(opFundItem: OpFundItem, editListener: (OpFundItem, Long, Double, Double, Long, String) -> Unit, removeListener: (OpFundItem, Long) -> Unit) {
+        fun bindView(gv: GlobalVar, opFundItem: OpFundItem, editListener: (OpFundItem, Long, Double, Double, Long, String) -> Unit, removeListener: (OpFundItem, Long) -> Unit) {
+
+            editView.visibility = View.GONE
+            removeView.visibility = View.GONE
 
             dateView.text = opFundItem.moment!!.toDate().formatTo("dd-MM-yyyy HH:mm:ss")
             entryView.text = opFundItem.entryQty.toString()
             exitView.text = opFundItem.exitQty.toString()
 
-            editView.setOnClickListener{
-                editListener(opFundItem, opFundItem.id!!, opFundItem.entryQty!!, opFundItem.exitQty!!, opFundItem.cashRegister!!.id!!, opFundItem.moment) //Go to changing content activity of this specific user
-            }
+            if (gv.userRole == "SUPERVISOR")
+            {
+                editView.visibility = View.VISIBLE
+                removeView.visibility = View.VISIBLE
 
-            removeView.setOnClickListener{
-                removeListener(opFundItem, opFundItem.id!!)
+                editView.setOnClickListener{
+                    editListener(opFundItem, opFundItem.id!!, opFundItem.entryQty!!, opFundItem.exitQty!!, opFundItem.cashRegister!!.id!!, opFundItem.moment) //Go to changing content activity of this specific user
+                }
+
+                removeView.setOnClickListener{
+                    removeListener(opFundItem, opFundItem.id!!)
+                }
             }
         }
 
@@ -84,7 +94,7 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
     override fun getItemCount() = opFundsList.size
 
     override fun onBindViewHolder(holder: OpFundCardViewHolder, position: Int) {
-        return holder.bindView(opFundsList[position], editListener, removeListener)
+        return holder.bindView(gv, opFundsList[position], editListener, removeListener)
     }
 
     override fun getFilter(): Filter = OpFundFilter()

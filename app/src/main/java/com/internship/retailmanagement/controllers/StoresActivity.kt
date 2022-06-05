@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,6 +46,8 @@ class StoresActivity : AppCompatActivity() {
         fab = binding.fab
         sessionManager = SessionManager(this)
 
+        fab.visibility = View.INVISIBLE
+
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
          */
@@ -58,7 +61,7 @@ class StoresActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = StoresAdapter(storesList, {_,_ -> ""}, { _, _, _, _, _, _, _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = StoresAdapter(storesList, gv, {_,_ -> ""}, { _, _, _, _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -69,10 +72,13 @@ class StoresActivity : AppCompatActivity() {
 
         getStores()
 
-        fab.setOnClickListener{
-            executeOtherActivity(CreateStoreActivity::class.java)
+        if (gv.userRole == "SUPERVISOR")
+        {
+            fab.visibility = View.VISIBLE
+            fab.setOnClickListener{
+                executeOtherActivity(CreateStoreActivity::class.java)
+            }
         }
-
     }
 
     //Get stores from API
@@ -91,7 +97,8 @@ class StoresActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         storesList.clear()
                         storesList.addAll(response.body()!!.toMutableList())
-                        mAdapter = StoresAdapter(storesList, {_, _ ->
+                        mAdapter = StoresAdapter(storesList, gv, {_, id ->
+                            gv.storeId = id
                             executeOtherActivity(StoreDetailsActivity::class.java)
                         }, {
                             _,
@@ -125,7 +132,7 @@ class StoresActivity : AppCompatActivity() {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@StoresActivity, errorMessage).show()
                         }
-                        else if (response.code() > 403)
+                        else if (response.code() >= 400)
                         {
                             val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")

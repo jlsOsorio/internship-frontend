@@ -29,15 +29,17 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
         private val nameView: TextView = itemView.nameCard
         private val stockView: TextView = itemView.stockCard
         private val grossPriceView: TextView = itemView.grossPriceCard
-        private val stockMovView: ImageView = itemView.stockMovCard
+        private val stockMovViewSuper: ImageView = itemView.stockMovCardSuper
+        private val stockMovViewNormal: ImageView = itemView.stockMovCardNormal
         private val editView: ImageView = itemView.updateCard
         private val removeView: ImageView = itemView.removeCard
         val df = DecimalFormat("#.##")
 
         fun bindView(gv: GlobalVar, productItem: ProductItem, infoListener: (ProductItem, Long) -> Unit, stockMovListener: (ProductItem, Long) -> Unit, editListener: (ProductItem, Long, String, Int, Double) -> Unit, removeListener: (ProductItem, Long) -> Unit) {
 
-            editView.visibility = View.INVISIBLE
-            removeView.visibility = View.INVISIBLE
+            stockMovViewSuper.visibility = View.GONE
+            editView.visibility = View.GONE
+            removeView.visibility = View.GONE
 
             stockView.text = productItem.stock.toString()
             val grossPriceRounded = df.format(productItem.grossPrice)
@@ -54,7 +56,7 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
 
             if (gv.userRole == "SUPERVISOR")
             {
-                stockView.visibility = View.VISIBLE
+                stockMovViewSuper.visibility = View.VISIBLE
                 editView.visibility = View.VISIBLE
                 removeView.visibility = View.VISIBLE
 
@@ -65,14 +67,22 @@ class ProductsAdapter(private var productsList: MutableList<ProductItem>, privat
                 removeView.setOnClickListener{
                     removeListener(productItem, productItem.id!!)
                 }
+
+                stockMovViewSuper.setOnClickListener{
+                    stockMovListener(productItem, productItem.id!!)
+                }
+            }
+            else
+            {
+                stockMovViewNormal.visibility = View.VISIBLE
+
+                stockMovViewNormal.setOnClickListener{
+                    stockMovListener(productItem, productItem.id!!)
+                }
             }
 
             itemView.setOnClickListener{
                 infoListener(productItem, productItem.id!!)
-            }
-
-            stockMovView.setOnClickListener{
-                stockMovListener(productItem, productItem.id!!)
             }
         }
     }

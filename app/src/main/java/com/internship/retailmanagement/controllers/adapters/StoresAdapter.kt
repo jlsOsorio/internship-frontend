@@ -10,10 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
+import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import kotlinx.android.synthetic.main.store_card.view.*
 
-class StoresAdapter(private var storesList: MutableList<StoreItem>, private val infoListener: (StoreItem, Long) -> Unit, private val editListener: (StoreItem, Long, String, String, String, String, String, Int) -> Unit, private val removeListener: (StoreItem, Long) -> Unit) :
+class StoresAdapter(private var storesList: MutableList<StoreItem>, private val gv: GlobalVar, private val infoListener: (StoreItem, Long) -> Unit, private val editListener: (StoreItem, Long, String, String, String, String, String, Int) -> Unit, private val removeListener: (StoreItem, Long) -> Unit) :
     RecyclerView.Adapter<StoresAdapter.StoreCardViewHolder>(), Filterable {
 
     private val storesListClone: List<StoreItem>
@@ -30,26 +31,35 @@ class StoresAdapter(private var storesList: MutableList<StoreItem>, private val 
         private val editView: ImageView = itemView.updateCard
         private val removeView: ImageView = itemView.removeCard
 
-        fun bindView(storeItem: StoreItem, infoListener: (StoreItem, Long) -> Unit, editListener: (StoreItem, Long, String, String, String, String, String, Int) -> Unit, removeListener: (StoreItem, Long) -> Unit) {
+        fun bindView(gv: GlobalVar, storeItem: StoreItem, infoListener: (StoreItem, Long) -> Unit, editListener: (StoreItem, Long, String, String, String, String, String, Int) -> Unit, removeListener: (StoreItem, Long) -> Unit) {
+
+            editView.visibility = View.GONE
+            removeView.visibility = View.GONE
 
             cityView.text = storeItem.council
             addressView.text = storeItem.address
             zipCodeView.text = storeItem.zipCode
 
-            editView.setOnClickListener{
-                editListener(
-                    storeItem,
-                    storeItem.id!!,
-                    storeItem.address!!,
-                    storeItem.council!!,
-                    storeItem.zipCode!!,
-                    storeItem.contact!!,
-                    storeItem.status!!,
-                    storeItem.cashRegisters!!.size) //Go to changing content activity of this specific user
-            }
+            if (gv.userRole == "SUPERVISOR")
+            {
+                editView.visibility = View.VISIBLE
+                removeView.visibility = View.VISIBLE
 
-            removeView.setOnClickListener{
-                removeListener(storeItem, storeItem.id!!)
+                editView.setOnClickListener{
+                    editListener(
+                        storeItem,
+                        storeItem.id!!,
+                        storeItem.address!!,
+                        storeItem.council!!,
+                        storeItem.zipCode!!,
+                        storeItem.contact!!,
+                        storeItem.status!!,
+                        storeItem.cashRegisters!!.size) //Go to changing content activity of this specific user
+                }
+
+                removeView.setOnClickListener{
+                    removeListener(storeItem, storeItem.id!!)
+                }
             }
 
             itemView.setOnClickListener{
@@ -69,7 +79,7 @@ class StoresAdapter(private var storesList: MutableList<StoreItem>, private val 
     override fun getItemCount() = storesList.size
 
     override fun onBindViewHolder(holder: StoreCardViewHolder, position: Int) {
-        return holder.bindView(storesList[position], infoListener, editListener, removeListener)
+        return holder.bindView(gv, storesList[position], infoListener, editListener, removeListener)
     }
 
     override fun getFilter(): Filter = StoreFilter()

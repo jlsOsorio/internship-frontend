@@ -60,10 +60,11 @@
                 android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="end"
-                android:inputType="text"
                 android:hint="@string/no_content"
+                android:inputType="text"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
         </TableRow>
 
         <TableRow
@@ -89,11 +90,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:fontFamily="@font/montserrat_regular"
                 android:background="@drawable/button_shape_light"
+                android:fontFamily="@font/montserrat_regular"
                 android:gravity="end"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </TableRow>
 
@@ -117,17 +119,18 @@
 
             <EditText
                 android:id="@+id/grossPriceProduct"
-                android:autofillHints="30.5"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
+                android:autofillHints="30.5"
                 android:background="@drawable/box_shape"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="end"
-                android:inputType="numberDecimal"
                 android:hint="@string/no_content"
+                android:inputType="numberDecimal"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </TableRow>
 

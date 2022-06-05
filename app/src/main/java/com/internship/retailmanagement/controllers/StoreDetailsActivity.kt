@@ -80,7 +80,7 @@ class StoreDetailsActivity : AppCompatActivity() {
                         val errorMessage = response.errorBody()!!.string()
                         ErrorDialog.setPermissionDialog(this@StoreDetailsActivity, errorMessage).show()
                     }
-                    else if (response.code() > 403)
+                    else if (response.code() >= 400)
                     {
                         val jsonObject = JSONObject(response.errorBody()!!.string())
                         val message: String = jsonObject.getString("message")

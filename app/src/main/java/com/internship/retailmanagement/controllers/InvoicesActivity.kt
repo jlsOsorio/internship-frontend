@@ -66,7 +66,7 @@ class InvoicesActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = InvoicesAdapter(invoicesList, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = InvoicesAdapter(invoicesList, gv, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -113,7 +113,7 @@ class InvoicesActivity : AppCompatActivity() {
                                 invoice.invoicedProducts!!))
                             outputWriter.flush()
                         }
-                        mAdapter = InvoicesAdapter(invoicesList, { _, id ->""
+                        mAdapter = InvoicesAdapter(invoicesList, gv, { _, id ->""
                             //executeOtherActivity(ChangeUserDataActivity::class.java, id)
                         }, { _, id ->
                             executeOtherActivity(InvoiceDetailsActivity::class.java, id)
@@ -141,7 +141,7 @@ class InvoicesActivity : AppCompatActivity() {
                             val errorMessage = response.errorBody()!!.string()
                             ErrorDialog.setPermissionDialog(this@InvoicesActivity, errorMessage).show()
                         }
-                        else if (response.code() > 403)
+                        else if (response.code() >= 400)
                         {
                             val jsonObject = JSONObject(response.errorBody()!!.string())
                             val message: String = jsonObject.getString("message")

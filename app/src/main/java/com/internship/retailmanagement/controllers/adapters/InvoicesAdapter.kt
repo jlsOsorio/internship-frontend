@@ -10,12 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.internship.retailmanagement.R
-import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
+import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import kotlinx.android.synthetic.main.invoice_card.view.*
 
 
-class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, private val editListener: (InvoiceItem, Long) -> Unit, private val infoListener: (InvoiceItem, Long) -> Unit, private val printListener: (InvoiceItem, Long) -> Unit) :
+class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, private val gv: GlobalVar, private val editListener: (InvoiceItem, Long) -> Unit, private val infoListener: (InvoiceItem, Long) -> Unit, private val printListener: (InvoiceItem, Long) -> Unit) :
     RecyclerView.Adapter<InvoicesAdapter.InvoiceCardViewHolder>(), Filterable {
 
     private val invoicesListClone: List<InvoiceItem>
@@ -30,12 +30,19 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
         private val editView: ImageView = itemView.updateCard
         private val billView: ImageView = itemView.billCard
 
-        fun bindView(invoiceItem: InvoiceItem, editListener: (InvoiceItem, Long) -> Unit, infoListener: (InvoiceItem, Long) -> Unit, printListener: (InvoiceItem, Long) -> Unit) {
+        fun bindView(gv: GlobalVar, invoiceItem: InvoiceItem, editListener: (InvoiceItem, Long) -> Unit, infoListener: (InvoiceItem, Long) -> Unit, printListener: (InvoiceItem, Long) -> Unit) {
+
+            editView.visibility = View.GONE
 
             numberView.text = invoiceItem.invoiceNumber.toString()
 
-            editView.setOnClickListener{
-                editListener(invoiceItem, invoiceItem.invoiceNumber!!) //Go to changing content activity of this specific user
+            if (gv.userRole == "SUPERVISOR")
+            {
+                editView.visibility = View.VISIBLE
+
+                editView.setOnClickListener{
+                    editListener(invoiceItem, invoiceItem.invoiceNumber!!) //Go to changing content activity of this specific user
+                }
             }
 
             billView.setOnClickListener{
@@ -59,7 +66,7 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
     override fun getItemCount() = invoicesList.size
 
     override fun onBindViewHolder(holder: InvoiceCardViewHolder, position: Int) {
-        return holder.bindView(invoicesList[position], editListener, infoListener, printListener)
+        return holder.bindView(gv, invoicesList[position], editListener, infoListener, printListener)
     }
 
     override fun getFilter(): Filter = InvoiceFilter()

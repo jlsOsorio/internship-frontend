@@ -58,7 +58,7 @@ class OperatingFundsActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = OpFundsAdapter(opFundsList, { _, _, _, _, _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = OpFundsAdapter(opFundsList, gv, { _, _, _, _, _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -145,7 +145,7 @@ class OperatingFundsActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     opFundsList.clear()
                     opFundsList.addAll(response.body()!!.toMutableList())
-                    mAdapter = OpFundsAdapter(opFundsList, { _, id, entryQty, exitQty, crId, moment ->
+                    mAdapter = OpFundsAdapter(opFundsList, gv, { _, id, entryQty, exitQty, crId, moment ->
                         gv.opFundId = id
                         gv.opFundEntryQty = entryQty
                         gv.opFundExitQty = exitQty
@@ -168,7 +168,7 @@ class OperatingFundsActivity : AppCompatActivity() {
                         val errorMessage = response.errorBody()!!.string()
                         ErrorDialog.setPermissionDialog(this@OperatingFundsActivity, errorMessage).show()
                     }
-                    else if (response.code() > 403)
+                    else if (response.code() >= 400)
                     {
                         val jsonObject = JSONObject(response.errorBody()!!.string())
                         val message: String = jsonObject.getString("message")

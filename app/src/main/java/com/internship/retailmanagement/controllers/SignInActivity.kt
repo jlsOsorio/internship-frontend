@@ -113,16 +113,16 @@ class SignInActivity : AppCompatActivity() {
                         val message: String = jsonObject.getString("message")
                         ErrorDialog.setDialog(this@SignInActivity, message).show()
                     }
+
+                    progressBar.visibility = View.GONE
+                    signIn.visibility = View.VISIBLE
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("SignInActivity", "Error:" + t.message.toString())
             }
-        }
-        )
-        progressBar.visibility = View.GONE
-        signIn.visibility = View.VISIBLE
+        })
     }
 
     //Go to next activity
