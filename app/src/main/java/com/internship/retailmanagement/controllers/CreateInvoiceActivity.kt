@@ -25,6 +25,7 @@ import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import okhttp3.ResponseBody
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -251,7 +252,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
 
         val invInsert = InsertInvItem(
             gv.typeMovement,
-            gv.userId,
+            gv.userLoggedId,
             gv.invCashRegister,
             gv.mapProds
         )
@@ -281,15 +282,23 @@ class CreateInvoiceActivity : AppCompatActivity() {
                     }
                     else if (response.code() >= 400)
                     {
-                        val jsonObject = JSONObject(response.errorBody()!!.string())
-                        val message: String = jsonObject.getString("message")
-                        ErrorDialog.setDialog(this@CreateInvoiceActivity, message).show()
+                        try {
+                            val jsonObject = JSONObject(response.errorBody()!!.string())
+                            val message: String = jsonObject.getString("message")
+                            ErrorDialog.setDialog(this@CreateInvoiceActivity, message).show()
+                        }
+                        catch (e: JSONException)
+                        {
+                            val message = "Something went wrong!"
+                            ErrorDialog.setDialog(this@CreateInvoiceActivity, message).show()
+                        }
+
                     }
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("CreateOpFundActivity", "Error:" + t.message.toString())
+                Log.e("CreateInvoiceActivity", "Error:" + t.message.toString())
             }
         }
         )
