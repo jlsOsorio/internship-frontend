@@ -21,4 +21,11 @@
         android:title="@string/menu_sign_out"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/searchMenu"
+        android:icon="@drawable/search_icon"
+        android:title="Search"
+        android:visible="false"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
 </menu>

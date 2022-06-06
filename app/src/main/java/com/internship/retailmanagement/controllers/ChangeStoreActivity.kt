@@ -146,7 +146,7 @@ class ChangeStoreActivity : AppCompatActivity() {
     }
 
     /**
-     * Overwrite method to generate menu in action bar.
+     * Override method to generate menu in action bar.
      * @param menu: menu Type.
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -156,7 +156,7 @@ class ChangeStoreActivity : AppCompatActivity() {
     }
 
     /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
+     * Override method to create conditions for every options of the menu in action bar.
      * @param item MenuItem type
      * @return boolean value
      */

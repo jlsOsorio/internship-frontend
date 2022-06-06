@@ -29,23 +29,26 @@
             android:id="@+id/stockLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/nameCard"
             android:fontFamily="@font/montserrat_bold"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:text="@string/stock_label"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/stockCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/stockLabel"
-            android:fontFamily="@font/montserrat_regular"
+            android:fontFamily="@font/montserrat_bold"
             android:hint="@string/stock_placeholder"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="RelativeOverlap,TextContrastCheck" />
 
         <TextView
             android:id="@+id/grossPriceLabel"
@@ -55,8 +58,10 @@
             android:layout_toEndOf="@id/nameCard"
             android:fontFamily="@font/montserrat_bold"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/gross_price_product"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/grossPriceCard"
@@ -64,10 +69,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/stockCard"
             android:layout_toEndOf="@id/grossPriceLabel"
-            android:fontFamily="@font/montserrat_regular"
+            android:fontFamily="@font/montserrat_bold"
             android:hint="@string/gross_price_placeholder"
+            android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
 
         <ImageView
             android:id="@+id/stockMovCardSuper"
@@ -78,16 +85,18 @@
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@id/updateCard"
             android:contentDescription="@string/status_description"
-            android:src="@drawable/stock_mov_icon" />
+            android:src="@drawable/stock_mov_icon"
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/updateCard"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_toStartOf="@id/removeCard"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/removeCard"
+            android:contentDescription="@string/update_description"
             android:src="@drawable/edit_icon"
-            android:contentDescription="@string/update_description"/>
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/removeCard"

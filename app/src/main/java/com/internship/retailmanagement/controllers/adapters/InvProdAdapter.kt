@@ -33,7 +33,7 @@ class InvProdAdapter(private var productsList: MutableList<InvProdItem>) :
 
         fun bindView(invProdItem: InvProdItem) {
 
-            nameView.text = invProdItem.productName
+            nameView.text = invProdItem.productName?.substring(0, 9)
             ivaView.text = invProdItem.ivaValue.toString()
             quantityView.text = invProdItem.quantity.toString()
             val subTotNoIvaRounded = df.format(invProdItem.subTotalNoIva)

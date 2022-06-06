@@ -26,6 +26,7 @@ import java.util.*
 class UserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserProfileBinding
     private lateinit var gv: GlobalVar
+    private lateinit var titleProfile: TextView
     private lateinit var email: TextView
     private lateinit var number: TextView
     private lateinit var name: TextView
@@ -48,6 +49,7 @@ class UserProfileActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         gv = application as GlobalVar
+        titleProfile = binding.titleProfile
         email = binding.emailProfile
         number = binding.numberProfile
         name = binding.nameProfile
@@ -71,6 +73,7 @@ class UserProfileActivity : AppCompatActivity() {
         }
         else
         {
+            titleProfile.text = "User profile"
             getUser()
         }
     }
@@ -213,7 +216,7 @@ class UserProfileActivity : AppCompatActivity() {
 
 
     /**
-     * Overwrite method to generate menu in action bar.
+     * Override method to generate menu in action bar.
      * @param menu: menu Type.
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -223,7 +226,7 @@ class UserProfileActivity : AppCompatActivity() {
     }
 
     /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
+     * Override method to create conditions for every options of the menu in action bar.
      * @param item MenuItem type
      * @return boolean value
      */

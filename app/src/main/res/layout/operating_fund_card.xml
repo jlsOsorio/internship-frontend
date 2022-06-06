@@ -20,7 +20,8 @@
             android:hint="@string/date_placeholder"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/entryLabel"
@@ -31,6 +32,7 @@
             android:layout_toEndOf="@id/dateCard"
             android:fontFamily="@font/montserrat_bold"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:gravity="end"
             android:textSize="14sp"
             tools:ignore="RelativeOverlap" />
@@ -45,6 +47,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:gravity="end"
             android:paddingStart="17dp"
+            android:paddingEnd="5dp"
             android:text="@string/exit_label"
             android:textColor="@color/first_red"
             android:textSize="14sp"
@@ -54,24 +57,26 @@
             android:id="@+id/entryCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/number"
             android:layout_toEndOf="@id/entryLabel"
             android:fontFamily="@font/montserrat_bold"
+            android:hint="@string/number"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textSize="14sp"
-            tools:ignore="RelativeOverlap" />
+            tools:ignore="RelativeOverlap,TextContrastCheck" />
 
         <TextView
             android:id="@+id/exitCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/number"
-            android:layout_toEndOf="@id/exitLabel"
             android:layout_below="@id/entryCard"
+            android:layout_toEndOf="@id/exitLabel"
             android:fontFamily="@font/montserrat_bold"
+            android:hint="@string/number"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textSize="14sp"
-            tools:ignore="RelativeOverlap" />
+            tools:ignore="RelativeOverlap,TextContrastCheck" />
 
         <ImageView
             android:id="@+id/updateCardOpFund"
@@ -80,7 +85,8 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/removeCard"
             android:contentDescription="@string/update_description"
-            android:src="@drawable/edit_icon" />
+            android:src="@drawable/edit_icon"
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/removeCard"

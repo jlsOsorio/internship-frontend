@@ -37,10 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/addressStore"
         android:layout_toEndOf="@id/idStore"
-        android:text="@string/zip_code_store"
-        android:fontFamily="@font/montserrat_regular"
+        android:fontFamily="@font/montserrat_bold"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
+        android:text="@string/zip_code_store"
         android:textSize="12sp" />
 
 </RelativeLayout>

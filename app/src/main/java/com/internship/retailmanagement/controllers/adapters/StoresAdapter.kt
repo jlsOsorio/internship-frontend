@@ -92,7 +92,7 @@ class StoresAdapter(private var storesList: MutableList<StoreItem>, private val 
             else {
                 val filterPattern = constraint.toString().lowercase().trim()
                 for (store in storesListClone) {
-                    if (store.address!!
+                    if (store.council!!.lowercase()
                             .contains(filterPattern)
                     ) // .contains or .startsWith
                         filteredList.add(store)

@@ -63,7 +63,7 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
          * @param timeZone      timeZone UTC
          * @return Date
          */
-        fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+        private fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
             val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
             parser.timeZone = timeZone
             return parser.parse(this)!!
@@ -76,11 +76,36 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
          * @param timeZone      default timeZone
          * @return String representing the date with intended format.
          */
-        fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
+        private fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
             val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
             formatter.timeZone = timeZone
             return formatter.format(this)
         }
+    }
+
+    /**
+     * Method to parse a string that represents UTC date ("yyyy-MM-dd'T'HH:mm:ss'Z'") to Date type
+     * @param dateFormat    string UTC date
+     * @param timeZone      timeZone UTC
+     * @return Date
+     */
+    fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date {
+        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+        parser.timeZone = timeZone
+        return parser.parse(this)!!
+    }
+
+
+    /**
+     * Method to parse a Date with a pre-established format to a String with the intended format
+     * @param dateFormat    string representing intended date format (Ex: "yyyy-MM-dd")
+     * @param timeZone      default timeZone
+     * @return String representing the date with intended format.
+     */
+    fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
+        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+        formatter.timeZone = timeZone
+        return formatter.format(this)
     }
 
     //Mandatory methods
@@ -107,7 +132,7 @@ class OpFundsAdapter(private var opFundsList: MutableList<OpFundItem>, private v
             else {
                 val filterPattern = constraint.toString().lowercase().trim()
                 for (opFund in opFundsListClone) {
-                    if (opFund.moment!!.lowercase()
+                    if (opFund.moment!!.toDate().formatTo("dd-MM-yyyy HH:mm:ss").lowercase()
                             .contains(filterPattern)
                     ) // .contains or .startsWith
                         filteredList.add(opFund)

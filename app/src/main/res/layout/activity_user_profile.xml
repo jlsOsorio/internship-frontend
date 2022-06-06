@@ -22,6 +22,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_black"
+                    android:layout_gravity="center"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     android:text="@string/my_profile" />
@@ -38,8 +39,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/montserrat_regular"
+                    android:gravity="center"
+                    android:text="@string/email_placeholder"
                     android:textSize="18sp"
-                    android:text="@string/email_placeholder" />
+                    tools:ignore="TextContrastCheck" />
             </TableRow>
 
         </TableLayout>
@@ -392,11 +395,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/addressStore"
                     android:layout_toEndOf="@id/idStore"
-                    android:text="@string/zip_code_store"
                     android:fontFamily="@font/montserrat_regular"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:textSize="12sp" />
+                    android:text="@string/zip_code_store"
+                    android:textSize="12sp"
+                    tools:ignore="TextContrastCheck" />
 
             </RelativeLayout>
             <!--<TextView

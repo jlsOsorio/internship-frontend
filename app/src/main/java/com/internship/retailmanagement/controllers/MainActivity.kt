@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import com.auth0.android.jwt.JWT
 import com.internship.retailmanagement.R
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Overwrite method to generate menu in action bar.
+     * Override method to generate menu in action bar.
      * @param menu: menu Type.
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -89,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
+     * Override method to create conditions for every options of the menu in action bar.
      * @param item MenuItem type
      * @return boolean value
      */

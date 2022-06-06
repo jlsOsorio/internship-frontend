@@ -66,7 +66,7 @@ class InvoicesAdapter(private var invoicesList: MutableList<InvoiceItem>, privat
             else {
                 val filterPattern = constraint.toString().lowercase().trim()
                 for (invoice in invoicesListClone) {
-                    if (invoice.invoiceNumber.toString()
+                    if (invoice.transaction!!.lowercase()
                             .contains(filterPattern)
                     ) // .contains or .startsWith
                         filteredList.add(invoice)

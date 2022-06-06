@@ -2,7 +2,6 @@ package com.internship.retailmanagement.services
 
 import com.internship.retailmanagement.dataclasses.*
 import com.internship.retailmanagement.dataclasses.invoices.InsertInvItem
-import com.internship.retailmanagement.dataclasses.invoices.InvProdItem
 import com.internship.retailmanagement.dataclasses.invoices.InvoiceItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.InsertOpFundItem
 import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
@@ -55,8 +54,8 @@ interface ApiService {
 
     //////////////// OPERATING FUNDS ////////////////
     //By user
-    @GET("/operatingfunds/{userId}")
-    fun getOpFunds(@Header("Authorization") token: String, @Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>
+  /*  @GET("/operatingfunds/{userId}")
+    fun getOpFunds(@Header("Authorization") token: String, @Path(value = "userId", encoded = false) id: Long): Call<MutableList<OpFundItem>>*/
 
     //Get user authenticated
     @GET("/operatingfunds/me")

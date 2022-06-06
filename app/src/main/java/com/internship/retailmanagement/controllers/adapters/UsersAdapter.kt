@@ -88,6 +88,7 @@ class UsersAdapter(private var usersList: MutableList<UserItem>, private val gv:
                 val filterPattern = constraint.toString().lowercase().trim()
                 for (user in usersListClone) {
                     if (user.email!!.lowercase()
+                            .contains(filterPattern) || user.nif.toString()
                             .contains(filterPattern)
                     ) // .contains or .startsWith
                         filteredList.add(user)

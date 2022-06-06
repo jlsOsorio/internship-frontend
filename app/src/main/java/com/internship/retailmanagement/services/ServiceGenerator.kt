@@ -1,22 +1,8 @@
 package com.internship.retailmanagement.services
 
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
-import com.internship.retailmanagement.R
-import com.internship.retailmanagement.common.GlobalVar
-import com.internship.retailmanagement.controllers.ChangeUserDataActivity
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.AccessController.getContext
-
 
 //base url
 const val BASE_URL = "http://192.168.1.64:8080"

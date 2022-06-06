@@ -20,7 +20,8 @@
             android:hint="@string/date_placeholder"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/movementCard"
@@ -29,10 +30,11 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="@font/montserrat_bold"
             android:hint="@string/movement_in"
+            android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="@color/first_red"
             android:textSize="16sp"
-            tools:ignore="RelativeOverlap" />
+            tools:ignore="RelativeOverlap,TextContrastCheck" />
 
         <TextView
             android:id="@+id/quantityCard"
@@ -42,9 +44,10 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="@font/montserrat_bold"
             android:hint="@string/number"
+            android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textSize="14sp"
-            tools:ignore="RelativeOverlap" />
+            tools:ignore="RelativeOverlap,TextContrastCheck" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

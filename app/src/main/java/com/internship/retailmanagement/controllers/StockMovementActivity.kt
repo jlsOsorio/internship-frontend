@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -129,17 +130,29 @@ class StockMovementActivity : AppCompatActivity() {
     }
 
     /**
-     * Overwrite method to generate menu in action bar.
+     * Override method to generate menu in action bar.
      * @param menu: menu Type.
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_bar, menu)
+        val searchItems = menu?.findItem(R.id.searchMenu)
+        searchItems?.isVisible = true
+        val research = searchItems?.actionView as SearchView
+        research.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                mAdapter.filter.filter(newText)
+                return false
+            }
+        })
         return true
     }
 
     /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
+     * Override method to create conditions for every options of the menu in action bar.
      * @param item MenuItem type
      * @return boolean value
      */

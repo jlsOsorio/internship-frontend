@@ -53,11 +53,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/emailCard"
             android:layout_toEndOf="@id/statusCheckCard"
+            android:fontFamily="@font/montserrat_bold"
             android:hint="@string/nif_placeholder"
-            android:fontFamily="@font/montserrat_regular"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
 
         <ImageView
             android:id="@+id/updateCard"
@@ -65,8 +66,9 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
+            android:contentDescription="@string/update_description"
             android:src="@drawable/edit_icon"
-            android:contentDescription="@string/update_description"/>
+            tools:ignore="ImageContrastCheck" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

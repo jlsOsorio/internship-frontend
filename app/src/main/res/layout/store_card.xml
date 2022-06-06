@@ -20,7 +20,8 @@
             android:hint="@string/city_store"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/addressCard"
@@ -42,20 +43,22 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/addressCard"
             android:layout_toEndOf="@id/cityCard"
-            android:fontFamily="@font/montserrat_regular"
+            android:fontFamily="@font/montserrat_bold"
             android:hint="@string/zip_code_store"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
 
         <ImageView
             android:id="@+id/updateCard"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_toStartOf="@id/removeCard"
             android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/removeCard"
+            android:contentDescription="@string/update_description"
             android:src="@drawable/edit_icon"
-            android:contentDescription="@string/update_description"/>
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/removeCard"

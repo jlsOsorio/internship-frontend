@@ -19,7 +19,6 @@ import com.internship.retailmanagement.common.Utils
 import com.internship.retailmanagement.config.SessionManager
 import com.internship.retailmanagement.controllers.ChangePasswordActivity
 import com.internship.retailmanagement.controllers.MainActivity
-import com.internship.retailmanagement.controllers.SignInActivity
 import com.internship.retailmanagement.controllers.UserProfileActivity
 import com.internship.retailmanagement.controllers.adapters.spinners.StoreSpinnerAdapter
 import com.internship.retailmanagement.databinding.ActivityFinalRegisterBinding
@@ -232,39 +231,6 @@ class FinalRegisterActivity : AppCompatActivity() {
         birthDate.setText(dateFormat.format(myCalendar.time))
     }
 
-    /**
-     * Overwrite method to generate menu in action bar.
-     * @param menu: menu Type.
-     */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_bar, menu)
-        return true
-    }
-
-    /**
-     * Overwrite method to create conditions for every options of the menu in action bar.
-     * @param item MenuItem type
-     * @return boolean value
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.profileMenu ->{
-                gv.isMyProfile = true
-                executeOtherActivity(UserProfileActivity::class.java)
-            }
-            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
-            R.id.signOutMenu -> Utils.logout(this@FinalRegisterActivity)
-        }
-        return true
-    }
-
-    //Go to next activity
-    private fun executeOtherActivity(otherActivity: Class<*>) {
-        val x = Intent(this@FinalRegisterActivity, otherActivity)
-        startActivity(x)
-    }
-
     //Get store from API
     @Synchronized
     private fun getStores() {
@@ -394,6 +360,39 @@ class FinalRegisterActivity : AppCompatActivity() {
         {
             ErrorDialog.setDialog(this@FinalRegisterActivity, "Please insert the date of the operation.").show()
         }
+    }
+
+    /**
+     * Override method to generate menu in action bar.
+     * @param menu: menu Type.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_bar, menu)
+        return true
+    }
+
+    /**
+     * Override method to create conditions for every options of the menu in action bar.
+     * @param item MenuItem type
+     * @return boolean value
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.profileMenu ->{
+                gv.isMyProfile = true
+                executeOtherActivity(UserProfileActivity::class.java)
+            }
+            R.id.changePasswordMenu -> executeOtherActivity(ChangePasswordActivity::class.java)
+            R.id.signOutMenu -> Utils.logout(this@FinalRegisterActivity)
+        }
+        return true
+    }
+
+    //Go to next activity
+    private fun executeOtherActivity(otherActivity: Class<*>) {
+        val x = Intent(this@FinalRegisterActivity, otherActivity)
+        startActivity(x)
     }
 
 }

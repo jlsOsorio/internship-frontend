@@ -13,7 +13,6 @@ import androidx.appcompat.widget.AppCompatButton
 import com.internship.retailmanagement.common.ErrorDialog
 import com.internship.retailmanagement.common.GlobalVar
 import com.internship.retailmanagement.config.SessionManager
-import com.internship.retailmanagement.databinding.ActivityChangeStoreBinding
 import com.internship.retailmanagement.databinding.ActivitySignInBinding
 import com.internship.retailmanagement.dataclasses.users.LoginRequest
 import com.internship.retailmanagement.dataclasses.users.LoginResponse
@@ -51,6 +50,7 @@ class SignInActivity : AppCompatActivity() {
 
         if(sessionManager.fetchAuthToken() != null) {
             executeOtherActivity(MainActivity::class.java)
+            finish()
         }
 
         signIn.setOnClickListener{

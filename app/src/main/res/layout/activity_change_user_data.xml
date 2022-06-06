@@ -63,10 +63,11 @@
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="textEmailAddress"
                     android:hint="@string/no_content"
+                    android:inputType="textEmailAddress"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
             </TableRow>
 
             <TableRow
@@ -89,17 +90,18 @@
 
                 <EditText
                     android:id="@+id/nameProfile"
-                    android:autofillHints="Joao"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="Joao"
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="text"
                     android:hint="@string/no_content"
+                    android:inputType="text"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -123,17 +125,18 @@
 
                 <EditText
                     android:id="@+id/nifProfile"
-                    android:autofillHints="123456789"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="123456789"
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="number"
                     android:hint="@string/no_content"
+                    android:inputType="number"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -157,17 +160,18 @@
 
                 <EditText
                     android:id="@+id/addressProfile"
-                    android:autofillHints="Rua de Cima"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="Rua de Cima"
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="text"
                     android:hint="@string/no_content"
+                    android:inputType="text"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -191,17 +195,18 @@
 
                 <EditText
                     android:id="@+id/councilProfile"
-                    android:autofillHints="Vila Nova de Gaia"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="Vila Nova de Gaia"
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="text"
                     android:hint="@string/no_content"
+                    android:inputType="text"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -225,17 +230,18 @@
 
                 <EditText
                     android:id="@+id/zipCodeProfile"
-                    android:autofillHints="1234-123"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="1234-123"
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="text"
                     android:hint="@string/no_content"
+                    android:inputType="text"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -259,21 +265,22 @@
 
                 <EditText
                     android:id="@+id/birthDateProfile"
-                    android:autofillHints="02/07/1994"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="02/07/1994"
                     android:background="@drawable/box_shape"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:gravity="end"
-                    android:inputType="date"
-                    android:hint="@string/no_content"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="end"
+                    android:hint="@string/no_content"
+                    android:inputType="date"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -297,17 +304,18 @@
 
                 <EditText
                     android:id="@+id/phoneNumberProfile"
-                    android:autofillHints="911231212"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginEnd="5dp"
+                    android:autofillHints="911231212"
                     android:background="@drawable/box_shape"
                     android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
-                    android:inputType="phone"
                     android:hint="@string/no_content"
+                    android:inputType="phone"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </TableRow>
 
@@ -334,11 +342,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/montserrat_regular"
                     android:background="@drawable/button_shape_light"
+                    android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
             </TableRow>
 
@@ -365,11 +374,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/montserrat_regular"
                     android:background="@drawable/button_shape_light"
+                    android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
             </TableRow>
 
@@ -396,11 +406,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/montserrat_regular"
                     android:background="@drawable/button_shape_light"
+                    android:fontFamily="@font/montserrat_regular"
                     android:gravity="end"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </TableRow>
         </TableLayout>
