@@ -21,6 +21,7 @@ import com.internship.retailmanagement.dataclasses.products.ProductItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -109,7 +110,7 @@ class ProductsActivity : AppCompatActivity() {
                             gv.productGrossPrice = grossPrice
                             executeOtherActivity(ChangeProductActivity::class.java)
                         }, { _,id ->
-                            "" //deleteProduct)
+                            Utils.removeItem(this@ProductsActivity, "product", id, this@ProductsActivity::deleteProduct)
                         })
                         mAdapter.notifyDataSetChanged()
                         myRecyclerView.apply {
@@ -148,6 +149,46 @@ class ProductsActivity : AppCompatActivity() {
         swipeRefreshUsers.isRefreshing = false
     }
 
+    //Delete product
+    @Synchronized
+    private fun deleteProduct(id: Long?) {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val deleteProd = serviceGenerator.deleteProduct("Bearer ${sessionManager.fetchAuthToken()}", id)
+
+        deleteProd.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    Utils.removeItemSuccessDialog(this@ProductsActivity)
+                }
+                else
+                {
+                    if (response.code() == 401)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        Utils.redirectUnauthorized(this@ProductsActivity, errorMessage)
+                    }
+                    else if (response.code() == 403)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@ProductsActivity, errorMessage).show()
+                    }
+                    else if (response.code() >= 400)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@ProductsActivity, message).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("ProductsActivity", "Error:" + t.message.toString())
+            }
+        })
+    }
 
     /**
      * Overwrite method to generate menu in action bar.

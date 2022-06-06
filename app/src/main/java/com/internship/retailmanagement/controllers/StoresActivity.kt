@@ -21,6 +21,7 @@ import com.internship.retailmanagement.dataclasses.stores.StoreItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -116,8 +117,8 @@ class StoresActivity : AppCompatActivity() {
                             gv.storeStatus = storeStatus
                             gv.storeNumberCR = cashRegisters
                             executeOtherActivity(ChangeStoreActivity::class.java)
-                        }, { _, id ->""
-                            //executeOtherActivity(UserProfileActivity::class.java, id)
+                        }, { _, id ->
+                            Utils.removeItem(this@StoresActivity, "store", id, this@StoresActivity::deleteStore)
                         })
                         mAdapter.notifyDataSetChanged()
                         myRecyclerView.apply {
@@ -153,6 +154,47 @@ class StoresActivity : AppCompatActivity() {
                 }
             })
         swipeRefreshUsers.isRefreshing = false
+    }
+
+    //Delete store
+    @Synchronized
+    private fun deleteStore(id: Long?) {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val deleteStore = serviceGenerator.deleteStore("Bearer ${sessionManager.fetchAuthToken()}", id)
+
+        deleteStore.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    Utils.removeItemSuccessDialog(this@StoresActivity)
+                }
+                else
+                {
+                    if (response.code() == 401)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        Utils.redirectUnauthorized(this@StoresActivity, errorMessage)
+                    }
+                    else if (response.code() == 403)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@StoresActivity, errorMessage).show()
+                    }
+                    else if (response.code() >= 400)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@StoresActivity, message).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("StoresActivity", "Error:" + t.message.toString())
+            }
+        })
     }
 
     /**

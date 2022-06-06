@@ -20,6 +20,7 @@ import com.internship.retailmanagement.dataclasses.operatingfunds.OpFundItem
 import com.internship.retailmanagement.services.ApiService
 import com.internship.retailmanagement.services.ServiceGenerator
 import kotlinx.android.synthetic.main.activity_users.*
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -152,8 +153,8 @@ class OperatingFundsActivity : AppCompatActivity() {
                         gv.opFundCashRegister = crId
                         gv.opFundMoment = moment
                         executeOtherActivity(ChangeOperatingFundActivity::class.java)
-                    }, { _,id->""
-                        //executeOtherActivity(ChangeProductDataActivity::class.java, id)
+                    }, { _,id->
+                        Utils.removeItem(this@OperatingFundsActivity, "operating fund", id, this@OperatingFundsActivity::deleteOpFund)
                     })
                     mAdapter.notifyDataSetChanged()
                     myRecyclerView.apply {
@@ -188,6 +189,47 @@ class OperatingFundsActivity : AppCompatActivity() {
             }
         })
         swipeRefreshUsers.isRefreshing = false
+    }
+
+    //Delete operating fund
+    @Synchronized
+    private fun deleteOpFund(id: Long?) {
+        val serviceGenerator = ServiceGenerator.buildService(ApiService::class.java)
+        val deleteOF = serviceGenerator.deleteOpFund("Bearer ${sessionManager.fetchAuthToken()}", id)
+
+        deleteOF.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    Utils.removeItemSuccessDialog(this@OperatingFundsActivity)
+                }
+                else
+                {
+                    if (response.code() == 401)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        Utils.redirectUnauthorized(this@OperatingFundsActivity, errorMessage)
+                    }
+                    else if (response.code() == 403)
+                    {
+                        val errorMessage = response.errorBody()!!.string()
+                        ErrorDialog.setPermissionDialog(this@OperatingFundsActivity, errorMessage).show()
+                    }
+                    else if (response.code() >= 400)
+                    {
+                        val jsonObject = JSONObject(response.errorBody()!!.string())
+                        val message: String = jsonObject.getString("message")
+                        ErrorDialog.setDialog(this@OperatingFundsActivity, message).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("OperatingFundsActivity", "Error:" + t.message.toString())
+            }
+        })
     }
 
     /**

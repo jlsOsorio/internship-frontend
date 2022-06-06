@@ -51,6 +51,8 @@ interface ApiService {
     @PATCH("/users/me/changepassword")
     fun changePassword(@Header("Authorization") token: String, @Body userPassword: UserPassword): Call<ResponseBody>
 
+
+
     //////////////// OPERATING FUNDS ////////////////
     //By user
     @GET("/operatingfunds/{userId}")
@@ -68,6 +70,12 @@ interface ApiService {
     @PUT("/operatingfunds/{userId}")
     fun updateOpFund(@Header("Authorization") token: String, @Path("userId") id: Long?, @Body opFund: InsertOpFundItem?): Call<ResponseBody?>
 
+    //Delete operating fund
+    @DELETE("/operatingfunds/{id}")
+    fun deleteOpFund(@Header("Authorization") token: String, @Path("id") id: Long?): Call<ResponseBody>
+
+
+
     //////////////// STORES ////////////////
     //All stores
     @GET("/stores")
@@ -84,6 +92,10 @@ interface ApiService {
     //Update store
     @PUT("/stores/{id}")
     fun updateStore(@Header("Authorization") token: String, @Path("id") id: Long?, @Body store: UpdateStoreItem?): Call<ResponseBody?>
+
+    //Delete store
+    @DELETE("/stores/{id}")
+    fun deleteStore(@Header("Authorization") token: String, @Path("id") id: Long?): Call<ResponseBody>
 
 
     //////////////// PRODUCTS ////////////////
@@ -103,6 +115,11 @@ interface ApiService {
     @PUT("/products/{id}")
     fun updateProduct(@Header("Authorization") token: String, @Path("id") id: Long?, @Body product: UpdateProductItem?): Call<ResponseBody?>
 
+    //Delete product
+    @DELETE("/products/{id}")
+    fun deleteProduct(@Header("Authorization") token: String, @Path("id") id: Long?): Call<ResponseBody>
+
+
     //////////////// STOCK MOVEMENTS ////////////////
     //By product
     @GET("/stockmovements/{productId}")
@@ -112,9 +129,12 @@ interface ApiService {
     @POST("/stockmovements/{productId}")
     fun addStockMovement(@Header("Authorization") token: String, @Path(value = "productId", encoded = false) id: Long, @Body stockMov: InsertStockMovItem): Call<ResponseBody>
 
+
+
     //////////////// IVA ////////////////
     @GET("/iva")
     fun getIvaValues(@Header("Authorization") token: String): Call<MutableList<IvaItem>>
+
 
 
     //////////////// INVOICES ////////////////
@@ -130,10 +150,7 @@ interface ApiService {
     @POST("/invoices")
     fun addInvoice(@Header("Authorization") token: String, @Body invoice: InsertInvItem): Call<ResponseBody>
 
-    //////////////// INVOICED PRODUCTS ////////////////
-    //All invoiced products
-    //@GET("/invoicedproducts")
-    //fun getInvoicedProducts(@Header("Authorization") token: String): Call<MutableList<InvProdItem>>
+
 
     //////////////// CASH REGISTERS ////////////////
     //All cash registers

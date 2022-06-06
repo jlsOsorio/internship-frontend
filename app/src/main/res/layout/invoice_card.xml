@@ -36,15 +36,6 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/updateCard"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:layout_toStartOf="@id/billCard"
-            android:src="@drawable/edit_icon"
-            android:contentDescription="@string/update_description"/>
-
-        <ImageView
             android:id="@+id/billCard"
             android:layout_width="30dp"
             android:layout_height="30dp"

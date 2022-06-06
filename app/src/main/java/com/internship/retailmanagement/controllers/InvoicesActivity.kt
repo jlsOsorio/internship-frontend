@@ -66,7 +66,7 @@ class InvoicesActivity : AppCompatActivity() {
             }
         })
 
-        myRecyclerView.adapter = InvoicesAdapter(invoicesList, gv, { _, _ -> "" }, { _, _ -> "" }, { _, _ -> "" })
+        myRecyclerView.adapter = InvoicesAdapter(invoicesList, { _, _ -> "" }, { _, _ -> "" })
 
         //Data update on scroll
         swipeRefreshUsers.setOnRefreshListener {
@@ -113,9 +113,7 @@ class InvoicesActivity : AppCompatActivity() {
                                 invoice.invoicedProducts!!))
                             outputWriter.flush()
                         }
-                        mAdapter = InvoicesAdapter(invoicesList, gv, { _, id ->""
-                            //executeOtherActivity(ChangeUserDataActivity::class.java, id)
-                        }, { _, id ->
+                        mAdapter = InvoicesAdapter(invoicesList, { _, id ->
                             executeOtherActivity(InvoiceDetailsActivity::class.java, id)
                         }, { invoice, id ->
 
