@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +47,8 @@ class StockMovementActivity : AppCompatActivity() {
         fab = binding.fab
         sessionManager = SessionManager(this)
 
+        fab.visibility = View.INVISIBLE
+
         /**
          * Hide floating action button while scrolling down. Make it appear when scrolling up.
          */
@@ -70,8 +73,11 @@ class StockMovementActivity : AppCompatActivity() {
 
         getStockMovements()
 
-        fab.setOnClickListener{
-            executeOtherActivity(CreateStockMovementActivity::class.java)
+        if (gv.userRole == "SUPERVISOR") {
+            fab.visibility = View.VISIBLE
+            fab.setOnClickListener {
+                executeOtherActivity(CreateStockMovementActivity::class.java)
+            }
         }
     }
 

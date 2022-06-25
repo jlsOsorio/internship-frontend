@@ -15,7 +15,7 @@
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_stock_movement.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_store.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_final_register.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_first_register.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_first_register.xml" value="0.25" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_invoice_details.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_invoiced_products.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_invoices.xml" value="0.18802083333333333" />
@@ -32,7 +32,7 @@
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_user_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_users.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/cr_spinner.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/invoice_card.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/invoice_card.xml" value="0.33" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/invoiced_product_card.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/iva_spinner.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/operating_fund_card.xml" value="0.18802083333333333" />
