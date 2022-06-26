@@ -9,7 +9,7 @@
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_change_product.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_change_store.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_change_user_data.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_invoice.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_invoice.xml" value="0.1" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_operating_fund.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_product.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_create_stock_movement.xml" value="0.18802083333333333" />
@@ -27,7 +27,7 @@
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_sign_in.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_stock_movement.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_store_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_store_details.xml" value="0.33" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_stores.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_user_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/JoaoOsorio/AndroidStudioProjects/internship-frontend/app/src/main/res/layout/activity_users.xml" value="0.36666666666666664" />
